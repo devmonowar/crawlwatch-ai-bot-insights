@@ -1,0 +1,21 @@
+/* CrawlWatch admin styles. WP default palette, no external fonts. */
+.crawlwatch .crawlwatch-filters { margin: 12px 0; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.crawlwatch .crawlwatch-since { color: #646970; }
+.crawlwatch-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 12px 0; }
+.crawlwatch-card { background: #fff; border: 1px solid #c3c4c7; border-radius: 6px; padding: 16px; }
+.crawlwatch-num { font-size: 28px; font-weight: 600; line-height: 1.1; }
+.crawlwatch-label { color: #50575e; margin-top: 4px; }
+.crawlwatch-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; margin: 12px 0; }
+.crawlwatch-panel { background: #fff; border: 1px solid #c3c4c7; border-radius: 6px; padding: 16px; margin-bottom: 12px; }
+.crawlwatch-bar-row { display: flex; align-items: center; gap: 8px; margin: 6px 0; }
+.crawlwatch-bar-name { width: 140px; }
+.crawlwatch-bar-track { flex: 1; background: #f0f0f1; border-radius: 4px; height: 10px; display: inline-block; overflow: hidden; }
+.crawlwatch-bar-fill { display: inline-block; height: 10px; background: #2271b1; }
+.crawlwatch-bar-hits { width: 60px; text-align: right; }
+.crawlwatch-danger-zone { border: 1px solid #d63638; border-radius: 6px; padding: 4px 16px 12px; background: #fef7f7; }
+.crawlwatch-danger-zone h2 { color: #b32d2e; }
+.crawlwatch-danger-button { color: #b32d2e !important; border-color: #b32d2e !important; }
+@media (max-width: 960px) {
+	.crawlwatch-cards { grid-template-columns: repeat(2, 1fr); }
+	.crawlwatch-grid { grid-template-columns: 1fr; }
+}
