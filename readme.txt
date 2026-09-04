@@ -51,7 +51,7 @@ Yes. It only detects whether an SEO plugin is active (for the schema part of the
 3. llms.txt editor + robots.txt manager.
 4. Settings with retention, privacy notice and danger zone.
 5. AI-ready llms.txt served to crawlers.
-6. Setup wizard and Quick Wins.
+6. llms-full.txt with full post content for deep AI context.
 
 == Changelog ==
 
