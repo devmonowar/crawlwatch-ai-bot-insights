@@ -1,5 +1,5 @@
 === CrawlWatch – AI Bot Insights ===
-Contributors: devmonowar
+Contributors: kstmonowar
 Tags: ai, analytics, bot, llms-txt, seo
 Requires at least: 6.2
 Tested up to: 7.1

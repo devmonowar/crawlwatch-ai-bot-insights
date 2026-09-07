@@ -1,0 +1,23 @@
+# Files and folders that should NOT be deployed to WordPress.org.
+#
+# NOTE: this file governs the WordPress.org deploy (the 10up deploy action
+# reads it). The plugin has no Composer package, so no .gitattributes is
+# needed. Never exclude assets/, includes/, languages/ or templates/ —
+# the plugin reads them at runtime.
+/.git
+/.github
+/.wordpress-org
+/.gitignore
+/.distignore
+/.editorconfig
+/node_modules
+/build
+/vendor
+/tests
+/composer.json
+/composer.lock
+/phpcs.xml.dist
+/phpstan.neon.dist
+/phpunit.xml.dist
+/.phpunit.result.cache
+/README.md
