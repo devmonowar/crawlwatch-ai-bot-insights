@@ -327,6 +327,55 @@ class CrawlWatch_Logger {
 	}
 
 	/**
+	 * Grouped stats per bot (grouped tab): hits + last seen. Top URL per bot
+	 * resolved by the caller to keep this one query.
+	 *
+	 * @param string $bot Bot name or empty.
+	 * @param string $q   URL search or empty.
+	 * @return array Rows: bot_name, hits, last_seen.
+	 */
+	public static function grouped_stats( $bot, $q ) {
+		global $wpdb;
+		$where = array( '1=1' );
+		$args  = array();
+		if ( '' !== $bot ) {
+			$where[] = 'bot_name = %s';
+			$args[]  = $bot;
+		}
+		if ( '' !== $q ) {
+			$where[] = 'url LIKE %s';
+			$args[]  = '%' . $wpdb->esc_like( $q ) . '%';
+		}
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- custom table, fixed name, user input via placeholders.
+		$rows = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT bot_name, COUNT(*) AS hits, MAX(log_time) AS last_seen FROM `{$wpdb->prefix}crawlwatch_logs` WHERE " . implode( ' AND ', $where ) . ' GROUP BY bot_name ORDER BY hits DESC LIMIT 50',
+				$args
+			),
+			ARRAY_A
+		);
+		return is_array( $rows ) ? $rows : array();
+	}
+
+	/**
+	 * Top URL for one bot.
+	 *
+	 * @param string $bot Bot name.
+	 * @return string URL or empty.
+	 */
+	public static function top_url_for_bot( $bot ) {
+		global $wpdb;
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- custom table, fixed name.
+		$url = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT url FROM `{$wpdb->prefix}crawlwatch_logs` WHERE bot_name = %s GROUP BY url ORDER BY COUNT(*) DESC LIMIT 1",
+				$bot
+			)
+		);
+		return is_string( $url ) ? $url : '';
+	}
+
+	/**
 	 * Distinct bot names for filter dropdown.
 	 *
 	 * @return array

@@ -237,6 +237,9 @@ class CrawlWatch_Admin {
 		$q     = crawlwatch_safe_truncate( sanitize_text_field( $q_raw ), 100 );
 		$paged = max( 1, absint( $paged_raw ) );
 		$per   = 20;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only view switch.
+		$tab_raw = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : 'visits';
+		$tab     = in_array( $tab_raw, array( 'visits', 'bots' ), true ) ? $tab_raw : 'visits';
 
 		$bots_list = CrawlWatch_Logger::distinct_bots();
 		if ( '' !== $bot && ! in_array( $bot, $bots_list, true ) ) {
@@ -249,6 +252,14 @@ class CrawlWatch_Admin {
 			$paged = $pages;
 		}
 		$rows = CrawlWatch_Logger::get_filtered( $bot, $q, $per, ( $paged - 1 ) * $per );
+
+		$grouped = array();
+		if ( 'bots' === $tab ) {
+			$grouped = CrawlWatch_Logger::grouped_stats( $bot, $q );
+			foreach ( $grouped as $gk => $grow ) {
+				$grouped[ $gk ]['top_url'] = isset( $grow['bot_name'] ) ? CrawlWatch_Logger::top_url_for_bot( $grow['bot_name'] ) : '';
+			}
+		}
 
 		$settings     = get_option( 'crawlwatch_settings', array() );
 		$robots_rules = isset( $settings['robots_rules'] ) && is_array( $settings['robots_rules'] ) ? $settings['robots_rules'] : array();
@@ -716,6 +727,9 @@ class CrawlWatch_Admin {
 		$bot       = crawlwatch_safe_truncate( sanitize_text_field( $bot_raw ), 50 );
 		$q         = crawlwatch_safe_truncate( sanitize_text_field( $q_raw ), 100 );
 		$paged     = max( 1, absint( $paged_raw ) );
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- allowlist-checked below.
+		$tab_raw = isset( $_POST['tab'] ) ? wp_unslash( $_POST['tab'] ) : 'visits';
+		$tab     = in_array( $tab_raw, array( 'visits', 'bots' ), true ) ? $tab_raw : 'visits';
 
 		$settings = get_option( 'crawlwatch_settings', crawlwatch_get_default_settings() );
 		$rules    = isset( $settings['robots_rules'] ) && is_array( $settings['robots_rules'] ) ? $settings['robots_rules'] : array();
@@ -734,6 +748,7 @@ class CrawlWatch_Admin {
 			add_query_arg(
 				array(
 					'page'    => 'crawlwatch-bots',
+					'tab'     => $tab,
 					'bot'     => $bot,
 					'q'       => $q,
 					'paged'   => $paged,

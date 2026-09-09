@@ -1,6 +1,6 @@
 <?php
 /**
- * Bots template. Variables: $bot, $q, $paged, $per, $bots_list, $total, $pages, $rows, $robots_rules, $physical.
+ * Bots template. Variables: $bot, $q, $paged, $per, $bots_list, $total, $pages, $rows, $robots_rules, $physical, $tab, $grouped.
  *
  * @package CrawlWatch
  */
@@ -12,6 +12,91 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <div class="wrap crawlwatch">
 	<h1><?php esc_html_e( 'CrawlWatch – Bots', 'crawlwatch-ai-bot-insights' ); ?></h1>
+	<p class="description"><?php esc_html_e( 'crawl = an AI bot fetched a page. referral = a visitor came from an AI chat. Block sets one global robots.txt rule for that bot.', 'crawlwatch-ai-bot-insights' ); ?></p>
+
+	<?php
+	$visits_url = add_query_arg(
+		array(
+			'page' => 'crawlwatch-bots',
+			'tab'  => 'visits',
+			'bot'  => $bot,
+			'q'    => $q,
+		),
+		admin_url( 'admin.php' )
+	);
+	$bots_url   = add_query_arg(
+		array(
+			'page' => 'crawlwatch-bots',
+			'tab'  => 'bots',
+			'bot'  => $bot,
+			'q'    => $q,
+		),
+		admin_url( 'admin.php' )
+	);
+	?>
+	<h2 class="nav-tab-wrapper">
+		<a class="nav-tab <?php echo 'visits' === $tab ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( $visits_url ); ?>"><?php esc_html_e( 'Visits', 'crawlwatch-ai-bot-insights' ); ?></a>
+		<a class="nav-tab <?php echo 'bots' === $tab ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( $bots_url ); ?>"><?php esc_html_e( 'Grouped by bot', 'crawlwatch-ai-bot-insights' ); ?></a>
+	</h2>
+
+	<?php if ( 'bots' === $tab ) : ?>
+		<?php if ( empty( $grouped ) ) : ?>
+			<p><?php esc_html_e( 'No bots in this view yet.', 'crawlwatch-ai-bot-insights' ); ?></p>
+		<?php else : ?>
+			<table class="widefat striped">
+				<thead>
+					<tr>
+						<th><?php esc_html_e( 'Bot', 'crawlwatch-ai-bot-insights' ); ?></th>
+						<th><?php esc_html_e( 'Hits', 'crawlwatch-ai-bot-insights' ); ?></th>
+						<th><?php esc_html_e( 'Last seen', 'crawlwatch-ai-bot-insights' ); ?></th>
+						<th><?php esc_html_e( 'Top URL', 'crawlwatch-ai-bot-insights' ); ?></th>
+						<th><?php esc_html_e( 'Action', 'crawlwatch-ai-bot-insights' ); ?></th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ( $grouped as $g ) : ?>
+						<?php
+						$g_name    = isset( $g['bot_name'] ) ? $g['bot_name'] : '';
+						$g_token   = CrawlWatch_Robots::token_for_bot( $g_name );
+						$g_blocked = '' !== $g_token && isset( $robots_rules[ $g_token ] ) && 'block' === $robots_rules[ $g_token ];
+						$g_detail  = add_query_arg(
+							array(
+								'page' => 'crawlwatch-bots',
+								'tab'  => 'visits',
+								'bot'  => $g_name,
+							),
+							admin_url( 'admin.php' )
+						);
+						?>
+						<tr>
+							<td><a href="<?php echo esc_url( $g_detail ); ?>"><?php echo esc_html( $g_name ); ?></a></td>
+							<td><?php echo esc_html( number_format_i18n( isset( $g['hits'] ) ? (int) $g['hits'] : 0 ) ); ?></td>
+							<td><?php echo esc_html( crawlwatch_display_time( isset( $g['last_seen'] ) ? $g['last_seen'] : '' ) ); ?></td>
+							<td><?php echo esc_html( isset( $g['top_url'] ) ? $g['top_url'] : '' ); ?></td>
+							<td>
+								<?php if ( '' === $g_token ) : ?>
+									—
+								<?php elseif ( $physical ) : ?>
+									<button class="button button-small" type="button" disabled="disabled" title="<?php echo esc_attr__( 'Physical robots.txt found — virtual rules do not apply.', 'crawlwatch-ai-bot-insights' ); ?>"><?php echo $g_blocked ? esc_html__( 'Blocked', 'crawlwatch-ai-bot-insights' ) : esc_html__( 'Block', 'crawlwatch-ai-bot-insights' ); ?></button>
+								<?php else : ?>
+									<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"<?php echo ( ! $g_blocked && 'Google-Extended' === $g_token ) ? ' onsubmit="return confirm(\'' . esc_js( __( 'Blocking this bot can affect SEO. Continue?', 'crawlwatch-ai-bot-insights' ) ) . '\');"' : ''; ?>>
+										<input type="hidden" name="action" value="crawlwatch_toggle_bot" />
+										<input type="hidden" name="token" value="<?php echo esc_attr( $g_token ); ?>" />
+										<input type="hidden" name="bot" value="<?php echo esc_attr( $bot ); ?>" />
+										<input type="hidden" name="q" value="<?php echo esc_attr( $q ); ?>" />
+										<input type="hidden" name="paged" value="<?php echo esc_attr( $paged ); ?>" />
+								<input type="hidden" name="tab" value="<?php echo esc_attr( $tab ); ?>" />
+										<?php wp_nonce_field( 'crawlwatch_toggle_bot', 'crawlwatch_toggle_nonce' ); ?>
+										<button class="button button-small" type="submit"><?php echo $g_blocked ? esc_html__( 'Unblock', 'crawlwatch-ai-bot-insights' ) : esc_html__( 'Block', 'crawlwatch-ai-bot-insights' ); ?></button>
+									</form>
+								<?php endif; ?>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		<?php endif; ?>
+	<?php else : ?>
 
 	<?php
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only notice flags.
@@ -36,6 +121,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<form method="get" action="">
 		<input type="hidden" name="page" value="crawlwatch-bots" />
+		<input type="hidden" name="tab" value="<?php echo esc_attr( $tab ); ?>" />
 		<label>
 			<?php esc_html_e( 'Bot:', 'crawlwatch-ai-bot-insights' ); ?>
 			<select name="bot">
@@ -65,7 +151,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</p>
 
 	<?php if ( empty( $rows ) ) : ?>
-		<p><?php esc_html_e( 'Nothing found for these filters.', 'crawlwatch-ai-bot-insights' ); ?></p>
+		<?php if ( '' === $bot && '' === $q ) : ?>
+			<p><?php echo wp_kses_post( sprintf( /* translators: %s: Files page URL. */ __( 'No AI visits logged yet. They appear here automatically — meanwhile check your <a href="%s">llms.txt</a>.', 'crawlwatch-ai-bot-insights' ), esc_url( add_query_arg( array( 'page' => 'crawlwatch-files' ), admin_url( 'admin.php' ) ) ) ) ); ?></p>
+		<?php else : ?>
+			<p><?php esc_html_e( 'Nothing found for these filters.', 'crawlwatch-ai-bot-insights' ); ?></p>
+		<?php endif; ?>
 	<?php else : ?>
 		<table class="widefat striped">
 			<thead>
@@ -109,6 +199,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								<input type="hidden" name="bot" value="<?php echo esc_attr( $bot ); ?>" />
 								<input type="hidden" name="q" value="<?php echo esc_attr( $q ); ?>" />
 								<input type="hidden" name="paged" value="<?php echo esc_attr( $paged ); ?>" />
+								<input type="hidden" name="tab" value="<?php echo esc_attr( $tab ); ?>" />
 								<?php wp_nonce_field( 'crawlwatch_toggle_bot', 'crawlwatch_toggle_nonce' ); ?>
 								<button class="button button-small" type="submit"><?php echo $row_blocked ? esc_html__( 'Unblock', 'crawlwatch-ai-bot-insights' ) : esc_html__( 'Block', 'crawlwatch-ai-bot-insights' ); ?></button>
 							</form>
@@ -150,10 +241,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php if ( $paged > 1 ) : ?>
 					<a class="button" href="<?php echo esc_url( $crawlwatch_prev_url ); ?>">‹</a>
 				<?php endif; ?>
-				<?php if ( $paged < $pages ) : ?>
-					<a class="button" href="<?php echo esc_url( $crawlwatch_next_url ); ?>">›</a>
-				<?php endif; ?>
+			<?php if ( $paged < $pages ) : ?>
+				<a class="button" href="<?php echo esc_url( $crawlwatch_next_url ); ?>">›</a>
+			<?php endif; ?>
 			</div>
 		</div>
+	<?php endif; ?>
 	<?php endif; ?>
 </div>
