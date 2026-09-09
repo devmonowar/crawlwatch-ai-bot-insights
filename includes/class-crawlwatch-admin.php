@@ -205,6 +205,7 @@ class CrawlWatch_Admin {
 		$score_data = CrawlWatch_Score::get();
 		$score      = isset( $score_data['score'] ) ? (int) $score_data['score'] : 0;
 		$wins       = isset( $score_data['wins'] ) ? $score_data['wins'] : array();
+		$parts      = isset( $score_data['parts'] ) && is_array( $score_data['parts'] ) ? $score_data['parts'] : array();
 		$has_seo    = CrawlWatch_Score::has_seo_plugin();
 		$schema     = CrawlWatch_Schema::get_report();
 		$woo_active = CrawlWatch_Woo::is_active();

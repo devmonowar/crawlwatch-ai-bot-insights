@@ -23,7 +23,7 @@ class CrawlWatch_Score {
 	public static function get( $force = false ) {
 		if ( ! $force ) {
 			$cached = get_transient( 'crawlwatch_score_cache' );
-			if ( is_array( $cached ) && isset( $cached['score'] ) ) {
+			if ( is_array( $cached ) && isset( $cached['score'] ) && isset( $cached['parts'] ) ) {
 				return $cached;
 			}
 		}
@@ -48,13 +48,28 @@ class CrawlWatch_Score {
 	 */
 	private static function compute() {
 		$wins  = array();
+		$parts = array();
 		$score = 0;
+
+		$files_url = add_query_arg( array( 'page' => 'crawlwatch-files' ), admin_url( 'admin.php' ) );
 
 		// 1. llms.txt present (20).
 		$llms = get_option( 'crawlwatch_llms_content', '' );
 		if ( '' !== trim( (string) $llms ) ) {
 			$score += 20;
+			$parts[] = array(
+				'label'  => __( 'llms.txt catalogue', 'crawlwatch-ai-bot-insights' ),
+				'earned' => 20,
+				'max'    => 20,
+				'url'    => $files_url,
+			);
 		} else {
+			$parts[] = array(
+				'label'  => __( 'llms.txt catalogue', 'crawlwatch-ai-bot-insights' ),
+				'earned' => 0,
+				'max'    => 20,
+				'url'    => $files_url,
+			);
 			$wins[] = array(
 				'points' => 20,
 				'text'   => __( 'Generate llms.txt so AI bots find your catalogue in one file.', 'crawlwatch-ai-bot-insights' ),
@@ -74,6 +89,12 @@ class CrawlWatch_Score {
 			)
 		);
 		if ( empty( $posts ) ) {
+			$parts[] = array(
+				'label'  => __( 'Post excerpts as AI descriptions', 'crawlwatch-ai-bot-insights' ),
+				'earned' => 0,
+				'max'    => 20,
+				'url'    => admin_url( 'post-new.php' ),
+			);
 			$wins[] = array(
 				'points' => 10,
 				'text'   => __( 'Publish your first post so AI has something to cite.', 'crawlwatch-ai-bot-insights' ),
@@ -86,8 +107,15 @@ class CrawlWatch_Score {
 					++$with_excerpt;
 				}
 			}
-			$pct    = (int) round( ( $with_excerpt / count( $posts ) ) * 100 );
-			$score += (int) round( ( $pct / 100 ) * 20 );
+			$pct      = (int) round( ( $with_excerpt / count( $posts ) ) * 100 );
+			$earned_2 = (int) round( ( $pct / 100 ) * 20 );
+			$score   += $earned_2;
+			$parts[]  = array(
+				'label'  => __( 'Post excerpts as AI descriptions', 'crawlwatch-ai-bot-insights' ),
+				'earned' => $earned_2,
+				'max'    => 20,
+				'url'    => admin_url( 'edit.php' ),
+			);
 			if ( $pct < 100 ) {
 				$missing = count( $posts ) - $with_excerpt;
 				$wins[]  = array(
@@ -102,8 +130,20 @@ class CrawlWatch_Score {
 		// 3. Schema/SEO plugin present (20).
 		if ( self::has_seo_plugin() ) {
 			$score += 20;
+			$parts[] = array(
+				'label'  => __( 'Schema via SEO plugin', 'crawlwatch-ai-bot-insights' ),
+				'earned' => 20,
+				'max'    => 20,
+				'url'    => admin_url( 'plugins.php' ),
+			);
 		} else {
-			$score += 5;
+			$score  += 5;
+			$parts[] = array(
+				'label'  => __( 'Schema via SEO plugin', 'crawlwatch-ai-bot-insights' ),
+				'earned' => 5,
+				'max'    => 20,
+				'url'    => admin_url( 'plugin-install.php?s=schema&tab=search&type=term' ),
+			);
 			$wins[] = array(
 				'points' => 15,
 				'text'   => __( 'Install Yoast SEO or Rank Math for Article/Product schema AI reads.', 'crawlwatch-ai-bot-insights' ),
@@ -123,6 +163,12 @@ class CrawlWatch_Score {
 			)
 		);
 		if ( empty( $atts ) ) {
+			$parts[] = array(
+				'label'  => __( 'Image alt text', 'crawlwatch-ai-bot-insights' ),
+				'earned' => 0,
+				'max'    => 10,
+				'url'    => admin_url( 'media-new.php' ),
+			);
 			$wins[] = array(
 				'points' => 5,
 				'text'   => __( 'Upload images with alt text so AI can understand your visuals.', 'crawlwatch-ai-bot-insights' ),
@@ -135,8 +181,15 @@ class CrawlWatch_Score {
 					++$with_alt;
 				}
 			}
-			$pct    = (int) round( ( $with_alt / count( $atts ) ) * 100 );
-			$score += (int) round( ( $pct / 100 ) * 10 );
+			$pct      = (int) round( ( $with_alt / count( $atts ) ) * 100 );
+			$earned_4 = (int) round( ( $pct / 100 ) * 10 );
+			$score   += $earned_4;
+			$parts[]  = array(
+				'label'  => __( 'Image alt text', 'crawlwatch-ai-bot-insights' ),
+				'earned' => $earned_4,
+				'max'    => 10,
+				'url'    => admin_url( 'upload.php' ),
+			);
 			if ( $pct < 100 ) {
 				$wins[] = array(
 					'points' => 10 - (int) round( ( $pct / 100 ) * 10 ),
@@ -153,10 +206,28 @@ class CrawlWatch_Score {
 		$blocked  = count( $rules );
 		if ( 0 === $blocked ) {
 			$score += 15;
+			$parts[] = array(
+				'label'  => __( 'AI-friendly robots.txt', 'crawlwatch-ai-bot-insights' ),
+				'earned' => 15,
+				'max'    => 15,
+				'url'    => $files_url,
+			);
 		} elseif ( $blocked <= 2 ) {
 			$score += 10;
+			$parts[] = array(
+				'label'  => __( 'AI-friendly robots.txt', 'crawlwatch-ai-bot-insights' ),
+				'earned' => 10,
+				'max'    => 15,
+				'url'    => $files_url,
+			);
 		} else {
-			$score += 5;
+			$score  += 5;
+			$parts[] = array(
+				'label'  => __( 'AI-friendly robots.txt', 'crawlwatch-ai-bot-insights' ),
+				'earned' => 5,
+				'max'    => 15,
+				'url'    => $files_url,
+			);
 			$wins[] = array(
 				'points' => 10,
 				/* translators: %d: number of AI bots blocked in robots.txt. */
@@ -170,8 +241,20 @@ class CrawlWatch_Score {
 		$hits  = CrawlWatch_Logger::count_since( $since );
 		if ( $hits > 0 ) {
 			$score += 15;
+			$parts[] = array(
+				'label'  => __( 'AI tracking active', 'crawlwatch-ai-bot-insights' ),
+				'earned' => 15,
+				'max'    => 15,
+				'url'    => add_query_arg( array( 'page' => 'crawlwatch-bots' ), admin_url( 'admin.php' ) ),
+			);
 		} else {
-			$score += 5;
+			$score  += 5;
+			$parts[] = array(
+				'label'  => __( 'AI tracking active', 'crawlwatch-ai-bot-insights' ),
+				'earned' => 5,
+				'max'    => 15,
+				'url'    => add_query_arg( array( 'page' => 'crawlwatch-bots' ), admin_url( 'admin.php' ) ),
+			);
 			$wins[] = array(
 				'points' => 10,
 				'text'   => __( 'No AI hits in 7 days – share a link so crawlers discover you, then re-check.', 'crawlwatch-ai-bot-insights' ),
@@ -190,6 +273,7 @@ class CrawlWatch_Score {
 		return array(
 			'score' => $score,
 			'wins'  => array_slice( $wins, 0, 5 ),
+			'parts' => $parts,
 		);
 	}
 

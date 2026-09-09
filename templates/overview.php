@@ -1,6 +1,6 @@
 <?php
 /**
- * Overview template. Variables: $days, $since, $total, $prev_total, $trend, $referrals, $unique, $top_bots, $recent, $score, $wins, $max_hits, $has_seo, $schema, $woo_active, $woo_top.
+ * Overview template. Variables: $days, $since, $total, $prev_total, $trend, $referrals, $unique, $top_bots, $recent, $score, $wins, $parts, $max_hits, $has_seo, $schema, $woo_active, $woo_top.
  *
  * @package CrawlWatch
  */
@@ -116,6 +116,31 @@ $crawlwatch_days30_url = add_query_arg(
 		</ol>
 	</div>
 	<?php endif; ?>
+
+	<div class="crawlwatch-panel">
+		<h2><?php esc_html_e( 'Score breakdown', 'crawlwatch-ai-bot-insights' ); ?></h2>
+		<?php if ( empty( $parts ) ) : ?>
+			<p><?php esc_html_e( 'Breakdown unavailable.', 'crawlwatch-ai-bot-insights' ); ?></p>
+		<?php else : ?>
+			<ul>
+				<?php foreach ( $parts as $part ) : ?>
+					<?php
+					$part_earned = isset( $part['earned'] ) ? (int) $part['earned'] : 0;
+					$part_max    = isset( $part['max'] ) ? (int) $part['max'] : 0;
+					$part_dot    = $part_earned >= $part_max ? '#46b450' : '#dba617';
+					?>
+					<li>
+						<span style="color:<?php echo esc_attr( $part_dot ); ?>;">●</span>
+						<?php echo esc_html( isset( $part['label'] ) ? $part['label'] : '' ); ?>
+						<strong><?php echo esc_html( number_format_i18n( $part_earned ) . '/' . number_format_i18n( $part_max ) ); ?></strong>
+						<?php if ( ! empty( $part['url'] ) ) : ?>
+							<a href="<?php echo esc_url( $part['url'] ); ?>"><?php esc_html_e( 'Fix →', 'crawlwatch-ai-bot-insights' ); ?></a>
+						<?php endif; ?>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+		<?php endif; ?>
+	</div>
 
 	<div class="crawlwatch-panel">
 		<h2><?php esc_html_e( 'Quick Wins – ranked by impact', 'crawlwatch-ai-bot-insights' ); ?></h2>
