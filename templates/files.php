@@ -21,6 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="crawlwatch-grid">
 		<div class="crawlwatch-panel">
 			<h2><?php esc_html_e( 'llms.txt', 'crawlwatch-ai-bot-insights' ); ?></h2>
+			<h3><?php esc_html_e( 'What AI reads', 'crawlwatch-ai-bot-insights' ); ?></h3>
 			<p>
 				<a href="<?php echo esc_url( $llms_url ); ?>" target="_blank" rel="noopener"><?php echo esc_html( $llms_url ); ?></a>
 				<button class="button" data-crawlwatch-copy="<?php echo esc_attr( $llms_url ); ?>"><?php esc_html_e( 'Copy URL', 'crawlwatch-ai-bot-insights' ); ?></button>
@@ -37,10 +38,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="crawlwatch_save_files" />
 				<?php wp_nonce_field( 'crawlwatch_files', 'crawlwatch_files_nonce' ); ?>
+				<h3><?php esc_html_e( 'Edit manually (advanced)', 'crawlwatch-ai-bot-insights' ); ?></h3>
 				<textarea name="llms_content" rows="18" cols="80" class="large-text code" spellcheck="false"><?php echo esc_textarea( $llms_content ); ?></textarea>
 				<p>
 					<button class="button button-primary" type="submit" name="op" value="save"><?php esc_html_e( 'Save', 'crawlwatch-ai-bot-insights' ); ?></button>
-					<button class="button" type="submit" name="op" value="regenerate"><?php esc_html_e( 'Regenerate from site', 'crawlwatch-ai-bot-insights' ); ?></button>
+					<button class="button" type="submit" name="op" value="regenerate" onclick="return confirm('<?php echo esc_js( __( 'Regenerate will replace your manual edits. Continue?', 'crawlwatch-ai-bot-insights' ) ); ?>');"><?php esc_html_e( 'Regenerate from site', 'crawlwatch-ai-bot-insights' ); ?></button>
 				</p>
 			</form>
 		</div>

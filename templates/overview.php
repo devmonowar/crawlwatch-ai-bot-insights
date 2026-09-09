@@ -37,8 +37,8 @@ $crawlwatch_days30_url = add_query_arg(
 		<a class="button <?php echo 30 === $days ? 'button-primary' : ''; ?>" href="<?php echo esc_url( $crawlwatch_days30_url ); ?>"><?php esc_html_e( 'Last 30 days', 'crawlwatch-ai-bot-insights' ); ?></a>
 		<span class="crawlwatch-since">
 			<?php
-			/* translators: %s: start date and time in UTC. */
-			echo esc_html( sprintf( __( 'Since %s (UTC)', 'crawlwatch-ai-bot-insights' ), $since ) );
+			/* translators: %s: start date and time in site timezone. */
+			echo esc_html( sprintf( __( 'Since %s', 'crawlwatch-ai-bot-insights' ), crawlwatch_display_time( $since ) ) );
 			?>
 		</span>
 		<span class="crawlwatch-since">
@@ -76,6 +76,17 @@ $crawlwatch_days30_url = add_query_arg(
 			<div class="crawlwatch-label"><?php esc_html_e( 'Readiness score', 'crawlwatch-ai-bot-insights' ); ?></div>
 		</div>
 	</div>
+
+	<?php if ( 0 === (int) $total ) : ?>
+	<div class="crawlwatch-panel">
+		<h2><?php esc_html_e( 'No AI visits yet — here is how they arrive', 'crawlwatch-ai-bot-insights' ); ?></h2>
+		<ol>
+			<li><?php echo wp_kses_post( sprintf( /* translators: %s: Files page URL. */ __( 'Check your <a href="%s">llms.txt</a> — this is what AI reads first.', 'crawlwatch-ai-bot-insights' ), esc_url( add_query_arg( array( 'page' => 'crawlwatch-files' ), admin_url( 'admin.php' ) ) ) ) ); ?></li>
+			<li><?php esc_html_e( 'Share a post link anywhere — AI crawlers follow links to discover you.', 'crawlwatch-ai-bot-insights' ); ?></li>
+			<li><?php esc_html_e( 'Meanwhile, raise your Readiness score below so AI cites you well.', 'crawlwatch-ai-bot-insights' ); ?></li>
+		</ol>
+	</div>
+	<?php endif; ?>
 
 	<div class="crawlwatch-panel">
 		<h2><?php esc_html_e( 'Quick Wins – ranked by impact', 'crawlwatch-ai-bot-insights' ); ?></h2>

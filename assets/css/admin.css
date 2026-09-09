@@ -19,4 +19,5 @@
 @media (max-width: 960px) {
 	.crawlwatch-cards { grid-template-columns: repeat(2, 1fr); }
 	.crawlwatch-grid { grid-template-columns: 1fr; }
+	.crawlwatch table.widefat { display: block; overflow-x: auto; }
 }
