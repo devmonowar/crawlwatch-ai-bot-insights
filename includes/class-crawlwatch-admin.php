@@ -75,6 +75,16 @@ class CrawlWatch_Admin {
 		);
 		self::$hooks[] = $bots;
 
+		$gaps          = add_submenu_page(
+			'crawlwatch',
+			__( 'Content Gaps', 'crawlwatch-ai-bot-insights' ),
+			__( 'Content Gaps', 'crawlwatch-ai-bot-insights' ),
+			'manage_options',
+			'crawlwatch-gaps',
+			array( __CLASS__, 'render_gaps' )
+		);
+		self::$hooks[] = $gaps;
+
 		$files         = add_submenu_page(
 			'crawlwatch',
 			__( 'Files', 'crawlwatch-ai-bot-insights' ),
@@ -233,6 +243,56 @@ class CrawlWatch_Admin {
 		$rows = CrawlWatch_Logger::get_filtered( $bot, $q, $per, ( $paged - 1 ) * $per );
 
 		require CRAWLWATCH_PATH . 'templates/bots.php';
+	}
+
+	/**
+	 * Render content gaps page: posts missing excerpts + images missing alt.
+	 *
+	 * @return void
+	 */
+	public static function render_gaps() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'You do not have permission to view this page.', 'crawlwatch-ai-bot-insights' ) );
+		}
+
+		$post_ids = get_posts(
+			array(
+				'post_type'     => 'post',
+				'post_status'   => 'publish',
+				'numberposts'   => 50,
+				'no_found_rows' => true,
+				'fields'        => 'ids',
+				'orderby'       => 'date',
+				'order'         => 'DESC',
+			)
+		);
+		$no_excerpt = array();
+		foreach ( $post_ids as $pid ) {
+			if ( '' === trim( (string) get_post_field( 'post_excerpt', $pid ) ) ) {
+				$no_excerpt[] = $pid;
+			}
+		}
+
+		$att_ids = get_posts(
+			array(
+				'post_type'      => 'attachment',
+				'post_mime_type' => 'image',
+				'post_status'    => 'inherit',
+				'numberposts'    => 50,
+				'no_found_rows'  => true,
+				'fields'         => 'ids',
+				'orderby'        => 'date',
+				'order'          => 'DESC',
+			)
+		);
+		$no_alt = array();
+		foreach ( $att_ids as $aid ) {
+			if ( '' === trim( (string) get_post_meta( $aid, '_wp_attachment_image_alt', true ) ) ) {
+				$no_alt[] = $aid;
+			}
+		}
+
+		require CRAWLWATCH_PATH . 'templates/gaps.php';
 	}
 
 	/**
