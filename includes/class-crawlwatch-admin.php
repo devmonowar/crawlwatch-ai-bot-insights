@@ -595,10 +595,44 @@ class CrawlWatch_Admin {
 			$prev24 = 0;
 		}
 		$spike = $last24 >= 20 && ( 0 === $prev24 || $last24 >= 5 * $prev24 );
-		if ( ! $spike ) {
+		if ( $spike && gmdate( 'Y-m-d' ) !== get_option( 'crawlwatch_spike_dismissed', '' ) ) {
+			$dismiss_url = wp_nonce_url(
+				add_query_arg(
+					array(
+						'page'       => 'crawlwatch',
+						'cw_dismiss' => 'spike',
+					),
+					admin_url( 'admin.php' )
+				),
+				'crawlwatch_dismiss',
+				'crawlwatch_dismiss_nonce'
+			);
+			echo '<div class="notice notice-warning is-dismissible"><p>';
+			/* translators: 1: last-24h hits, formatted. 2: previous-24h hits, formatted. */
+			echo esc_html( sprintf( __( 'CrawlWatch: AI traffic spiked — %1$s hits in the last 24 hours vs %2$s the day before.', 'crawlwatch-ai-bot-insights' ), number_format_i18n( $last24 ), number_format_i18n( $prev24 ) ) );
+			echo ' <a href="' . esc_url( $dismiss_url ) . '">' . esc_html__( 'Dismiss', 'crawlwatch-ai-bot-insights' ) . '</a>';
+			echo '</p></div>';
+		}
+
+		self::maybe_rating_notice();
+	}
+
+	/**
+	 * Rating ask: once, 7+ days after activation, our screens only.
+	 *
+	 * @return void
+	 */
+	private static function maybe_rating_notice() {
+		if ( get_option( 'crawlwatch_rating_dismissed', false ) ) {
 			return;
 		}
-		if ( gmdate( 'Y-m-d' ) === get_option( 'crawlwatch_spike_dismissed', '' ) ) {
+		$activated = get_option( 'crawlwatch_activated_at', false );
+		if ( false === $activated ) {
+			// Pre-1.1.0 installs never stored it: start counting now.
+			update_option( 'crawlwatch_activated_at', time(), false );
+			return;
+		}
+		if ( time() - (int) $activated < 7 * DAY_IN_SECONDS ) {
 			return;
 		}
 
@@ -606,35 +640,44 @@ class CrawlWatch_Admin {
 			add_query_arg(
 				array(
 					'page'       => 'crawlwatch',
-					'cw_dismiss' => 'spike',
+					'cw_dismiss' => 'rating',
 				),
 				admin_url( 'admin.php' )
 			),
 			'crawlwatch_dismiss',
 			'crawlwatch_dismiss_nonce'
 		);
-		echo '<div class="notice notice-warning is-dismissible"><p>';
-		/* translators: 1: last-24h hits, formatted. 2: previous-24h hits, formatted. */
-		echo esc_html( sprintf( __( 'CrawlWatch: AI traffic spiked — %1$s hits in the last 24 hours vs %2$s the day before.', 'crawlwatch-ai-bot-insights' ), number_format_i18n( $last24 ), number_format_i18n( $prev24 ) ) );
+		echo '<div class="notice notice-info is-dismissible"><p>';
+		echo esc_html__( 'Enjoying CrawlWatch? A review helps other site owners find it.', 'crawlwatch-ai-bot-insights' );
+		echo ' <a href="https://wordpress.org/support/plugin/crawlwatch-ai-bot-insights/reviews/#new-post">' . esc_html__( 'Rate now →', 'crawlwatch-ai-bot-insights' ) . '</a>';
 		echo ' <a href="' . esc_url( $dismiss_url ) . '">' . esc_html__( 'Dismiss', 'crawlwatch-ai-bot-insights' ) . '</a>';
 		echo '</p></div>';
 	}
 
 	/**
-	 * Dismiss spike notice (admin_init, same-day only).
+	 * Dismiss notices (admin_init). Spike: same-day. Rating: permanent.
 	 *
 	 * @return void
 	 */
 	public static function handle_dismiss() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- verified below via check_admin_referer.
-		if ( ! isset( $_GET['cw_dismiss'] ) || 'spike' !== sanitize_key( wp_unslash( $_GET['cw_dismiss'] ) ) ) {
+		if ( ! isset( $_GET['cw_dismiss'] ) ) {
+			return;
+		}
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- allowlist-checked below.
+		$what = sanitize_key( wp_unslash( $_GET['cw_dismiss'] ) );
+		if ( ! in_array( $what, array( 'spike', 'rating' ), true ) ) {
 			return;
 		}
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_html__( 'You do not have permission.', 'crawlwatch-ai-bot-insights' ) );
 		}
 		check_admin_referer( 'crawlwatch_dismiss', 'crawlwatch_dismiss_nonce' );
-		update_option( 'crawlwatch_spike_dismissed', gmdate( 'Y-m-d' ), false );
+		if ( 'rating' === $what ) {
+			update_option( 'crawlwatch_rating_dismissed', 1, false );
+		} else {
+			update_option( 'crawlwatch_spike_dismissed', gmdate( 'Y-m-d' ), false );
+		}
 		self::safe_redirect( remove_query_arg( array( 'cw_dismiss', 'crawlwatch_dismiss_nonce' ) ) );
 	}
 

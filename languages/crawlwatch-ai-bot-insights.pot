@@ -4,11 +4,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CrawlWatch – AI Bot Insights\n"
 "Report-Msgid-Bugs-To: https://github.com/devmonowar/crawlwatch-ai-bot-insights/issues\n"
-"POT-Creation-Date: 2026-09-09 15:05+0000\n"
+"POT-Creation-Date: 2026-09-09 15:31+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2026-09-09 15:05+0000\n"
+"PO-Revision-Date: 2026-09-09 15:31+0000\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "X-Domain: crawlwatch-ai-bot-insights\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -205,7 +205,7 @@ msgstr ""
 msgid "Delete all logs now?"
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:619
+#: includes/class-crawlwatch-admin.php:619 includes/class-crawlwatch-admin.php:658
 msgid "Dismiss"
 msgstr ""
 
@@ -215,6 +215,10 @@ msgstr ""
 
 #: templates/settings.php:55
 msgid "Email me a weekly AI summary"
+msgstr ""
+
+#: includes/class-crawlwatch-admin.php:656
+msgid "Enjoying CrawlWatch? A review helps other site owners find it."
 msgstr ""
 
 #: templates/overview.php:178
@@ -367,6 +371,10 @@ msgstr ""
 
 #: templates/overview.php:81
 msgid "Quick Wins – ranked by impact"
+msgstr ""
+
+#: includes/class-crawlwatch-admin.php:657
+msgid "Rate now →"
 msgstr ""
 
 #: templates/overview.php:76
@@ -553,11 +561,11 @@ msgstr ""
 msgid "You are AI-ready! Score: %d/100"
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:185 includes/class-crawlwatch-admin.php:225 includes/class-crawlwatch-admin.php:262 includes/class-crawlwatch-admin.php:312 includes/class-crawlwatch-admin.php:426 includes/class-crawlwatch-admin.php:683
+#: includes/class-crawlwatch-admin.php:185 includes/class-crawlwatch-admin.php:225 includes/class-crawlwatch-admin.php:262 includes/class-crawlwatch-admin.php:312 includes/class-crawlwatch-admin.php:426 includes/class-crawlwatch-admin.php:731
 msgid "You do not have permission to view this page."
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:368 includes/class-crawlwatch-admin.php:440 includes/class-crawlwatch-admin.php:483 includes/class-crawlwatch-admin.php:509 includes/class-crawlwatch-admin.php:557 includes/class-crawlwatch-admin.php:634
+#: includes/class-crawlwatch-admin.php:368 includes/class-crawlwatch-admin.php:440 includes/class-crawlwatch-admin.php:483 includes/class-crawlwatch-admin.php:509 includes/class-crawlwatch-admin.php:557 includes/class-crawlwatch-admin.php:678
 msgid "You do not have permission."
 msgstr ""
 

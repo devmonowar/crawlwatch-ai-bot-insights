@@ -70,6 +70,9 @@ class CrawlWatch_Activator {
 			add_option( 'crawlwatch_settings', $defaults );
 		}
 		add_option( 'crawlwatch_db_version', CRAWLWATCH_DB_VERSION );
+		if ( false === get_option( 'crawlwatch_activated_at', false ) ) {
+			add_option( 'crawlwatch_activated_at', time(), false );
+		}
 	}
 
 	/**

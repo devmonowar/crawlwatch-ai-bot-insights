@@ -37,6 +37,8 @@ function crawlwatch_uninstall_blog() {
 	delete_option( 'crawlwatch_llms_full_content' );
 	delete_option( 'crawlwatch_schema_report' );
 	delete_option( 'crawlwatch_spike_dismissed' );
+	delete_option( 'crawlwatch_rating_dismissed' );
+	delete_option( 'crawlwatch_activated_at' );
 	delete_transient( 'crawlwatch_activation_redirect' );
 	delete_transient( 'crawlwatch_score_cache' );
 }
