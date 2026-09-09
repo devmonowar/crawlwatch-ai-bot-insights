@@ -52,6 +52,7 @@ Yes. It only detects whether an SEO plugin is active (for the schema part of the
 4. Settings with retention, privacy notice and danger zone.
 5. AI-ready llms.txt served to crawlers.
 6. llms-full.txt with full post content for deep AI context.
+7. Content gaps page with missing excerpts and alt text plus edit links.
 
 == Changelog ==
 

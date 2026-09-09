@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<p>
 				<?php
 				/* translators: %s: number of posts, formatted. */
-				echo esc_html( sprintf( __( '%s posts need excerpts (latest 50 checked).', 'crawlwatch-ai-bot-insights' ), number_format_i18n( count( $no_excerpt ) ) ) );
+				echo esc_html( sprintf( _n( '%s post needs excerpts (latest 50 checked).', '%s posts need excerpts (latest 50 checked).', count( $no_excerpt ), 'crawlwatch-ai-bot-insights' ), number_format_i18n( count( $no_excerpt ) ) ) );
 				?>
 			</p>
 			<table class="widefat striped">
@@ -54,7 +54,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<p>
 				<?php
 				/* translators: %s: number of images, formatted. */
-				echo esc_html( sprintf( __( '%s images need alt text (latest 50 checked).', 'crawlwatch-ai-bot-insights' ), number_format_i18n( count( $no_alt ) ) ) );
+				echo esc_html( sprintf( _n( '%s image needs alt text (latest 50 checked).', '%s images need alt text (latest 50 checked).', count( $no_alt ), 'crawlwatch-ai-bot-insights' ), number_format_i18n( count( $no_alt ) ) ) );
 				?>
 			</p>
 			<table class="widefat striped">
