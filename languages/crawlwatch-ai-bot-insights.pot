@@ -4,16 +4,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CrawlWatch – AI Bot Insights\n"
 "Report-Msgid-Bugs-To: https://github.com/devmonowar/crawlwatch-ai-bot-insights/issues\n"
-"POT-Creation-Date: 2026-09-09 14:45+0000\n"
+"POT-Creation-Date: 2026-09-09 14:50+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2026-09-09 14:45+0000\n"
+"PO-Revision-Date: 2026-09-09 14:50+0000\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "X-Domain: crawlwatch-ai-bot-insights\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: templates/overview.php:133
+#: templates/overview.php:148
 msgid "%1$d of %2$d scanned posts have schema markup."
 msgstr ""
 
@@ -45,7 +45,7 @@ msgid_plural "%s posts need excerpts (latest 50 checked)."
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/overview.php:136
+#: templates/overview.php:151
 msgid "%s posts could not be fetched and were skipped."
 msgstr ""
 
@@ -81,7 +81,7 @@ msgstr ""
 msgid "AI bots like GPTBot, Claude and Perplexity visit your site to learn and recommend it. CrawlWatch tracks them locally – no API key, 100% free."
 msgstr ""
 
-#: templates/overview.php:189
+#: templates/overview.php:204
 msgid "AI hits"
 msgstr ""
 
@@ -89,7 +89,7 @@ msgstr ""
 msgid "AI hits in the last 7 days: %s"
 msgstr ""
 
-#: templates/overview.php:57
+#: templates/overview.php:72
 msgid "AI referrals"
 msgstr ""
 
@@ -101,11 +101,11 @@ msgstr ""
 msgid "All bots"
 msgstr ""
 
-#: templates/overview.php:68
+#: templates/overview.php:83
 msgid "All checks pass. Nice!"
 msgstr ""
 
-#: templates/overview.php:113
+#: templates/overview.php:128
 msgid "An SEO plugin is active, so schema is likely covered. The scan below verifies each post."
 msgstr ""
 
@@ -121,7 +121,7 @@ msgstr ""
 msgid "Blocked bots are told Disallow. We only append, never overwrite WordPress core rules."
 msgstr ""
 
-#: templates/bots.php:53 templates/overview.php:229
+#: templates/bots.php:53 templates/overview.php:244
 msgid "Bot"
 msgstr ""
 
@@ -141,7 +141,7 @@ msgstr ""
 msgid "Content Gaps"
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:348
+#: includes/class-crawlwatch-admin.php:353
 msgid "Continue"
 msgstr ""
 
@@ -153,7 +153,7 @@ msgstr ""
 msgid "Copy URL"
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:48 includes/class-crawlwatch-admin.php:49 includes/class-crawlwatch-admin.php:349
+#: includes/class-crawlwatch-admin.php:48 includes/class-crawlwatch-admin.php:49 includes/class-crawlwatch-admin.php:354
 msgid "CrawlWatch"
 msgstr ""
 
@@ -201,7 +201,7 @@ msgstr ""
 msgid "Delete all logs now?"
 msgstr ""
 
-#: templates/gaps.php:41 templates/gaps.php:73 templates/overview.php:155 templates/overview.php:200
+#: templates/gaps.php:41 templates/gaps.php:73 templates/overview.php:170 templates/overview.php:215
 msgid "Edit →"
 msgstr ""
 
@@ -209,7 +209,7 @@ msgstr ""
 msgid "Email me a weekly AI summary"
 msgstr ""
 
-#: templates/overview.php:163
+#: templates/overview.php:178
 msgid "Every reachable post has schema markup."
 msgstr ""
 
@@ -233,11 +233,11 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
-#: templates/gaps.php:33 templates/gaps.php:65 templates/overview.php:145 templates/overview.php:190
+#: templates/gaps.php:33 templates/gaps.php:65 templates/overview.php:160 templates/overview.php:205
 msgid "Fix"
 msgstr ""
 
-#: templates/overview.php:75
+#: templates/overview.php:90
 msgid "Fix →"
 msgstr ""
 
@@ -277,7 +277,7 @@ msgstr ""
 msgid "Log AI crawler visits (local only)"
 msgstr ""
 
-#: templates/overview.php:214
+#: templates/overview.php:229
 msgid "Manage llms.txt + robots.txt →"
 msgstr ""
 
@@ -285,11 +285,11 @@ msgstr ""
 msgid "No AI hits in 7 days – share a link so crawlers discover you, then re-check."
 msgstr ""
 
-#: templates/overview.php:86
+#: templates/overview.php:101
 msgid "No AI hits yet in this period. Share a post on social or generate llms.txt so AI can find you."
 msgstr ""
 
-#: templates/overview.php:183
+#: templates/overview.php:198
 msgid "No AI visits on products yet in the last 30 days."
 msgstr ""
 
@@ -297,7 +297,7 @@ msgstr ""
 msgid "No AI visits this week. Your llms.txt is ready for when they come."
 msgstr ""
 
-#: templates/overview.php:119
+#: templates/overview.php:134
 msgid "Not scanned yet. The scan fetches your latest 10 posts and checks each for schema markup."
 msgstr ""
 
@@ -305,7 +305,7 @@ msgstr ""
 msgid "Nothing found for these filters."
 msgstr ""
 
-#: templates/overview.php:223
+#: templates/overview.php:238
 msgid "Nothing logged yet."
 msgstr ""
 
@@ -329,7 +329,7 @@ msgstr ""
 msgid "Plain permalinks? Use instead:"
 msgstr ""
 
-#: templates/gaps.php:31 templates/overview.php:143
+#: templates/gaps.php:31 templates/overview.php:158
 msgid "Post"
 msgstr ""
 
@@ -349,7 +349,7 @@ msgstr ""
 msgid "Privacy: IPs are SHA-256 hashed after anonymizing (IPv4 last octet, IPv6 /64). Nothing leaves your server."
 msgstr ""
 
-#: templates/overview.php:188
+#: templates/overview.php:203
 msgid "Product"
 msgstr ""
 
@@ -357,11 +357,11 @@ msgstr ""
 msgid "Publish your first post so AI has something to cite."
 msgstr ""
 
-#: templates/overview.php:66
+#: templates/overview.php:81
 msgid "Quick Wins – ranked by impact"
 msgstr ""
 
-#: templates/overview.php:61
+#: templates/overview.php:76
 msgid "Readiness score"
 msgstr ""
 
@@ -369,7 +369,7 @@ msgstr ""
 msgid "Readiness score: %s/100"
 msgstr ""
 
-#: templates/overview.php:221
+#: templates/overview.php:236
 msgid "Recent AI visits"
 msgstr ""
 
@@ -381,11 +381,11 @@ msgstr ""
 msgid "Regenerate from site"
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:327
+#: includes/class-crawlwatch-admin.php:332
 msgid "Regenerated from your site."
 msgstr ""
 
-#: templates/overview.php:175
+#: templates/overview.php:190
 msgid "Rescan"
 msgstr ""
 
@@ -393,7 +393,7 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:329
+#: includes/class-crawlwatch-admin.php:334
 msgid "Robots rules saved."
 msgstr ""
 
@@ -409,23 +409,23 @@ msgstr ""
 msgid "Save settings"
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:325 includes/class-crawlwatch-admin.php:348
+#: includes/class-crawlwatch-admin.php:330 includes/class-crawlwatch-admin.php:353
 msgid "Saved."
 msgstr ""
 
-#: templates/overview.php:175
+#: templates/overview.php:190
 msgid "Scan now"
 msgstr ""
 
-#: templates/overview.php:168
+#: templates/overview.php:183
 msgid "Scanned %s ago."
 msgstr ""
 
-#: templates/overview.php:104
+#: templates/overview.php:119
 msgid "Schema gaps"
 msgstr ""
 
-#: templates/overview.php:110
+#: templates/overview.php:125
 msgid "Schema report updated."
 msgstr ""
 
@@ -465,7 +465,7 @@ msgstr ""
 msgid "Start scan"
 msgstr ""
 
-#: templates/overview.php:212
+#: templates/overview.php:227
 msgid "Status"
 msgstr ""
 
@@ -473,15 +473,15 @@ msgstr ""
 msgid "Stored rows right now: %s. 90/180 days can grow the DB on busy sites."
 msgstr ""
 
-#: templates/bots.php:52 templates/overview.php:228
+#: templates/bots.php:52 templates/overview.php:243
 msgid "Time (UTC)"
 msgstr ""
 
-#: templates/overview.php:181
+#: templates/overview.php:196
 msgid "Top AI-read products"
 msgstr ""
 
-#: includes/class-crawlwatch-digest.php:105 templates/overview.php:84
+#: includes/class-crawlwatch-digest.php:105 templates/overview.php:99
 msgid "Top bots"
 msgstr ""
 
@@ -489,7 +489,7 @@ msgstr ""
 msgid "Top crawled URLs"
 msgstr ""
 
-#: templates/overview.php:49
+#: templates/overview.php:64
 msgid "Total AI hits"
 msgstr ""
 
@@ -497,15 +497,15 @@ msgstr ""
 msgid "Tracking"
 msgstr ""
 
-#: templates/overview.php:215
+#: templates/overview.php:230
 msgid "Tracking + retention settings →"
 msgstr ""
 
-#: templates/bots.php:54 templates/overview.php:144 templates/overview.php:230
+#: templates/bots.php:54 templates/overview.php:159 templates/overview.php:245
 msgid "Type"
 msgstr ""
 
-#: templates/bots.php:55 templates/overview.php:231
+#: templates/bots.php:55 templates/overview.php:246
 msgid "URL"
 msgstr ""
 
@@ -513,7 +513,7 @@ msgstr ""
 msgid "URL contains:"
 msgstr ""
 
-#: templates/overview.php:53
+#: templates/overview.php:68
 msgid "Unique bots"
 msgstr ""
 
@@ -545,16 +545,20 @@ msgstr ""
 msgid "You are AI-ready! Score: %d/100"
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:183 includes/class-crawlwatch-admin.php:218 includes/class-crawlwatch-admin.php:255 includes/class-crawlwatch-admin.php:305 includes/class-crawlwatch-admin.php:419 includes/class-crawlwatch-admin.php:609
+#: includes/class-crawlwatch-admin.php:183 includes/class-crawlwatch-admin.php:223 includes/class-crawlwatch-admin.php:260 includes/class-crawlwatch-admin.php:310 includes/class-crawlwatch-admin.php:424 includes/class-crawlwatch-admin.php:614
 msgid "You do not have permission to view this page."
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:361 includes/class-crawlwatch-admin.php:433 includes/class-crawlwatch-admin.php:476 includes/class-crawlwatch-admin.php:502 includes/class-crawlwatch-admin.php:550
+#: includes/class-crawlwatch-admin.php:366 includes/class-crawlwatch-admin.php:438 includes/class-crawlwatch-admin.php:481 includes/class-crawlwatch-admin.php:507 includes/class-crawlwatch-admin.php:555
 msgid "You do not have permission."
 msgstr ""
 
 #: includes/class-crawlwatch-digest.php:87
 msgid "[%s] Weekly AI bot digest"
+msgstr ""
+
+#: templates/overview.php:55
+msgid "all new in the last %d days"
 msgstr ""
 
 #: templates/files.php:23
@@ -567,5 +571,9 @@ msgstr ""
 
 #: templates/files.php:49
 msgid "robots.txt – AI bots"
+msgstr ""
+
+#: templates/overview.php:52
+msgid "vs %1$s (%2$s) in the previous %3$d days"
 msgstr ""
 

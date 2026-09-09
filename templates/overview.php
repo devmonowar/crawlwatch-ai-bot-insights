@@ -1,6 +1,6 @@
 <?php
 /**
- * Overview template. Variables: $days, $since, $total, $referrals, $unique, $top_bots, $recent, $score, $wins, $max_hits, $has_seo, $schema, $woo_active, $woo_top.
+ * Overview template. Variables: $days, $since, $total, $prev_total, $referrals, $unique, $top_bots, $recent, $score, $wins, $max_hits, $has_seo, $schema, $woo_active, $woo_top.
  *
  * @package CrawlWatch
  */
@@ -39,6 +39,21 @@ $crawlwatch_days30_url = add_query_arg(
 			<?php
 			/* translators: %s: start date and time in UTC. */
 			echo esc_html( sprintf( __( 'Since %s (UTC)', 'crawlwatch-ai-bot-insights' ), $since ) );
+			?>
+		</span>
+		<span class="crawlwatch-since">
+			<?php
+			if ( $prev_total > 0 ) {
+				$pct = $total >= $prev_total
+					? (int) round( ( ( $total - $prev_total ) / $prev_total ) * 100 )
+					: -(int) round( ( ( $prev_total - $total ) / $prev_total ) * 100 );
+				/* translators: 1: previous period hits, formatted. 2: change percent with sign, e.g. +20% or -10%. 3: days count. */
+				$change = ( $pct >= 0 ? '+' : '' ) . $pct . '%';
+				echo esc_html( sprintf( __( 'vs %1$s (%2$s) in the previous %3$d days', 'crawlwatch-ai-bot-insights' ), number_format_i18n( $prev_total ), $change, $days ) );
+			} elseif ( $total > 0 ) {
+				/* translators: %d: days count. */
+				echo esc_html( sprintf( __( 'all new in the last %d days', 'crawlwatch-ai-bot-insights' ), $days ) );
+			}
 			?>
 		</span>
 	</div>
