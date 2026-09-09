@@ -34,6 +34,7 @@ require_once CRAWLWATCH_PATH . 'includes/class-crawlwatch-logger.php';
 require_once CRAWLWATCH_PATH . 'includes/class-crawlwatch-llms.php';
 require_once CRAWLWATCH_PATH . 'includes/class-crawlwatch-robots.php';
 require_once CRAWLWATCH_PATH . 'includes/class-crawlwatch-score.php';
+require_once CRAWLWATCH_PATH . 'includes/class-crawlwatch-schema.php';
 require_once CRAWLWATCH_PATH . 'includes/class-crawlwatch-digest.php';
 require_once CRAWLWATCH_PATH . 'includes/class-crawlwatch-activator.php';
 
@@ -183,7 +184,9 @@ add_action( CrawlWatch_Digest::HOOK, array( 'CrawlWatch_Digest', 'send' ) );
  * clear() takes no required args, so direct callbacks are safe.
  */
 add_action( 'save_post', array( 'CrawlWatch_Score', 'clear' ), 10, 0 );
+add_action( 'save_post', array( 'CrawlWatch_Schema', 'clear' ), 10, 0 );
 add_action( 'deleted_post', array( 'CrawlWatch_Score', 'clear' ), 10, 0 );
+add_action( 'deleted_post', array( 'CrawlWatch_Schema', 'clear' ), 10, 0 );
 add_action( 'activated_plugin', array( 'CrawlWatch_Score', 'clear' ), 10, 0 );
 add_action( 'deactivated_plugin', array( 'CrawlWatch_Score', 'clear' ), 10, 0 );
 

@@ -198,7 +198,7 @@ class CrawlWatch_Score {
 	 *
 	 * @return bool
 	 */
-	private static function has_seo_plugin() {
+	public static function has_seo_plugin() {
 		if ( ! function_exists( 'is_plugin_active' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}

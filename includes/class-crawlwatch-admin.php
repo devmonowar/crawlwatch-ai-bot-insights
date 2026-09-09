@@ -34,6 +34,7 @@ class CrawlWatch_Admin {
 		add_action( 'admin_post_crawlwatch_save_settings', array( __CLASS__, 'handle_save_settings' ) );
 		add_action( 'admin_post_crawlwatch_clear_logs', array( __CLASS__, 'handle_clear_logs' ) );
 		add_action( 'admin_post_crawlwatch_export_csv', array( __CLASS__, 'handle_export_csv' ) );
+		add_action( 'admin_post_crawlwatch_scan_schema', array( __CLASS__, 'handle_scan_schema' ) );
 		add_action( 'admin_init', array( __CLASS__, 'maybe_redirect_setup' ) );
 	}
 
@@ -185,6 +186,8 @@ class CrawlWatch_Admin {
 		$score_data = CrawlWatch_Score::get();
 		$score      = isset( $score_data['score'] ) ? (int) $score_data['score'] : 0;
 		$wins       = isset( $score_data['wins'] ) ? $score_data['wins'] : array();
+		$has_seo    = CrawlWatch_Score::has_seo_plugin();
+		$schema     = CrawlWatch_Schema::get_report();
 		$max_hits   = 0;
 		foreach ( $top_bots as $row ) {
 			$max_hits = max( $max_hits, (int) $row['hits'] );
@@ -468,6 +471,30 @@ class CrawlWatch_Admin {
 		}
 		fclose( $out );
 		exit;
+	}
+
+	/**
+	 * Handle schema scan (admin-post). Runs on click only, caches report.
+	 *
+	 * @return void
+	 */
+	public static function handle_scan_schema() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'You do not have permission.', 'crawlwatch-ai-bot-insights' ) );
+		}
+		check_admin_referer( 'crawlwatch_schema', 'crawlwatch_schema_nonce' );
+
+		CrawlWatch_Schema::scan();
+
+		self::safe_redirect(
+			add_query_arg(
+				array(
+					'page'   => 'crawlwatch',
+					'cw_msg' => 'schema',
+				),
+				admin_url( 'admin.php' )
+			)
+		);
 	}
 
 	/**

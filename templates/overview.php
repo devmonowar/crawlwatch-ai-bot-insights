@@ -1,6 +1,6 @@
 <?php
 /**
- * Overview template. Variables: $days, $since, $total, $referrals, $unique, $top_bots, $recent, $score, $wins, $max_hits.
+ * Overview template. Variables: $days, $since, $total, $referrals, $unique, $top_bots, $recent, $score, $wins, $max_hits, $has_seo, $schema.
  *
  * @package CrawlWatch
  */
@@ -98,6 +98,82 @@ $crawlwatch_days30_url = add_query_arg(
 					</div>
 				<?php endforeach; ?>
 			<?php endif; ?>
+		</div>
+
+		<div class="crawlwatch-panel">
+			<h2><?php esc_html_e( 'Schema gaps', 'crawlwatch-ai-bot-insights' ); ?></h2>
+			<?php
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only notice flag.
+			$schema_msg = isset( $_GET['cw_msg'] ) ? sanitize_key( wp_unslash( $_GET['cw_msg'] ) ) : '';
+			if ( 'schema' === $schema_msg ) :
+				?>
+				<div class="notice notice-success inline"><p><?php esc_html_e( 'Schema report updated.', 'crawlwatch-ai-bot-insights' ); ?></p></div>
+			<?php endif; ?>
+			<?php if ( $has_seo ) : ?>
+				<p class="description"><?php esc_html_e( 'An SEO plugin is active, so schema is likely covered. The scan below verifies each post.', 'crawlwatch-ai-bot-insights' ); ?></p>
+			<?php endif; ?>
+			<?php
+			$schema_rows = isset( $schema['rows'] ) && is_array( $schema['rows'] ) ? $schema['rows'] : array();
+			if ( empty( $schema_rows ) ) :
+				?>
+				<p><?php esc_html_e( 'Not scanned yet. The scan fetches your latest 10 posts and checks each for schema markup.', 'crawlwatch-ai-bot-insights' ); ?></p>
+			<?php else : ?>
+				<?php
+				$schema_missing = array();
+				$schema_unreach = 0;
+				foreach ( $schema_rows as $sr ) {
+					if ( empty( $sr['reachable'] ) ) {
+						++$schema_unreach;
+					} elseif ( empty( $sr['has_schema'] ) ) {
+						$schema_missing[] = $sr;
+					}
+				}
+				$schema_ok = count( $schema_rows ) - count( $schema_missing ) - $schema_unreach;
+				/* translators: 1: posts with schema, 2: posts scanned. */
+				echo '<p>' . esc_html( sprintf( __( '%1$d of %2$d scanned posts have schema markup.', 'crawlwatch-ai-bot-insights' ), $schema_ok, count( $schema_rows ) ) ) . '</p>';
+				if ( $schema_unreach > 0 ) {
+					/* translators: %s: number of unreachable posts, formatted. */
+					echo '<p class="description">' . esc_html( sprintf( __( '%s posts could not be fetched and were skipped.', 'crawlwatch-ai-bot-insights' ), number_format_i18n( $schema_unreach ) ) ) . '</p>';
+				}
+				?>
+				<?php if ( ! empty( $schema_missing ) ) : ?>
+					<table class="widefat striped">
+						<thead>
+							<tr>
+								<th><?php esc_html_e( 'Post', 'crawlwatch-ai-bot-insights' ); ?></th>
+								<th><?php esc_html_e( 'Type', 'crawlwatch-ai-bot-insights' ); ?></th>
+								<th><?php esc_html_e( 'Fix', 'crawlwatch-ai-bot-insights' ); ?></th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ( $schema_missing as $sm ) : ?>
+								<tr>
+									<td><?php echo esc_html( isset( $sm['title'] ) ? $sm['title'] : '' ); ?></td>
+									<td><?php echo esc_html( isset( $sm['type'] ) ? $sm['type'] : '' ); ?></td>
+									<td>
+										<?php if ( ! empty( $sm['edit_url'] ) ) : ?>
+											<a href="<?php echo esc_url( $sm['edit_url'] ); ?>"><?php esc_html_e( 'Edit →', 'crawlwatch-ai-bot-insights' ); ?></a>
+										<?php endif; ?>
+									</td>
+								</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+				<?php else : ?>
+					<p>✓ <?php esc_html_e( 'Every reachable post has schema markup.', 'crawlwatch-ai-bot-insights' ); ?></p>
+				<?php endif; ?>
+				<p class="description">
+					<?php
+					/* translators: %s: human time difference, e.g. "3 hours". */
+					echo esc_html( sprintf( __( 'Scanned %s ago.', 'crawlwatch-ai-bot-insights' ), human_time_diff( isset( $schema['scanned_at'] ) ? (int) $schema['scanned_at'] : time() ) ) );
+					?>
+				</p>
+			<?php endif; ?>
+			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+				<input type="hidden" name="action" value="crawlwatch_scan_schema" />
+				<?php wp_nonce_field( 'crawlwatch_schema', 'crawlwatch_schema_nonce' ); ?>
+				<button class="button" type="submit"><?php echo empty( $schema_rows ) ? esc_html__( 'Scan now', 'crawlwatch-ai-bot-insights' ) : esc_html__( 'Rescan', 'crawlwatch-ai-bot-insights' ); ?></button>
+			</form>
 		</div>
 
 		<div class="crawlwatch-panel">
