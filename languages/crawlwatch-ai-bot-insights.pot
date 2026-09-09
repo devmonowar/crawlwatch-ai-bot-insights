@@ -1,388 +1,395 @@
-# Copyright (C) 2026 CrawlWatch Team
-# This file is distributed under the GPLv2 or later.
+# Copyright (C) 2026 Monowar Hossain
+# This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: CrawlWatch - AI Bot Insights 1.0.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/crawlwatch-ai-bot-insights/\n"
-"POT-Creation-Date: 2026-09-04T00:00:00+00:00\n"
+"Project-Id-Version: CrawlWatch – AI Bot Insights\n"
+"Report-Msgid-Bugs-To: https://github.com/devmonowar/crawlwatch-ai-bot-insights/issues\n"
+"POT-Creation-Date: 2026-09-09 02:28+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"PO-Revision-Date: 2026-09-09 02:28+0000\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "X-Domain: crawlwatch-ai-bot-insights\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: includes/class-crawlwatch-admin.php:46 includes/class-crawlwatch-admin.php:47 includes/class-crawlwatch-admin.php:283
-msgid "CrawlWatch"
-msgstr ""
-
-#: includes/class-crawlwatch-admin.php:58 includes/class-crawlwatch-admin.php:59
-msgid "Overview"
-msgstr ""
-
-#: includes/class-crawlwatch-admin.php:68 includes/class-crawlwatch-admin.php:69
-msgid "Bots"
-msgstr ""
-
-#: includes/class-crawlwatch-admin.php:78 includes/class-crawlwatch-admin.php:79
-msgid "Files"
-msgstr ""
-
-#: includes/class-crawlwatch-admin.php:88 includes/class-crawlwatch-admin.php:89 includes/class-crawlwatch-admin.php:117
-msgid "Settings"
-msgstr ""
-
-#: includes/class-crawlwatch-admin.php:98 includes/class-crawlwatch-admin.php:99
-msgid "CrawlWatch Setup"
-msgstr ""
-
-#: includes/class-crawlwatch-admin.php:150
-msgid "Copied!"
-msgstr ""
-
-#: includes/class-crawlwatch-admin.php:171 includes/class-crawlwatch-admin.php:202 includes/class-crawlwatch-admin.php:239 includes/class-crawlwatch-admin.php:341 includes/class-crawlwatch-admin.php:427
-msgid "You do not have permission to view this page."
-msgstr ""
-
-#: includes/class-crawlwatch-admin.php:259 includes/class-crawlwatch-admin.php:282
-msgid "Saved."
-msgstr ""
-
-#: includes/class-crawlwatch-admin.php:261
-msgid "Regenerated from your site."
-msgstr ""
-
-#: includes/class-crawlwatch-admin.php:263
-msgid "Robots rules saved."
-msgstr ""
-
-#: includes/class-crawlwatch-admin.php:282
-msgid "Continue"
-msgstr ""
-
-#: includes/class-crawlwatch-admin.php:295 includes/class-crawlwatch-admin.php:355 includes/class-crawlwatch-admin.php:382
-msgid "You do not have permission."
-msgstr ""
-
-#: includes/class-crawlwatch-score.php:60
-msgid "Generate llms.txt so AI bots find your catalogue in one file."
-msgstr ""
-
-#: includes/class-crawlwatch-score.php:79
-msgid "Publish your first post so AI has something to cite."
+#: includes/class-crawlwatch-score.php:144
+msgid "%1$d of last %2$d images miss alt text."
 msgstr ""
 
 #: includes/class-crawlwatch-score.php:96
 msgid "%1$d of last %2$d posts miss excerpts (used as AI descriptions)."
 msgstr ""
 
-#: includes/class-crawlwatch-score.php:109
-msgid "Install Yoast SEO or Rank Math for Article/Product schema AI reads."
-msgstr ""
-
-#: includes/class-crawlwatch-score.php:128
-msgid "Upload images with alt text so AI can understand your visuals."
-msgstr ""
-
-#: includes/class-crawlwatch-score.php:144
-msgid "%1$d of last %2$d images miss alt text."
-msgstr ""
-
 #: includes/class-crawlwatch-score.php:163
 msgid "%d AI bots blocked in robots.txt – unblock the ones you want citations from."
 msgstr ""
 
-#: includes/class-crawlwatch-score.php:177
-msgid "No AI hits in 7 days – share a link so crawlers discover you, then re-check."
-msgstr ""
-
-#: includes/helpers.php:19
-msgid "7 days"
-msgstr ""
-
-#: includes/helpers.php:20
-msgid "14 days"
-msgstr ""
-
-#: includes/helpers.php:21
-msgid "30 days (recommended)"
-msgstr ""
-
-#: includes/helpers.php:22
-msgid "90 days (large DB warning)"
-msgstr ""
-
-#: includes/helpers.php:23
-msgid "180 days (large DB warning)"
-msgstr ""
-
-#: templates/bots.php:14
-msgid "CrawlWatch – Bots"
-msgstr ""
-
-#: templates/bots.php:19
-msgid "Bot:"
-msgstr ""
-
-#: templates/bots.php:21
-msgid "All bots"
-msgstr ""
-
-#: templates/bots.php:28
-msgid "URL contains:"
-msgstr ""
-
-#: templates/bots.php:31
-msgid "Filter"
-msgstr ""
-
-#: templates/bots.php:33
-msgid "Reset"
-msgstr ""
-
-#: templates/bots.php:40
+#: templates/bots.php:48
 msgid "%s visits found."
-msgstr ""
-
-#: templates/bots.php:45
-msgid "Nothing found for these filters."
-msgstr ""
-
-#: templates/bots.php:50 templates/overview.php:104
-msgid "Time (UTC)"
-msgstr ""
-
-#: templates/bots.php:51 templates/overview.php:105
-msgid "Bot"
-msgstr ""
-
-#: templates/bots.php:52 templates/overview.php:106
-msgid "Type"
-msgstr ""
-
-#: templates/bots.php:53 templates/overview.php:107
-msgid "URL"
-msgstr ""
-
-#: templates/bots.php:54
-msgid "Referrer"
-msgstr ""
-
-#: templates/bots.php:75
-msgid "Page %1$s of %2$s"
-msgstr ""
-
-#: templates/files.php:14
-msgid "CrawlWatch – Files"
-msgstr ""
-
-#: templates/files.php:15
-msgid "llms.txt tells AI bots what your site is about. robots.txt controls which AI bots may crawl. No file writes, no code needed."
-msgstr ""
-
-#: templates/files.php:23
-msgid "llms.txt"
-msgstr ""
-
-#: templates/files.php:26
-msgid "Copy URL"
 msgstr ""
 
 #: templates/files.php:31
 msgid "(full catalogue with post content)"
 msgstr ""
 
-#: templates/files.php:33
-msgid "Plain permalinks? Use instead:"
+#: includes/helpers.php:20
+msgid "14 days"
 msgstr ""
 
-#: templates/files.php:42
-msgid "Save"
+#: includes/helpers.php:23
+msgid "180 days (large DB warning)"
 msgstr ""
 
-#: templates/files.php:43
-msgid "Regenerate from site"
+#: includes/helpers.php:21
+msgid "30 days (recommended)"
 msgstr ""
 
-#: templates/files.php:49
-msgid "robots.txt – AI bots"
+#: includes/helpers.php:19
+msgid "7 days"
 msgstr ""
 
-#: templates/files.php:50
-msgid "Blocked bots are told Disallow. We only append, never overwrite WordPress core rules."
+#: includes/helpers.php:22
+msgid "90 days (large DB warning)"
+msgstr ""
+
+#: templates/setup-wizard.php:24
+msgid "AI bots like GPTBot, Claude and Perplexity visit your site to learn and recommend it. CrawlWatch tracks them locally – no API key, 100% free."
+msgstr ""
+
+#: templates/overview.php:57
+msgid "AI referrals"
+msgstr ""
+
+#: templates/bots.php:21
+msgid "All bots"
+msgstr ""
+
+#: templates/overview.php:68
+msgid "All checks pass. Nice!"
 msgstr ""
 
 #: templates/files.php:59
 msgid "Block %s"
 msgstr ""
 
-#: templates/files.php:63
-msgid "Save robots rules"
+#: templates/files.php:50
+msgid "Blocked bots are told Disallow. We only append, never overwrite WordPress core rules."
 msgstr ""
 
-#: templates/files.php:65
-msgid "Preview robots.txt"
+#: templates/bots.php:59 templates/overview.php:121
+msgid "Bot"
+msgstr ""
+
+#: templates/bots.php:19
+msgid "Bot:"
+msgstr ""
+
+#: includes/class-crawlwatch-admin.php:69 includes/class-crawlwatch-admin.php:70
+msgid "Bots"
+msgstr ""
+
+#: templates/settings.php:68
+msgid "Clear all logs now"
+msgstr ""
+
+#: includes/class-crawlwatch-admin.php:283
+msgid "Continue"
+msgstr ""
+
+#: includes/class-crawlwatch-admin.php:151
+msgid "Copied!"
+msgstr ""
+
+#: templates/files.php:26
+msgid "Copy URL"
+msgstr ""
+
+#: includes/class-crawlwatch-admin.php:47 includes/class-crawlwatch-admin.php:48 includes/class-crawlwatch-admin.php:284
+msgid "CrawlWatch"
+msgstr ""
+
+#: includes/class-crawlwatch-admin.php:99 includes/class-crawlwatch-admin.php:100
+msgid "CrawlWatch Setup"
 msgstr ""
 
 #: templates/overview.php:14
 msgid "CrawlWatch – AI Bot Insights"
 msgstr ""
 
-#: templates/overview.php:16
-msgid "Which AI bots read your site, which AI referrals arrived, and how AI-ready you are. 100% free."
+#: templates/bots.php:14
+msgid "CrawlWatch – Bots"
 msgstr ""
 
-#: templates/overview.php:20
-msgid "Last 7 days"
-msgstr ""
-
-#: templates/overview.php:21
-msgid "Last 30 days"
-msgstr ""
-
-#: templates/overview.php:25
-msgid "Since %s (UTC)"
-msgstr ""
-
-#: templates/overview.php:33
-msgid "Total AI hits"
-msgstr ""
-
-#: templates/overview.php:37
-msgid "Unique bots"
-msgstr ""
-
-#: templates/overview.php:41
-msgid "AI referrals"
-msgstr ""
-
-#: templates/overview.php:45
-msgid "Readiness score"
-msgstr ""
-
-#: templates/overview.php:50
-msgid "Quick Wins – ranked by impact"
-msgstr ""
-
-#: templates/overview.php:52
-msgid "All checks pass. Nice!"
-msgstr ""
-
-#: templates/overview.php:59
-msgid "Fix →"
-msgstr ""
-
-#: templates/overview.php:68
-msgid "Top bots"
-msgstr ""
-
-#: templates/overview.php:70
-msgid "No AI hits yet in this period. Share a post on social or generate llms.txt so AI can find you."
-msgstr ""
-
-#: templates/overview.php:88
-msgid "Status"
-msgstr ""
-
-#: templates/overview.php:90
-msgid "Manage llms.txt + robots.txt →"
-msgstr ""
-
-#: templates/overview.php:91
-msgid "Tracking + retention settings →"
-msgstr ""
-
-#: templates/overview.php:97
-msgid "Recent AI visits"
-msgstr ""
-
-#: templates/overview.php:99
-msgid "Nothing logged yet."
+#: templates/files.php:14
+msgid "CrawlWatch – Files"
 msgstr ""
 
 #: templates/settings.php:14
 msgid "CrawlWatch – Settings"
 msgstr ""
 
-#: templates/settings.php:21
-msgid "Settings saved."
-msgstr ""
-
-#: templates/settings.php:30
-msgid "Tracking"
-msgstr ""
-
-#: templates/settings.php:32
-msgid "Log AI crawler visits (local only)"
-msgstr ""
-
-#: templates/settings.php:33
-msgid "Serve /llms.txt and /ai.txt"
-msgstr ""
-
-#: templates/settings.php:37
-msgid "Keep logs for"
-msgstr ""
-
-#: templates/settings.php:45
-msgid "Stored rows right now: %s. 90/180 days can grow the DB on busy sites."
-msgstr ""
-
-#: templates/settings.php:51
-msgid "On uninstall"
+#: templates/settings.php:64
+msgid "Danger zone"
 msgstr ""
 
 #: templates/settings.php:52
 msgid "Delete all logs and settings"
 msgstr ""
 
+#: templates/settings.php:65
+msgid "Delete all logs now?"
+msgstr ""
+
+#: templates/bots.php:42
+msgid "Export CSV (up to 5000 rows)"
+msgstr ""
+
+#: includes/class-crawlwatch-admin.php:79 includes/class-crawlwatch-admin.php:80
+msgid "Files"
+msgstr ""
+
+#: templates/bots.php:31
+msgid "Filter"
+msgstr ""
+
+#: templates/overview.php:75
+msgid "Fix →"
+msgstr ""
+
+#: templates/setup-wizard.php:30
+msgid "Generate & continue"
+msgstr ""
+
+#: includes/class-crawlwatch-score.php:60
+msgid "Generate llms.txt so AI bots find your catalogue in one file."
+msgstr ""
+
+#: includes/class-crawlwatch-score.php:109
+msgid "Install Yoast SEO or Rank Math for Article/Product schema AI reads."
+msgstr ""
+
+#: templates/settings.php:37
+msgid "Keep logs for"
+msgstr ""
+
+#: templates/overview.php:37
+msgid "Last 30 days"
+msgstr ""
+
+#: templates/overview.php:36
+msgid "Last 7 days"
+msgstr ""
+
+#: templates/settings.php:32
+msgid "Log AI crawler visits (local only)"
+msgstr ""
+
+#: templates/overview.php:106
+msgid "Manage llms.txt + robots.txt →"
+msgstr ""
+
+#: includes/class-crawlwatch-score.php:177
+msgid "No AI hits in 7 days – share a link so crawlers discover you, then re-check."
+msgstr ""
+
+#: templates/overview.php:86
+msgid "No AI hits yet in this period. Share a post on social or generate llms.txt so AI can find you."
+msgstr ""
+
+#: templates/bots.php:53
+msgid "Nothing found for these filters."
+msgstr ""
+
+#: templates/overview.php:115
+msgid "Nothing logged yet."
+msgstr ""
+
+#: templates/settings.php:51
+msgid "On uninstall"
+msgstr ""
+
+#: includes/class-crawlwatch-admin.php:59 includes/class-crawlwatch-admin.php:60
+msgid "Overview"
+msgstr ""
+
+#: templates/bots.php:83
+msgid "Page %1$s of %2$s"
+msgstr ""
+
+#: templates/files.php:33
+msgid "Plain permalinks? Use instead:"
+msgstr ""
+
+#: templates/files.php:65
+msgid "Preview robots.txt"
+msgstr ""
+
 #: templates/settings.php:56
 msgid "Privacy: IPs are SHA-256 hashed after anonymizing (IPv4 last octet, IPv6 /64). Nothing leaves your server."
+msgstr ""
+
+#: includes/class-crawlwatch-score.php:79
+msgid "Publish your first post so AI has something to cite."
+msgstr ""
+
+#: templates/overview.php:66
+msgid "Quick Wins – ranked by impact"
+msgstr ""
+
+#: templates/overview.php:61
+msgid "Readiness score"
+msgstr ""
+
+#: templates/overview.php:113
+msgid "Recent AI visits"
+msgstr ""
+
+#: templates/bots.php:62
+msgid "Referrer"
+msgstr ""
+
+#: templates/files.php:43
+msgid "Regenerate from site"
+msgstr ""
+
+#: includes/class-crawlwatch-admin.php:262
+msgid "Regenerated from your site."
+msgstr ""
+
+#: templates/bots.php:33
+msgid "Reset"
+msgstr ""
+
+#: includes/class-crawlwatch-admin.php:264
+msgid "Robots rules saved."
+msgstr ""
+
+#: templates/files.php:42
+msgid "Save"
+msgstr ""
+
+#: templates/files.php:63
+msgid "Save robots rules"
 msgstr ""
 
 #: templates/settings.php:58
 msgid "Save settings"
 msgstr ""
 
-#: templates/settings.php:63
-msgid "Danger zone"
+#: includes/class-crawlwatch-admin.php:260 includes/class-crawlwatch-admin.php:283
+msgid "Saved."
 msgstr ""
 
-#: templates/settings.php:64
-msgid "Delete all logs now?"
-msgstr ""
-
-#: templates/settings.php:67
-msgid "Clear all logs now"
-msgstr ""
-
-#: templates/setup-wizard.php:14
-msgid "Welcome to CrawlWatch"
-msgstr ""
-
-#: templates/setup-wizard.php:17
-msgid "AI bots like GPTBot, Claude and Perplexity visit your site to learn and recommend it. CrawlWatch tracks them locally – no API key, 100% free."
-msgstr ""
-
-#: templates/setup-wizard.php:18
-msgid "Start scan"
-msgstr ""
-
-#: templates/setup-wizard.php:20
-msgid "We will scan your content and generate llms.txt. This runs once."
-msgstr ""
-
-#: templates/setup-wizard.php:23
-msgid "Generate & continue"
-msgstr ""
-
-#: templates/setup-wizard.php:29
-msgid "You are AI-ready! Score: %d/100"
-msgstr ""
-
-#: templates/setup-wizard.php:33
+#: templates/setup-wizard.php:40
 msgid "See Quick Wins"
 msgstr ""
 
-#: templates/setup-wizard.php:34
+#: templates/setup-wizard.php:41
 msgid "See bot visits"
 msgstr ""
+
+#: templates/settings.php:33
+msgid "Serve /llms.txt and /ai.txt"
+msgstr ""
+
+#: includes/class-crawlwatch-admin.php:89 includes/class-crawlwatch-admin.php:90 includes/class-crawlwatch-admin.php:118
+msgid "Settings"
+msgstr ""
+
+#: templates/settings.php:21
+msgid "Settings saved."
+msgstr ""
+
+#: templates/overview.php:41
+msgid "Since %s (UTC)"
+msgstr ""
+
+#: templates/setup-wizard.php:25
+msgid "Start scan"
+msgstr ""
+
+#: templates/overview.php:104
+msgid "Status"
+msgstr ""
+
+#: templates/settings.php:45
+msgid "Stored rows right now: %s. 90/180 days can grow the DB on busy sites."
+msgstr ""
+
+#: templates/bots.php:58 templates/overview.php:120
+msgid "Time (UTC)"
+msgstr ""
+
+#: templates/overview.php:84
+msgid "Top bots"
+msgstr ""
+
+#: templates/overview.php:49
+msgid "Total AI hits"
+msgstr ""
+
+#: templates/settings.php:30
+msgid "Tracking"
+msgstr ""
+
+#: templates/overview.php:107
+msgid "Tracking + retention settings →"
+msgstr ""
+
+#: templates/bots.php:60 templates/overview.php:122
+msgid "Type"
+msgstr ""
+
+#: templates/bots.php:61 templates/overview.php:123
+msgid "URL"
+msgstr ""
+
+#: templates/bots.php:28
+msgid "URL contains:"
+msgstr ""
+
+#: templates/overview.php:53
+msgid "Unique bots"
+msgstr ""
+
+#: includes/class-crawlwatch-score.php:128
+msgid "Upload images with alt text so AI can understand your visuals."
+msgstr ""
+
+#: templates/setup-wizard.php:27
+msgid "We will scan your content and generate llms.txt. This runs once."
+msgstr ""
+
+#: templates/setup-wizard.php:21
+msgid "Welcome to CrawlWatch"
+msgstr ""
+
+#: templates/overview.php:16
+msgid "Which AI bots read your site, which AI referrals arrived, and how AI-ready you are. 100% free."
+msgstr ""
+
+#: templates/setup-wizard.php:36
+msgid "You are AI-ready! Score: %d/100"
+msgstr ""
+
+#: includes/class-crawlwatch-admin.php:172 includes/class-crawlwatch-admin.php:203 includes/class-crawlwatch-admin.php:240 includes/class-crawlwatch-admin.php:350 includes/class-crawlwatch-admin.php:508
+msgid "You do not have permission to view this page."
+msgstr ""
+
+#: includes/class-crawlwatch-admin.php:296 includes/class-crawlwatch-admin.php:364 includes/class-crawlwatch-admin.php:399 includes/class-crawlwatch-admin.php:425
+msgid "You do not have permission."
+msgstr ""
+
+#: templates/files.php:23
+msgid "llms.txt"
+msgstr ""
+
+#: templates/files.php:15
+msgid "llms.txt tells AI bots what your site is about. robots.txt controls which AI bots may crawl. No file writes, no code needed."
+msgstr ""
+
+#: templates/files.php:49
+msgid "robots.txt – AI bots"
+msgstr ""
+

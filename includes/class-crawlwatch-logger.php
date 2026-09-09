@@ -270,6 +270,40 @@ class CrawlWatch_Logger {
 	}
 
 	/**
+	 * Get export rows (CSV export). Same filters as the bots page,
+	 * capped at 5000 rows. Never returns IP hash or user agent.
+	 *
+	 * @param string $bot   Bot name or empty.
+	 * @param string $q     URL search or empty.
+	 * @param int    $limit Max rows (capped at 5000).
+	 * @return array
+	 */
+	public static function get_export_rows( $bot, $q, $limit = 5000 ) {
+		global $wpdb;
+		$limit = max( 1, min( 5000, (int) $limit ) );
+		$where = array( '1=1' );
+		$args  = array();
+		if ( '' !== $bot ) {
+			$where[] = 'bot_name = %s';
+			$args[]  = $bot;
+		}
+		if ( '' !== $q ) {
+			$where[] = 'url LIKE %s';
+			$args[]  = '%' . $wpdb->esc_like( $q ) . '%';
+		}
+		$args[] = $limit;
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- custom table, fixed name, user input via placeholders, limit int-cast.
+		$rows = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT log_time, bot_name, bot_type, url, referrer FROM `{$wpdb->prefix}crawlwatch_logs` WHERE " . implode( ' AND ', $where ) . ' ORDER BY id DESC LIMIT %d',
+				$args
+			),
+			ARRAY_A
+		);
+		return is_array( $rows ) ? $rows : array();
+	}
+
+	/**
 	 * Distinct bot names for filter dropdown.
 	 *
 	 * @return array

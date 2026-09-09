@@ -29,6 +29,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<input type="search" name="q" value="<?php echo esc_attr( $q ); ?>" maxlength="100" />
 		</label>
 		<button class="button button-primary" type="submit"><?php esc_html_e( 'Filter', 'crawlwatch-ai-bot-insights' ); ?></button>
+		<?php wp_nonce_field( 'crawlwatch_export', 'crawlwatch_export_nonce' ); ?>
+		<button class="button" type="submit" formaction="<?php echo esc_url( add_query_arg( array( 'action' => 'crawlwatch_export_csv' ), admin_url( 'admin-post.php' ) ) ); ?>"><?php esc_html_e( 'Export CSV (up to 5000 rows)', 'crawlwatch-ai-bot-insights' ); ?></button>
 		<?php if ( '' !== $bot || '' !== $q ) : ?>
 			<a class="button" href="<?php echo esc_url( add_query_arg( array( 'page' => 'crawlwatch-bots' ), admin_url( 'admin.php' ) ) ); ?>"><?php esc_html_e( 'Reset', 'crawlwatch-ai-bot-insights' ); ?></a>
 		<?php endif; ?>

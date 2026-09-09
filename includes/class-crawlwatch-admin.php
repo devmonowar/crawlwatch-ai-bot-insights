@@ -33,6 +33,7 @@ class CrawlWatch_Admin {
 		add_action( 'admin_post_crawlwatch_save_files', array( __CLASS__, 'handle_save_files' ) );
 		add_action( 'admin_post_crawlwatch_save_settings', array( __CLASS__, 'handle_save_settings' ) );
 		add_action( 'admin_post_crawlwatch_clear_logs', array( __CLASS__, 'handle_clear_logs' ) );
+		add_action( 'admin_post_crawlwatch_export_csv', array( __CLASS__, 'handle_export_csv' ) );
 		add_action( 'admin_init', array( __CLASS__, 'maybe_redirect_setup' ) );
 	}
 
@@ -412,6 +413,54 @@ class CrawlWatch_Admin {
 				admin_url( 'admin.php' )
 			)
 		);
+	}
+
+	/**
+	 * Handle CSV export (admin-post). Streams up to 5000 filtered rows.
+	 *
+	 * @return void
+	 */
+	public static function handle_export_csv() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'You do not have permission.', 'crawlwatch-ai-bot-insights' ) );
+		}
+		check_admin_referer( 'crawlwatch_export', 'crawlwatch_export_nonce' );
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- nonce verified above via check_admin_referer.
+		$bot_raw = isset( $_GET['bot'] ) ? sanitize_text_field( wp_unslash( $_GET['bot'] ) ) : '';
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- nonce verified above.
+		$q_raw = isset( $_GET['q'] ) ? sanitize_text_field( wp_unslash( $_GET['q'] ) ) : '';
+
+		$bot = crawlwatch_safe_truncate( sanitize_text_field( $bot_raw ), 50 );
+		$q   = crawlwatch_safe_truncate( sanitize_text_field( $q_raw ), 100 );
+
+		$bots_list = CrawlWatch_Logger::distinct_bots();
+		if ( '' !== $bot && ! in_array( $bot, $bots_list, true ) ) {
+			$bot = '';
+		}
+
+		$rows = CrawlWatch_Logger::get_export_rows( $bot, $q, 5000 );
+
+		nocache_headers();
+		header( 'Content-Type: text/csv; charset=utf-8' );
+		header( 'Content-Disposition: attachment; filename=crawlwatch-export-' . gmdate( 'Ymd-His' ) . '.csv' );
+
+		$out = fopen( 'php://output', 'w' );
+		fputcsv( $out, array( 'Time (UTC)', 'Bot', 'Type', 'URL', 'Referrer' ) );
+		foreach ( $rows as $r ) {
+			fputcsv(
+				$out,
+				array(
+					isset( $r['log_time'] ) ? $r['log_time'] : '',
+					isset( $r['bot_name'] ) ? $r['bot_name'] : '',
+					isset( $r['bot_type'] ) ? $r['bot_type'] : '',
+					isset( $r['url'] ) ? $r['url'] : '',
+					isset( $r['referrer'] ) ? $r['referrer'] : '',
+				)
+			);
+		}
+		fclose( $out );
+		exit;
 	}
 
 	/**
