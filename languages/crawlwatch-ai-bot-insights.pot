@@ -4,11 +4,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CrawlWatch – AI Bot Insights\n"
 "Report-Msgid-Bugs-To: https://github.com/devmonowar/crawlwatch-ai-bot-insights/issues\n"
-"POT-Creation-Date: 2026-09-09 03:21+0000\n"
+"POT-Creation-Date: 2026-09-09 14:45+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2026-09-09 03:21+0000\n"
+"PO-Revision-Date: 2026-09-09 14:45+0000\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "X-Domain: crawlwatch-ai-bot-insights\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -34,15 +34,19 @@ msgid "%d AI bots blocked in robots.txt – unblock the ones you want citations 
 msgstr ""
 
 #: templates/gaps.php:57
-msgid "%s images need alt text (latest 50 checked)."
-msgstr ""
+msgid "%s image needs alt text (latest 50 checked)."
+msgid_plural "%s images need alt text (latest 50 checked)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/gaps.php:25
+msgid "%s post needs excerpts (latest 50 checked)."
+msgid_plural "%s posts need excerpts (latest 50 checked)."
+msgstr[0] ""
+msgstr[1] ""
 
 #: templates/overview.php:136
 msgid "%s posts could not be fetched and were skipped."
-msgstr ""
-
-#: templates/gaps.php:25
-msgid "%s posts need excerpts (latest 50 checked)."
 msgstr ""
 
 #: templates/bots.php:42
@@ -105,6 +109,10 @@ msgstr ""
 msgid "An SEO plugin is active, so schema is likely covered. The scan below verifies each post."
 msgstr ""
 
+#: templates/settings.php:34
+msgid "Auto-refresh llms.txt when posts change"
+msgstr ""
+
 #: templates/files.php:59
 msgid "Block %s"
 msgstr ""
@@ -125,7 +133,7 @@ msgstr ""
 msgid "Bots"
 msgstr ""
 
-#: templates/settings.php:76
+#: templates/settings.php:78
 msgid "Clear all logs now"
 msgstr ""
 
@@ -177,7 +185,7 @@ msgstr ""
 msgid "Crawls: %s"
 msgstr ""
 
-#: templates/settings.php:72
+#: templates/settings.php:74
 msgid "Danger zone"
 msgstr ""
 
@@ -185,11 +193,11 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: templates/settings.php:60
+#: templates/settings.php:62
 msgid "Delete all logs and settings"
 msgstr ""
 
-#: templates/settings.php:73
+#: templates/settings.php:75
 msgid "Delete all logs now?"
 msgstr ""
 
@@ -197,7 +205,7 @@ msgstr ""
 msgid "Edit →"
 msgstr ""
 
-#: templates/settings.php:53
+#: templates/settings.php:55
 msgid "Email me a weekly AI summary"
 msgstr ""
 
@@ -253,7 +261,7 @@ msgstr ""
 msgid "Install Yoast SEO or Rank Math for Article/Product schema AI reads."
 msgstr ""
 
-#: templates/settings.php:37
+#: templates/settings.php:39
 msgid "Keep logs for"
 msgstr ""
 
@@ -301,11 +309,11 @@ msgstr ""
 msgid "Nothing logged yet."
 msgstr ""
 
-#: templates/settings.php:55
+#: templates/settings.php:57
 msgid "Off by default. Empty address uses the site admin email."
 msgstr ""
 
-#: templates/settings.php:59
+#: templates/settings.php:61
 msgid "On uninstall"
 msgstr ""
 
@@ -337,7 +345,7 @@ msgstr ""
 msgid "Preview robots.txt"
 msgstr ""
 
-#: templates/settings.php:64
+#: templates/settings.php:66
 msgid "Privacy: IPs are SHA-256 hashed after anonymizing (IPv4 last octet, IPv6 /64). Nothing leaves your server."
 msgstr ""
 
@@ -397,7 +405,7 @@ msgstr ""
 msgid "Save robots rules"
 msgstr ""
 
-#: templates/settings.php:66
+#: templates/settings.php:68
 msgid "Save settings"
 msgstr ""
 
@@ -429,7 +437,7 @@ msgstr ""
 msgid "See bot visits"
 msgstr ""
 
-#: templates/settings.php:54
+#: templates/settings.php:56
 msgid "Send to"
 msgstr ""
 
@@ -449,6 +457,10 @@ msgstr ""
 msgid "Since %s (UTC)"
 msgstr ""
 
+#: templates/settings.php:35
+msgid "Skipped if you edited llms.txt by hand. Regenerate re-enables it."
+msgstr ""
+
 #: templates/setup-wizard.php:25
 msgid "Start scan"
 msgstr ""
@@ -457,7 +469,7 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: templates/settings.php:45
+#: templates/settings.php:47
 msgid "Stored rows right now: %s. 90/180 days can grow the DB on busy sites."
 msgstr ""
 
@@ -517,7 +529,7 @@ msgstr ""
 msgid "We will scan your content and generate llms.txt. This runs once."
 msgstr ""
 
-#: templates/settings.php:51
+#: templates/settings.php:53
 msgid "Weekly digest"
 msgstr ""
 
@@ -533,11 +545,11 @@ msgstr ""
 msgid "You are AI-ready! Score: %d/100"
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:183 includes/class-crawlwatch-admin.php:218 includes/class-crawlwatch-admin.php:255 includes/class-crawlwatch-admin.php:305 includes/class-crawlwatch-admin.php:415 includes/class-crawlwatch-admin.php:604
+#: includes/class-crawlwatch-admin.php:183 includes/class-crawlwatch-admin.php:218 includes/class-crawlwatch-admin.php:255 includes/class-crawlwatch-admin.php:305 includes/class-crawlwatch-admin.php:419 includes/class-crawlwatch-admin.php:609
 msgid "You do not have permission to view this page."
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:361 includes/class-crawlwatch-admin.php:429 includes/class-crawlwatch-admin.php:471 includes/class-crawlwatch-admin.php:497 includes/class-crawlwatch-admin.php:545
+#: includes/class-crawlwatch-admin.php:361 includes/class-crawlwatch-admin.php:433 includes/class-crawlwatch-admin.php:476 includes/class-crawlwatch-admin.php:502 includes/class-crawlwatch-admin.php:550
 msgid "You do not have permission."
 msgstr ""
 

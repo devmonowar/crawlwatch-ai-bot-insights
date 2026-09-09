@@ -25,6 +25,47 @@ class CrawlWatch_Llms {
 	}
 
 	/**
+	 * Auto-refresh allowed? On by default; never touches manually edited content.
+	 * Unknown origin (pre-1.1.0 content) counts as manual: hands off.
+	 *
+	 * @return bool
+	 */
+	public static function is_auto() {
+		$settings = get_option( 'crawlwatch_settings', array() );
+		$auto     = isset( $settings['llms_auto'] ) ? ! empty( $settings['llms_auto'] ) : true;
+		$manual   = isset( $settings['llms_manual'] ) ? ! empty( $settings['llms_manual'] ) : true;
+		return $auto && ! $manual;
+	}
+
+	/**
+	 * Regenerate llms contents when site content changes (save/trash/delete).
+	 *
+	 * @param int $post_id Changed post id.
+	 * @return void
+	 */
+	public static function maybe_auto_refresh( $post_id ) {
+		if ( wp_is_post_autosave( $post_id ) || wp_is_post_revision( $post_id ) ) {
+			return;
+		}
+		$type = get_post_type( $post_id );
+		if ( false !== $type && ! in_array( $type, array( 'post', 'page' ), true ) ) {
+			return;
+		}
+		if ( 'auto-draft' === get_post_status( $post_id ) ) {
+			return;
+		}
+		$settings = get_option( 'crawlwatch_settings', array() );
+		if ( empty( $settings['llms_enabled'] ) ) {
+			return;
+		}
+		if ( ! self::is_auto() ) {
+			return;
+		}
+		self::store( 'crawlwatch_llms_content', self::generate() );
+		self::store( 'crawlwatch_llms_full_content', self::generate( true ) );
+	}
+
+	/**
 	 * Whitelist query var so ?crawlwatch_file=llms.txt works on plain permalinks.
 	 *
 	 * @param array $vars Vars.

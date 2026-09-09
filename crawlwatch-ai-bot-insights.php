@@ -62,6 +62,8 @@ function crawlwatch_get_default_settings() {
 		'delete_on_uninstall' => 1,
 		'digest_enabled'      => 0,
 		'digest_email'        => '',
+		'llms_auto'           => 1,
+		'llms_manual'         => 0,
 	);
 }
 
@@ -185,8 +187,10 @@ add_action( CrawlWatch_Digest::HOOK, array( 'CrawlWatch_Digest', 'send' ) );
  * clear() takes no required args, so direct callbacks are safe.
  */
 add_action( 'save_post', array( 'CrawlWatch_Score', 'clear' ), 10, 0 );
+add_action( 'save_post', array( 'CrawlWatch_Llms', 'maybe_auto_refresh' ), 10, 1 );
 add_action( 'save_post', array( 'CrawlWatch_Schema', 'clear' ), 10, 0 );
 add_action( 'deleted_post', array( 'CrawlWatch_Score', 'clear' ), 10, 0 );
+add_action( 'deleted_post', array( 'CrawlWatch_Llms', 'maybe_auto_refresh' ), 10, 1 );
 add_action( 'deleted_post', array( 'CrawlWatch_Schema', 'clear' ), 10, 0 );
 add_action( 'activated_plugin', array( 'CrawlWatch_Score', 'clear' ), 10, 0 );
 add_action( 'deactivated_plugin', array( 'CrawlWatch_Score', 'clear' ), 10, 0 );

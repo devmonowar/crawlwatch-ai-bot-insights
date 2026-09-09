@@ -371,6 +371,8 @@ class CrawlWatch_Admin {
 		if ( 'regenerate' === $op ) {
 			CrawlWatch_Llms::store( 'crawlwatch_llms_content', CrawlWatch_Llms::generate() );
 			CrawlWatch_Llms::store( 'crawlwatch_llms_full_content', CrawlWatch_Llms::generate( true ) );
+			$settings['llms_manual'] = 0;
+			update_option( 'crawlwatch_settings', $settings );
 			$msg = 'regenerated';
 		} elseif ( 'robots' === $op ) {
 			$allowed_tokens = array_keys( CrawlWatch_Robots::managed_bots() );
@@ -389,6 +391,8 @@ class CrawlWatch_Admin {
 			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitized with textarea sanitizer.
 			$raw = isset( $_POST['llms_content'] ) ? wp_unslash( $_POST['llms_content'] ) : '';
 			CrawlWatch_Llms::store( 'crawlwatch_llms_content', crawlwatch_safe_truncate( sanitize_textarea_field( $raw ), 100000 ) );
+			$settings['llms_manual'] = 1;
+			update_option( 'crawlwatch_settings', $settings );
 			$msg = 'saved';
 		}
 
@@ -435,6 +439,7 @@ class CrawlWatch_Admin {
 		$settings['logging_enabled']     = isset( $_POST['logging_enabled'] ) ? 1 : 0;
 		$settings['llms_enabled']        = isset( $_POST['llms_enabled'] ) ? 1 : 0;
 		$settings['delete_on_uninstall'] = isset( $_POST['delete_on_uninstall'] ) ? 1 : 0;
+		$settings['llms_auto']           = isset( $_POST['llms_auto'] ) ? 1 : 0;
 
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- validated via allowlist sanitizer.
 		$ret_raw                    = isset( $_POST['retention_days'] ) ? wp_unslash( $_POST['retention_days'] ) : 30;

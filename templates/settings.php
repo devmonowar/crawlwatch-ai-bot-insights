@@ -30,7 +30,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<th><?php esc_html_e( 'Tracking', 'crawlwatch-ai-bot-insights' ); ?></th>
 				<td>
 					<label><input type="checkbox" name="logging_enabled" value="1" <?php checked( ! empty( $settings['logging_enabled'] ) ); ?> /> <?php esc_html_e( 'Log AI crawler visits (local only)', 'crawlwatch-ai-bot-insights' ); ?></label><br />
-					<label><input type="checkbox" name="llms_enabled" value="1" <?php checked( ! empty( $settings['llms_enabled'] ) ); ?> /> <?php esc_html_e( 'Serve /llms.txt and /ai.txt', 'crawlwatch-ai-bot-insights' ); ?></label>
+					<label><input type="checkbox" name="llms_enabled" value="1" <?php checked( ! empty( $settings['llms_enabled'] ) ); ?> /> <?php esc_html_e( 'Serve /llms.txt and /ai.txt', 'crawlwatch-ai-bot-insights' ); ?></label><br />
+					<label><input type="checkbox" name="llms_auto" value="1" <?php checked( ! isset( $settings['llms_auto'] ) || ! empty( $settings['llms_auto'] ) ); ?> /> <?php esc_html_e( 'Auto-refresh llms.txt when posts change', 'crawlwatch-ai-bot-insights' ); ?></label>
+					<p class="description"><?php esc_html_e( 'Skipped if you edited llms.txt by hand. Regenerate re-enables it.', 'crawlwatch-ai-bot-insights' ); ?></p>
 				</td>
 			</tr>
 			<tr>
