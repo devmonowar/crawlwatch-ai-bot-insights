@@ -188,6 +188,8 @@ class CrawlWatch_Admin {
 		$wins       = isset( $score_data['wins'] ) ? $score_data['wins'] : array();
 		$has_seo    = CrawlWatch_Score::has_seo_plugin();
 		$schema     = CrawlWatch_Schema::get_report();
+		$woo_active = CrawlWatch_Woo::is_active();
+		$woo_top    = $woo_active ? CrawlWatch_Woo::top_products() : array();
 		$max_hits   = 0;
 		foreach ( $top_bots as $row ) {
 			$max_hits = max( $max_hits, (int) $row['hits'] );

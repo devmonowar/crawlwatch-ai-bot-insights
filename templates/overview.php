@@ -1,6 +1,6 @@
 <?php
 /**
- * Overview template. Variables: $days, $since, $total, $referrals, $unique, $top_bots, $recent, $score, $wins, $max_hits, $has_seo, $schema.
+ * Overview template. Variables: $days, $since, $total, $referrals, $unique, $top_bots, $recent, $score, $wins, $max_hits, $has_seo, $schema, $woo_active, $woo_top.
  *
  * @package CrawlWatch
  */
@@ -175,6 +175,38 @@ $crawlwatch_days30_url = add_query_arg(
 				<button class="button" type="submit"><?php echo empty( $schema_rows ) ? esc_html__( 'Scan now', 'crawlwatch-ai-bot-insights' ) : esc_html__( 'Rescan', 'crawlwatch-ai-bot-insights' ); ?></button>
 			</form>
 		</div>
+
+		<?php if ( $woo_active ) : ?>
+		<div class="crawlwatch-panel">
+			<h2><?php esc_html_e( 'Top AI-read products', 'crawlwatch-ai-bot-insights' ); ?></h2>
+			<?php if ( empty( $woo_top ) ) : ?>
+				<p><?php esc_html_e( 'No AI visits on products yet in the last 30 days.', 'crawlwatch-ai-bot-insights' ); ?></p>
+			<?php else : ?>
+				<table class="widefat striped">
+					<thead>
+						<tr>
+							<th><?php esc_html_e( 'Product', 'crawlwatch-ai-bot-insights' ); ?></th>
+							<th><?php esc_html_e( 'AI hits', 'crawlwatch-ai-bot-insights' ); ?></th>
+							<th><?php esc_html_e( 'Fix', 'crawlwatch-ai-bot-insights' ); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ( $woo_top as $wp ) : ?>
+							<tr>
+								<td><?php echo esc_html( isset( $wp['title'] ) ? $wp['title'] : '' ); ?></td>
+								<td><?php echo esc_html( number_format_i18n( isset( $wp['hits'] ) ? (int) $wp['hits'] : 0 ) ); ?></td>
+								<td>
+									<?php if ( ! empty( $wp['edit_url'] ) ) : ?>
+										<a href="<?php echo esc_url( $wp['edit_url'] ); ?>"><?php esc_html_e( 'Edit →', 'crawlwatch-ai-bot-insights' ); ?></a>
+									<?php endif; ?>
+								</td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			<?php endif; ?>
+		</div>
+		<?php endif; ?>
 
 		<div class="crawlwatch-panel">
 			<h2><?php esc_html_e( 'Status', 'crawlwatch-ai-bot-insights' ); ?></h2>

@@ -35,6 +35,7 @@ require_once CRAWLWATCH_PATH . 'includes/class-crawlwatch-llms.php';
 require_once CRAWLWATCH_PATH . 'includes/class-crawlwatch-robots.php';
 require_once CRAWLWATCH_PATH . 'includes/class-crawlwatch-score.php';
 require_once CRAWLWATCH_PATH . 'includes/class-crawlwatch-schema.php';
+require_once CRAWLWATCH_PATH . 'includes/class-crawlwatch-woo.php';
 require_once CRAWLWATCH_PATH . 'includes/class-crawlwatch-digest.php';
 require_once CRAWLWATCH_PATH . 'includes/class-crawlwatch-activator.php';
 
