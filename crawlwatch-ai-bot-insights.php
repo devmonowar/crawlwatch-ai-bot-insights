@@ -34,6 +34,7 @@ require_once CRAWLWATCH_PATH . 'includes/class-crawlwatch-logger.php';
 require_once CRAWLWATCH_PATH . 'includes/class-crawlwatch-llms.php';
 require_once CRAWLWATCH_PATH . 'includes/class-crawlwatch-robots.php';
 require_once CRAWLWATCH_PATH . 'includes/class-crawlwatch-score.php';
+require_once CRAWLWATCH_PATH . 'includes/class-crawlwatch-digest.php';
 require_once CRAWLWATCH_PATH . 'includes/class-crawlwatch-activator.php';
 
 CrawlWatch_Llms::init();
@@ -57,6 +58,8 @@ function crawlwatch_get_default_settings() {
 		'llms_enabled'        => 1,
 		'retention_days'      => 30,
 		'delete_on_uninstall' => 1,
+		'digest_enabled'      => 0,
+		'digest_email'        => '',
 	);
 }
 
@@ -87,7 +90,7 @@ function crawlwatch_activate( $network_wide = false ) {
 register_activation_hook( __FILE__, 'crawlwatch_activate' );
 
 /**
- * Clear the daily cleanup cron event for the current blog.
+ * Clear scheduled cron events for the current blog.
  *
  * @return void
  */
@@ -95,6 +98,10 @@ function crawlwatch_clear_cron() {
 	$timestamp = wp_next_scheduled( 'crawlwatch_daily_cleanup' );
 	if ( $timestamp ) {
 		wp_unschedule_event( $timestamp, 'crawlwatch_daily_cleanup' );
+	}
+	$digest = wp_next_scheduled( CrawlWatch_Digest::HOOK );
+	if ( $digest ) {
+		wp_unschedule_event( $digest, CrawlWatch_Digest::HOOK );
 	}
 }
 /**
@@ -169,6 +176,7 @@ function crawlwatch_daily_cleanup() {
 	);
 }
 add_action( 'crawlwatch_daily_cleanup', 'crawlwatch_daily_cleanup' );
+add_action( CrawlWatch_Digest::HOOK, array( 'CrawlWatch_Digest', 'send' ) );
 
 /**
  * Score cache invalidation: content or plugin set changed.

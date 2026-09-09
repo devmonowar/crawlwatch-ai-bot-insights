@@ -47,8 +47,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</p>
 				</td>
 			</tr>
-			<tr>
-				<th><?php esc_html_e( 'On uninstall', 'crawlwatch-ai-bot-insights' ); ?></th>
+		<tr>
+			<th><?php esc_html_e( 'Weekly digest', 'crawlwatch-ai-bot-insights' ); ?></th>
+			<td>
+				<label><input type="checkbox" name="digest_enabled" value="1" <?php checked( ! empty( $settings['digest_enabled'] ) ); ?> /> <?php esc_html_e( 'Email me a weekly AI summary', 'crawlwatch-ai-bot-insights' ); ?></label><br />
+				<label><?php esc_html_e( 'Send to', 'crawlwatch-ai-bot-insights' ); ?> <input type="email" name="digest_email" value="<?php echo esc_attr( isset( $settings['digest_email'] ) ? $settings['digest_email'] : '' ); ?>" placeholder="<?php echo esc_attr( get_option( 'admin_email', '' ) ); ?>" class="regular-text" /></label>
+				<p class="description"><?php esc_html_e( 'Off by default. Empty address uses the site admin email.', 'crawlwatch-ai-bot-insights' ); ?></p>
+			</td>
+		</tr>
+		<tr>
+			<th><?php esc_html_e( 'On uninstall', 'crawlwatch-ai-bot-insights' ); ?></th>
 				<td><label><input type="checkbox" name="delete_on_uninstall" value="1" <?php checked( ! empty( $settings['delete_on_uninstall'] ) ); ?> /> <?php esc_html_e( 'Delete all logs and settings', 'crawlwatch-ai-bot-insights' ); ?></label></td>
 			</tr>
 		</table>

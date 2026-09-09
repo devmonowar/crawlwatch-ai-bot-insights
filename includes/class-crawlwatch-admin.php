@@ -375,8 +375,15 @@ class CrawlWatch_Admin {
 		$ret_raw                    = isset( $_POST['retention_days'] ) ? wp_unslash( $_POST['retention_days'] ) : 30;
 		$settings['retention_days'] = crawlwatch_sanitize_retention( $ret_raw );
 
+		$settings['digest_enabled'] = isset( $_POST['digest_enabled'] ) ? 1 : 0;
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitized with email sanitizer below.
+		$digest_raw              = isset( $_POST['digest_email'] ) ? wp_unslash( $_POST['digest_email'] ) : '';
+		$digest_email            = sanitize_email( $digest_raw );
+		$settings['digest_email'] = ( '' !== $digest_email && is_email( $digest_email ) ) ? $digest_email : '';
+
 		update_option( 'crawlwatch_settings', $settings );
 		CrawlWatch_Score::clear();
+		CrawlWatch_Digest::maybe_schedule();
 
 		self::safe_redirect(
 			add_query_arg(

@@ -304,6 +304,29 @@ class CrawlWatch_Logger {
 	}
 
 	/**
+	 * Top URLs since date.
+	 *
+	 * @param string $since MySQL datetime GMT.
+	 * @param int    $limit Max rows.
+	 * @return array
+	 */
+	public static function top_urls( $since, $limit = 5 ) {
+		global $wpdb;
+		$limit = max( 1, min( 20, (int) $limit ) );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- stats read.
+		$rows = $wpdb->get_results(
+			$wpdb->prepare(
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- internal table, limit is int-cast.
+				"SELECT url, COUNT(*) AS hits FROM `{$wpdb->prefix}crawlwatch_logs` WHERE log_time >= %s GROUP BY url ORDER BY hits DESC LIMIT %d",
+				$since,
+				$limit
+			),
+			ARRAY_A
+		);
+		return is_array( $rows ) ? $rows : array();
+	}
+
+	/**
 	 * Distinct bot names for filter dropdown.
 	 *
 	 * @return array

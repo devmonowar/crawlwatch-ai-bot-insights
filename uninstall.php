@@ -17,6 +17,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
  */
 function crawlwatch_uninstall_blog() {
 	wp_clear_scheduled_hook( 'crawlwatch_daily_cleanup' );
+	wp_clear_scheduled_hook( 'crawlwatch_weekly_digest' );
 
 	$crawlwatch_settings = get_option( 'crawlwatch_settings', array() );
 	$crawlwatch_delete   = isset( $crawlwatch_settings['delete_on_uninstall'] ) ? (int) $crawlwatch_settings['delete_on_uninstall'] : 1;
