@@ -376,6 +376,39 @@ class CrawlWatch_Logger {
 	}
 
 	/**
+	 * Hits per day for the last N days (zero-filled, oldest first).
+	 *
+	 * @param int $days Day count (7 or 30).
+	 * @return array Date (Y-m-d) => hits.
+	 */
+	public static function hits_per_day( $days = 7 ) {
+		global $wpdb;
+		$days  = in_array( (int) $days, array( 7, 30 ), true ) ? (int) $days : 7;
+		$since = gmdate( 'Y-m-d H:i:s', time() - ( $days * DAY_IN_SECONDS ) );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- stats read.
+		$rows = $wpdb->get_results(
+			$wpdb->prepare(
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- internal table.
+				"SELECT DATE(log_time) AS d, COUNT(*) AS hits FROM `{$wpdb->prefix}crawlwatch_logs` WHERE log_time >= %s GROUP BY d ORDER BY d ASC",
+				$since
+			),
+			ARRAY_A
+		);
+		$by_day = array();
+		if ( is_array( $rows ) ) {
+			foreach ( $rows as $row ) {
+				$by_day[ $row['d'] ] = (int) $row['hits'];
+			}
+		}
+		$out = array();
+		for ( $i = $days - 1; $i >= 0; $i-- ) {
+			$date        = gmdate( 'Y-m-d', time() - ( $i * DAY_IN_SECONDS ) );
+			$out[ $date ] = isset( $by_day[ $date ] ) ? $by_day[ $date ] : 0;
+		}
+		return $out;
+	}
+
+	/**
 	 * Distinct bot names for filter dropdown.
 	 *
 	 * @return array

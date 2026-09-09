@@ -192,6 +192,7 @@ class CrawlWatch_Admin {
 		$since    = gmdate( 'Y-m-d H:i:s', time() - ( $days * DAY_IN_SECONDS ) );
 
 		$total      = CrawlWatch_Logger::count_since( $since );
+		$trend      = CrawlWatch_Logger::hits_per_day( $days );
 		$prev_since = gmdate( 'Y-m-d H:i:s', time() - ( 2 * $days * DAY_IN_SECONDS ) );
 		$prev_total = CrawlWatch_Logger::count_since( $prev_since ) - $total;
 		if ( $prev_total < 0 ) {
