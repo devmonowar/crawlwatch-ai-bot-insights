@@ -35,6 +35,7 @@ class CrawlWatch_Admin {
 		add_action( 'admin_post_crawlwatch_clear_logs', array( __CLASS__, 'handle_clear_logs' ) );
 		add_action( 'admin_post_crawlwatch_export_csv', array( __CLASS__, 'handle_export_csv' ) );
 		add_action( 'admin_post_crawlwatch_scan_schema', array( __CLASS__, 'handle_scan_schema' ) );
+		add_action( 'admin_post_crawlwatch_toggle_bot', array( __CLASS__, 'handle_toggle_bot' ) );
 		add_action( 'admin_notices', array( __CLASS__, 'notices' ) );
 		add_action( 'admin_init', array( __CLASS__, 'handle_dismiss' ) );
 		add_action( 'admin_init', array( __CLASS__, 'maybe_redirect_setup' ) );
@@ -248,6 +249,10 @@ class CrawlWatch_Admin {
 			$paged = $pages;
 		}
 		$rows = CrawlWatch_Logger::get_filtered( $bot, $q, $per, ( $paged - 1 ) * $per );
+
+		$settings     = get_option( 'crawlwatch_settings', array() );
+		$robots_rules = isset( $settings['robots_rules'] ) && is_array( $settings['robots_rules'] ) ? $settings['robots_rules'] : array();
+		$physical     = file_exists( ABSPATH . 'robots.txt' );
 
 		require CRAWLWATCH_PATH . 'templates/bots.php';
 	}
@@ -679,6 +684,64 @@ class CrawlWatch_Admin {
 			update_option( 'crawlwatch_spike_dismissed', gmdate( 'Y-m-d' ), false );
 		}
 		self::safe_redirect( remove_query_arg( array( 'cw_dismiss', 'crawlwatch_dismiss_nonce' ) ) );
+	}
+
+	/**
+	 * Toggle one robots block rule from the bots table (POST only).
+	 *
+	 * @return void
+	 */
+	public static function handle_toggle_bot() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'You do not have permission.', 'crawlwatch-ai-bot-insights' ) );
+		}
+		check_admin_referer( 'crawlwatch_toggle_bot', 'crawlwatch_toggle_nonce' );
+
+		// Token is case-sensitive: allowlist against managed keys, no sanitizer.
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- allowlist-checked below.
+		$token_raw = isset( $_POST['token'] ) ? wp_unslash( $_POST['token'] ) : '';
+		$token     = is_string( $token_raw ) ? $token_raw : '';
+		if ( ! array_key_exists( $token, CrawlWatch_Robots::managed_bots() ) ) {
+			wp_die( esc_html__( 'Unknown bot.', 'crawlwatch-ai-bot-insights' ) );
+		}
+
+		// Preserve list filters across the redirect.
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitized with field wrappers.
+		$bot_raw = isset( $_POST['bot'] ) ? wp_unslash( $_POST['bot'] ) : '';
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitized with field wrappers.
+		$q_raw = isset( $_POST['q'] ) ? wp_unslash( $_POST['q'] ) : '';
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- int-cast below.
+		$paged_raw = isset( $_POST['paged'] ) ? wp_unslash( $_POST['paged'] ) : 1;
+		$bot       = crawlwatch_safe_truncate( sanitize_text_field( $bot_raw ), 50 );
+		$q         = crawlwatch_safe_truncate( sanitize_text_field( $q_raw ), 100 );
+		$paged     = max( 1, absint( $paged_raw ) );
+
+		$settings = get_option( 'crawlwatch_settings', crawlwatch_get_default_settings() );
+		$rules    = isset( $settings['robots_rules'] ) && is_array( $settings['robots_rules'] ) ? $settings['robots_rules'] : array();
+		if ( isset( $rules[ $token ] ) && 'block' === $rules[ $token ] ) {
+			unset( $rules[ $token ] );
+			$state = 'unblocked';
+		} else {
+			$rules[ $token ] = 'block';
+			$state           = 'blocked';
+		}
+		$settings['robots_rules'] = $rules;
+		update_option( 'crawlwatch_settings', $settings );
+		CrawlWatch_Score::clear();
+
+		self::safe_redirect(
+			add_query_arg(
+				array(
+					'page'    => 'crawlwatch-bots',
+					'bot'     => $bot,
+					'q'       => $q,
+					'paged'   => $paged,
+					'toggled' => $token,
+					'state'   => $state,
+				),
+				admin_url( 'admin.php' )
+			)
+		);
 	}
 
 	/**

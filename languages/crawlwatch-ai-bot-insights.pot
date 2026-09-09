@@ -4,11 +4,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CrawlWatch – AI Bot Insights\n"
 "Report-Msgid-Bugs-To: https://github.com/devmonowar/crawlwatch-ai-bot-insights/issues\n"
-"POT-Creation-Date: 2026-09-09 15:31+0000\n"
+"POT-Creation-Date: 2026-09-09 15:51+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2026-09-09 15:31+0000\n"
+"PO-Revision-Date: 2026-09-09 15:51+0000\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "X-Domain: crawlwatch-ai-bot-insights\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -39,6 +39,14 @@ msgid_plural "%s images need alt text (latest 50 checked)."
 msgstr[0] ""
 msgstr[1] ""
 
+#: templates/bots.php:28
+msgid "%s is now blocked in robots.txt. Respectful bots honor this; it is a request, not a firewall."
+msgstr ""
+
+#: templates/bots.php:31
+msgid "%s is unblocked again."
+msgstr ""
+
 #: templates/gaps.php:25
 msgid "%s post needs excerpts (latest 50 checked)."
 msgid_plural "%s posts need excerpts (latest 50 checked)."
@@ -49,7 +57,7 @@ msgstr[1] ""
 msgid "%s posts could not be fetched and were skipped."
 msgstr ""
 
-#: templates/bots.php:42
+#: templates/bots.php:63
 msgid "%s visits found."
 msgstr ""
 
@@ -97,7 +105,11 @@ msgstr ""
 msgid "AI referrals: %s"
 msgstr ""
 
-#: templates/bots.php:21
+#: templates/bots.php:78
+msgid "Action"
+msgstr ""
+
+#: templates/bots.php:42
 msgid "All bots"
 msgstr ""
 
@@ -113,23 +125,35 @@ msgstr ""
 msgid "Auto-refresh llms.txt when posts change"
 msgstr ""
 
+#: templates/bots.php:99 templates/bots.php:108
+msgid "Block"
+msgstr ""
+
 #: templates/files.php:59
 msgid "Block %s"
+msgstr ""
+
+#: templates/bots.php:99
+msgid "Blocked"
 msgstr ""
 
 #: templates/files.php:50
 msgid "Blocked bots are told Disallow. We only append, never overwrite WordPress core rules."
 msgstr ""
 
-#: templates/bots.php:53 templates/overview.php:244
+#: templates/bots.php:101
+msgid "Blocking this bot can affect SEO. Continue?"
+msgstr ""
+
+#: templates/bots.php:74 templates/overview.php:244
 msgid "Bot"
 msgstr ""
 
-#: templates/bots.php:19
+#: templates/bots.php:40
 msgid "Bot:"
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:72 includes/class-crawlwatch-admin.php:73
+#: includes/class-crawlwatch-admin.php:73 includes/class-crawlwatch-admin.php:74
 msgid "Bots"
 msgstr ""
 
@@ -137,15 +161,15 @@ msgstr ""
 msgid "Clear all logs now"
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:82 includes/class-crawlwatch-admin.php:83
+#: includes/class-crawlwatch-admin.php:83 includes/class-crawlwatch-admin.php:84
 msgid "Content Gaps"
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:355
+#: includes/class-crawlwatch-admin.php:360
 msgid "Continue"
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:164
+#: includes/class-crawlwatch-admin.php:165
 msgid "Copied!"
 msgstr ""
 
@@ -153,11 +177,11 @@ msgstr ""
 msgid "Copy URL"
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:50 includes/class-crawlwatch-admin.php:51 includes/class-crawlwatch-admin.php:356
+#: includes/class-crawlwatch-admin.php:51 includes/class-crawlwatch-admin.php:52 includes/class-crawlwatch-admin.php:361
 msgid "CrawlWatch"
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:112 includes/class-crawlwatch-admin.php:113
+#: includes/class-crawlwatch-admin.php:113 includes/class-crawlwatch-admin.php:114
 msgid "CrawlWatch Setup"
 msgstr ""
 
@@ -181,7 +205,7 @@ msgstr ""
 msgid "CrawlWatch – Settings"
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:618
+#: includes/class-crawlwatch-admin.php:617
 msgid "CrawlWatch: AI traffic spiked — %1$s hits in the last 24 hours vs %2$s the day before."
 msgstr ""
 
@@ -205,7 +229,7 @@ msgstr ""
 msgid "Delete all logs now?"
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:619 includes/class-crawlwatch-admin.php:658
+#: includes/class-crawlwatch-admin.php:618 includes/class-crawlwatch-admin.php:658
 msgid "Dismiss"
 msgstr ""
 
@@ -233,15 +257,15 @@ msgstr ""
 msgid "Every recent post has an excerpt."
 msgstr ""
 
-#: templates/bots.php:33
+#: templates/bots.php:54
 msgid "Export CSV (up to 5000 rows)"
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:92 includes/class-crawlwatch-admin.php:93
+#: includes/class-crawlwatch-admin.php:93 includes/class-crawlwatch-admin.php:94
 msgid "Files"
 msgstr ""
 
-#: templates/bots.php:31
+#: templates/bots.php:52
 msgid "Filter"
 msgstr ""
 
@@ -313,7 +337,7 @@ msgstr ""
 msgid "Not scanned yet. The scan fetches your latest 10 posts and checks each for schema markup."
 msgstr ""
 
-#: templates/bots.php:47
+#: templates/bots.php:68
 msgid "Nothing found for these filters."
 msgstr ""
 
@@ -329,12 +353,16 @@ msgstr ""
 msgid "On uninstall"
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:62 includes/class-crawlwatch-admin.php:63
+#: includes/class-crawlwatch-admin.php:63 includes/class-crawlwatch-admin.php:64
 msgid "Overview"
 msgstr ""
 
-#: templates/bots.php:77
+#: templates/bots.php:122
 msgid "Page %1$s of %2$s"
+msgstr ""
+
+#: templates/bots.php:99
+msgid "Physical robots.txt found — virtual rules do not apply."
 msgstr ""
 
 #: templates/files.php:33
@@ -389,7 +417,7 @@ msgstr ""
 msgid "Recent AI visits"
 msgstr ""
 
-#: templates/bots.php:56
+#: templates/bots.php:77
 msgid "Referrer"
 msgstr ""
 
@@ -397,7 +425,7 @@ msgstr ""
 msgid "Regenerate from site"
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:334
+#: includes/class-crawlwatch-admin.php:339
 msgid "Regenerated from your site."
 msgstr ""
 
@@ -405,11 +433,11 @@ msgstr ""
 msgid "Rescan"
 msgstr ""
 
-#: templates/bots.php:35
+#: templates/bots.php:56
 msgid "Reset"
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:336
+#: includes/class-crawlwatch-admin.php:341
 msgid "Robots rules saved."
 msgstr ""
 
@@ -425,7 +453,7 @@ msgstr ""
 msgid "Save settings"
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:332 includes/class-crawlwatch-admin.php:355
+#: includes/class-crawlwatch-admin.php:337 includes/class-crawlwatch-admin.php:360
 msgid "Saved."
 msgstr ""
 
@@ -461,7 +489,7 @@ msgstr ""
 msgid "Serve /llms.txt and /ai.txt"
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:102 includes/class-crawlwatch-admin.php:103 includes/class-crawlwatch-admin.php:131
+#: includes/class-crawlwatch-admin.php:103 includes/class-crawlwatch-admin.php:104 includes/class-crawlwatch-admin.php:132
 msgid "Settings"
 msgstr ""
 
@@ -489,7 +517,7 @@ msgstr ""
 msgid "Stored rows right now: %s. 90/180 days can grow the DB on busy sites."
 msgstr ""
 
-#: templates/bots.php:52 templates/overview.php:243
+#: templates/bots.php:73 templates/overview.php:243
 msgid "Time (UTC)"
 msgstr ""
 
@@ -517,16 +545,20 @@ msgstr ""
 msgid "Tracking + retention settings →"
 msgstr ""
 
-#: templates/bots.php:54 templates/overview.php:159 templates/overview.php:245
+#: templates/bots.php:75 templates/overview.php:159 templates/overview.php:245
 msgid "Type"
 msgstr ""
 
-#: templates/bots.php:55 templates/overview.php:246
+#: templates/bots.php:76 templates/overview.php:246
 msgid "URL"
 msgstr ""
 
-#: templates/bots.php:28
+#: templates/bots.php:49
 msgid "URL contains:"
+msgstr ""
+
+#: templates/bots.php:108
+msgid "Unblock"
 msgstr ""
 
 #: templates/overview.php:68
@@ -535,6 +567,10 @@ msgstr ""
 
 #: includes/class-crawlwatch-digest.php:99
 msgid "Unique bots: %s"
+msgstr ""
+
+#: includes/class-crawlwatch-admin.php:705
+msgid "Unknown bot."
 msgstr ""
 
 #: includes/class-crawlwatch-score.php:128
@@ -561,11 +597,11 @@ msgstr ""
 msgid "You are AI-ready! Score: %d/100"
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:185 includes/class-crawlwatch-admin.php:225 includes/class-crawlwatch-admin.php:262 includes/class-crawlwatch-admin.php:312 includes/class-crawlwatch-admin.php:426 includes/class-crawlwatch-admin.php:731
+#: includes/class-crawlwatch-admin.php:186 includes/class-crawlwatch-admin.php:226 includes/class-crawlwatch-admin.php:267 includes/class-crawlwatch-admin.php:317 includes/class-crawlwatch-admin.php:431 includes/class-crawlwatch-admin.php:789
 msgid "You do not have permission to view this page."
 msgstr ""
 
-#: includes/class-crawlwatch-admin.php:368 includes/class-crawlwatch-admin.php:440 includes/class-crawlwatch-admin.php:483 includes/class-crawlwatch-admin.php:509 includes/class-crawlwatch-admin.php:557 includes/class-crawlwatch-admin.php:678
+#: includes/class-crawlwatch-admin.php:373 includes/class-crawlwatch-admin.php:445 includes/class-crawlwatch-admin.php:488 includes/class-crawlwatch-admin.php:514 includes/class-crawlwatch-admin.php:562 includes/class-crawlwatch-admin.php:678 includes/class-crawlwatch-admin.php:696
 msgid "You do not have permission."
 msgstr ""
 

@@ -34,6 +34,29 @@ class CrawlWatch_Robots {
 	}
 
 	/**
+	 * Map a logged bot name to its robots token. Explicit aliases only.
+	 *
+	 * @param string $bot_name Canonical name from the log.
+	 * @return string Token or empty when not manageable.
+	 */
+	public static function token_for_bot( $bot_name ) {
+		$managed = self::managed_bots();
+		if ( isset( $managed[ $bot_name ] ) ) {
+			return $bot_name;
+		}
+		$aliases = array(
+			'Claude'       => 'ClaudeBot',
+			'ChatGPT'      => 'ChatGPT-User',
+			'Perplexity'   => 'PerplexityBot',
+			'CommonCrawl'  => 'CCBot',
+		);
+		if ( isset( $aliases[ $bot_name ] ) && isset( $managed[ $aliases[ $bot_name ] ] ) ) {
+			return $aliases[ $bot_name ];
+		}
+		return '';
+	}
+
+	/**
 	 * Init filter.
 	 *
 	 * @return void
