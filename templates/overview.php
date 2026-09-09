@@ -100,7 +100,7 @@ $crawlwatch_days30_url = add_query_arg(
 			<?php endif; ?>
 		</div>
 
-		<div class="crawlwatch-panel">
+		<div class="crawlwatch-panel crawlwatch-wide">
 			<h2><?php esc_html_e( 'Schema gaps', 'crawlwatch-ai-bot-insights' ); ?></h2>
 			<?php
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only notice flag.
