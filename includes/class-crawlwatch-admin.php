@@ -35,6 +35,8 @@ class CrawlWatch_Admin {
 		add_action( 'admin_post_crawlwatch_clear_logs', array( __CLASS__, 'handle_clear_logs' ) );
 		add_action( 'admin_post_crawlwatch_export_csv', array( __CLASS__, 'handle_export_csv' ) );
 		add_action( 'admin_post_crawlwatch_scan_schema', array( __CLASS__, 'handle_scan_schema' ) );
+		add_action( 'admin_notices', array( __CLASS__, 'notices' ) );
+		add_action( 'admin_init', array( __CLASS__, 'handle_dismiss' ) );
 		add_action( 'admin_init', array( __CLASS__, 'maybe_redirect_setup' ) );
 	}
 
@@ -567,6 +569,73 @@ class CrawlWatch_Admin {
 				admin_url( 'admin.php' )
 			)
 		);
+	}
+
+	/**
+	 * Admin notices on our screens: spike alert (dismissable per day).
+	 *
+	 * @return void
+	 */
+	public static function notices() {
+		if ( ! function_exists( 'get_current_screen' ) ) {
+			return;
+		}
+		$screen = get_current_screen();
+		if ( ! $screen || ! in_array( $screen->id, self::$hooks, true ) ) {
+			return;
+		}
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		$now      = time();
+		$last24   = CrawlWatch_Logger::count_since( gmdate( 'Y-m-d H:i:s', $now - DAY_IN_SECONDS ) );
+		$prev24   = CrawlWatch_Logger::count_since( gmdate( 'Y-m-d H:i:s', $now - 2 * DAY_IN_SECONDS ) ) - $last24;
+		if ( $prev24 < 0 ) {
+			$prev24 = 0;
+		}
+		$spike = $last24 >= 20 && ( 0 === $prev24 || $last24 >= 5 * $prev24 );
+		if ( ! $spike ) {
+			return;
+		}
+		if ( gmdate( 'Y-m-d' ) === get_option( 'crawlwatch_spike_dismissed', '' ) ) {
+			return;
+		}
+
+		$dismiss_url = wp_nonce_url(
+			add_query_arg(
+				array(
+					'page'       => 'crawlwatch',
+					'cw_dismiss' => 'spike',
+				),
+				admin_url( 'admin.php' )
+			),
+			'crawlwatch_dismiss',
+			'crawlwatch_dismiss_nonce'
+		);
+		echo '<div class="notice notice-warning is-dismissible"><p>';
+		/* translators: 1: last-24h hits, formatted. 2: previous-24h hits, formatted. */
+		echo esc_html( sprintf( __( 'CrawlWatch: AI traffic spiked — %1$s hits in the last 24 hours vs %2$s the day before.', 'crawlwatch-ai-bot-insights' ), number_format_i18n( $last24 ), number_format_i18n( $prev24 ) ) );
+		echo ' <a href="' . esc_url( $dismiss_url ) . '">' . esc_html__( 'Dismiss', 'crawlwatch-ai-bot-insights' ) . '</a>';
+		echo '</p></div>';
+	}
+
+	/**
+	 * Dismiss spike notice (admin_init, same-day only).
+	 *
+	 * @return void
+	 */
+	public static function handle_dismiss() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- verified below via check_admin_referer.
+		if ( ! isset( $_GET['cw_dismiss'] ) || 'spike' !== sanitize_key( wp_unslash( $_GET['cw_dismiss'] ) ) ) {
+			return;
+		}
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'You do not have permission.', 'crawlwatch-ai-bot-insights' ) );
+		}
+		check_admin_referer( 'crawlwatch_dismiss', 'crawlwatch_dismiss_nonce' );
+		update_option( 'crawlwatch_spike_dismissed', gmdate( 'Y-m-d' ), false );
+		self::safe_redirect( remove_query_arg( array( 'cw_dismiss', 'crawlwatch_dismiss_nonce' ) ) );
 	}
 
 	/**
