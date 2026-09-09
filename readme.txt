@@ -8,7 +8,7 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-See which AI bots read your site, track AI referrals & get AI-ready with llms.txt – fast, private, no API key. 100% free.
+See which AI bots read your site, track AI referrals, block unwanted bots & get AI-ready with llms.txt – fast, private, no API key. 100% free.
 
 == Description ==
 
@@ -43,6 +43,9 @@ Default 30 days (7/14/30/90/180 selectable). Daily WP-Cron auto-deletes older ro
 
 = Does it work without Yoast/RankMath? =
 Yes. It only detects whether an SEO plugin is active (for the schema part of the score). No integration needed.
+
+= Will blocking a bot hurt my SEO? =
+Blocking AI training bots (GPTBot, ClaudeBot) does not affect Google search. Never block regular Googlebot — CrawlWatch only manages AI bots, and Google-Extended asks for confirmation first.
 
 == Screenshots ==
 

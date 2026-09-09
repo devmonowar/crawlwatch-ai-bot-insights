@@ -56,6 +56,33 @@ function crawlwatch_safe_truncate( $text, $limit ) {
 }
 
 /**
+ * Format a GMT log time in the site timezone (Y-m-d H:i).
+ *
+ * @param string $gmt MySQL datetime GMT.
+ * @return string
+ */
+function crawlwatch_display_time( $gmt ) {
+	$gmt = trim( (string) $gmt );
+	if ( '' === $gmt ) {
+		return '';
+	}
+	$ts = strtotime( $gmt . ' UTC' );
+	if ( false === $ts ) {
+		return $gmt;
+	}
+	return wp_date( 'Y-m-d H:i', $ts );
+}
+
+/**
+ * Short site timezone label for table headers (e.g. +06:00, BST).
+ *
+ * @return string
+ */
+function crawlwatch_tz_label() {
+	return wp_date( 'T' );
+}
+
+/**
  * Hash an IP address (privacy: never store raw IP).
  * IPv4: last octet zeroed. IPv6: last 64 bits zeroed. Then SHA-256 with salt.
  *

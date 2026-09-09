@@ -70,7 +70,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<table class="widefat striped">
 			<thead>
 				<tr>
-					<th><?php esc_html_e( 'Time (UTC)', 'crawlwatch-ai-bot-insights' ); ?></th>
+					<th>
+						<?php
+						/* translators: %s: site timezone label, e.g. +06:00. */
+						echo esc_html( sprintf( __( 'Time (%s)', 'crawlwatch-ai-bot-insights' ), crawlwatch_tz_label() ) );
+						?>
+					</th>
 					<th><?php esc_html_e( 'Bot', 'crawlwatch-ai-bot-insights' ); ?></th>
 					<th><?php esc_html_e( 'Type', 'crawlwatch-ai-bot-insights' ); ?></th>
 					<th><?php esc_html_e( 'URL', 'crawlwatch-ai-bot-insights' ); ?></th>
@@ -87,7 +92,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				$row_blocked = '' !== $row_token && isset( $robots_rules[ $row_token ] ) && 'block' === $robots_rules[ $row_token ];
 				?>
 				<tr>
-					<td><?php echo esc_html( $r['log_time'] ); ?></td>
+					<td><?php echo esc_html( crawlwatch_display_time( isset( $r['log_time'] ) ? $r['log_time'] : '' ) ); ?></td>
 					<td><?php echo esc_html( $r['bot_name'] ); ?></td>
 					<td><?php echo esc_html( $r['bot_type'] ); ?></td>
 					<td><?php echo esc_html( $r['url'] ); ?></td>

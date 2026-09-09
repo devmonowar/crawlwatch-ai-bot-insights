@@ -1,6 +1,6 @@
 <?php
 /**
- * Files template. Variables: $llms_content, $llms_url, $ai_url, $llms_full_url, $fallback_url, $managed_bots, $rules, $generated_note.
+ * Files template. Variables: $llms_content, $llms_url, $ai_url, $llms_full_url, $fallback_url, $managed_bots, $rules, $generated_note, $physical.
  *
  * @package CrawlWatch
  */
@@ -48,6 +48,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="crawlwatch-panel">
 			<h2><?php esc_html_e( 'robots.txt – AI bots', 'crawlwatch-ai-bot-insights' ); ?></h2>
 			<p><?php esc_html_e( 'Blocked bots are told Disallow. We only append, never overwrite WordPress core rules.', 'crawlwatch-ai-bot-insights' ); ?></p>
+			<?php if ( ! empty( $physical ) ) : ?>
+				<div class="notice notice-warning inline"><p><?php esc_html_e( 'A physical robots.txt file was found — virtual rules below will not apply until it is removed.', 'crawlwatch-ai-bot-insights' ); ?></p></div>
+			<?php endif; ?>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="crawlwatch_save_files" />
 				<?php wp_nonce_field( 'crawlwatch_files', 'crawlwatch_files_nonce' ); ?>

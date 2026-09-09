@@ -328,6 +328,7 @@ class CrawlWatch_Admin {
 		$managed_bots  = CrawlWatch_Robots::managed_bots();
 		$settings      = get_option( 'crawlwatch_settings', array() );
 		$rules         = isset( $settings['robots_rules'] ) && is_array( $settings['robots_rules'] ) ? $settings['robots_rules'] : array();
+		$physical      = file_exists( ABSPATH . 'robots.txt' );
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only notice flag.
 		$msg_raw        = isset( $_GET['cw_msg'] ) ? sanitize_key( wp_unslash( $_GET['cw_msg'] ) ) : '';
