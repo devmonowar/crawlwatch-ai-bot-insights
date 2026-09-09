@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'CRAWLWATCH_VERSION', '1.0.0' );
-define( 'CRAWLWATCH_DB_VERSION', '1' );
+define( 'CRAWLWATCH_DB_VERSION', '2' );
 define( 'CRAWLWATCH_SLUG', 'crawlwatch-ai-bot-insights' );
 define( 'CRAWLWATCH_FILE', __FILE__ );
 define( 'CRAWLWATCH_PATH', plugin_dir_path( __FILE__ ) );

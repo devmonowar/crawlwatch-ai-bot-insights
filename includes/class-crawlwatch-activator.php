@@ -50,7 +50,8 @@ class CrawlWatch_Activator {
 			user_agent VARCHAR(255) NULL,
 			PRIMARY KEY  (id),
 			KEY log_time (log_time),
-			KEY bot_name (bot_name)
+			KEY bot_name (bot_name),
+			KEY url (url(191))
 		) {$charset_collate};";
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
