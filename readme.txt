@@ -4,7 +4,7 @@ Tags: ai, analytics, bot, llms-txt, seo
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,6 +61,11 @@ Tracking runs in PHP. Full-page caches (WP Rocket, LiteSpeed, W3 Total Cache, Cl
 7. AI Readiness page with missing excerpts and alt text plus edit links.
 
 == Changelog ==
+
+= 1.1.0 =
+* Grouped-by-bot tab, daily hits trend chart, score breakdown, Content Gaps renamed to AI Readiness.
+* Robots preview fallback for subdirectory/plain-permalink installs, Quick Wins link to AI Readiness, CSV formula guard with site-timezone times, page-cache notice + FAQ, uninstall row-count hint.
+* Fixes: grouped-stats prepare notice, Reset keeps active tab, compact chart layout, Overview submenu removed.
 
 = 1.0.0 =
 * Initial release: AI bot + referral tracker (40+ crawlers), Overview dashboard with score + Quick Wins, Bots filter/search/pagination, llms.txt + ai.txt generator (no file writes), robots.txt AI allow/block manager, Settings (retention/privacy/clear logs), 3-step setup wizard. 100% free, local-only, hashed IPs.
