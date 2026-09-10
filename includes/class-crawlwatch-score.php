@@ -52,6 +52,7 @@ class CrawlWatch_Score {
 		$score = 0;
 
 		$files_url = add_query_arg( array( 'page' => 'crawlwatch-files' ), admin_url( 'admin.php' ) );
+		$gaps_url  = add_query_arg( array( 'page' => 'crawlwatch-gaps' ), admin_url( 'admin.php' ) );
 
 		// 1. llms.txt present (20).
 		$llms = get_option( 'crawlwatch_llms_content', '' );
@@ -114,15 +115,15 @@ class CrawlWatch_Score {
 				'label'  => __( 'Post excerpts as AI descriptions', 'crawlwatch-ai-bot-insights' ),
 				'earned' => $earned_2,
 				'max'    => 20,
-				'url'    => admin_url( 'edit.php' ),
+				'url'    => $gaps_url,
 			);
 			if ( $pct < 100 ) {
 				$missing = count( $posts ) - $with_excerpt;
 				$wins[]  = array(
 					'points' => 20 - (int) round( ( $pct / 100 ) * 20 ),
-					/* translators: 1: number of posts missing excerpts, 2: total posts sampled. */
-					'text'   => sprintf( __( '%1$d of last %2$d posts miss excerpts (used as AI descriptions).', 'crawlwatch-ai-bot-insights' ), $missing, count( $posts ) ),
-					'url'    => admin_url( 'edit.php' ),
+					/* translators: 1: number of posts still missing excerpts, 2: total posts sampled. */
+					'text'   => sprintf( __( 'Add excerpts as AI descriptions (%1$d remaining of last %2$d posts).', 'crawlwatch-ai-bot-insights' ), $missing, count( $posts ) ),
+					'url'    => $gaps_url,
 				);
 			}
 		}

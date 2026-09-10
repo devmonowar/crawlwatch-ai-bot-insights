@@ -80,8 +80,8 @@ class CrawlWatch_Admin {
 
 		$gaps          = add_submenu_page(
 			'crawlwatch',
-			__( 'Content Gaps', 'crawlwatch-ai-bot-insights' ),
-			__( 'Content Gaps', 'crawlwatch-ai-bot-insights' ),
+			__( 'AI Readiness', 'crawlwatch-ai-bot-insights' ),
+			__( 'AI Readiness', 'crawlwatch-ai-bot-insights' ),
 			'manage_options',
 			'crawlwatch-gaps',
 			array( __CLASS__, 'render_gaps' )
@@ -338,6 +338,13 @@ class CrawlWatch_Admin {
 		$ai_url        = home_url( '/ai.txt' );
 		$llms_full_url = home_url( '/llms-full.txt' );
 		$fallback_url  = add_query_arg( 'crawlwatch_file', 'llms.txt', home_url( '/' ) );
+		// Core only serves /robots.txt on root installs with pretty permalinks —
+		// everyone else (subdirectory, plain permalinks) needs ?robots=1.
+		$home_path  = (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH );
+		$robots_url = home_url( '/robots.txt' );
+		if ( '' === get_option( 'permalink_structure', '' ) || ( '/' !== $home_path && '' !== $home_path ) ) {
+			$robots_url = add_query_arg( 'robots', '1', home_url( '/' ) );
+		}
 		$managed_bots  = CrawlWatch_Robots::managed_bots();
 		$settings      = get_option( 'crawlwatch_settings', array() );
 		$rules         = isset( $settings['robots_rules'] ) && is_array( $settings['robots_rules'] ) ? $settings['robots_rules'] : array();

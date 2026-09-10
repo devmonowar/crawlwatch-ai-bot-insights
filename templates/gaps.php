@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- view template: all variables are provided by the render method and execute in function scope.
 ?>
 <div class="wrap crawlwatch">
-	<h1><?php esc_html_e( 'CrawlWatch – Content Gaps', 'crawlwatch-ai-bot-insights' ); ?></h1>
+	<h1><?php esc_html_e( 'CrawlWatch – AI Readiness', 'crawlwatch-ai-bot-insights' ); ?></h1>
 	<p class="description"><?php esc_html_e( 'Posts missing excerpts and images missing alt text. Fix them where they live — nothing is auto-changed.', 'crawlwatch-ai-bot-insights' ); ?></p>
 
 	<div class="crawlwatch-panel">

@@ -28,7 +28,7 @@ No API key. No external service in V1. Lightweight: normal visitors cause zero e
 1. Upload the plugin folder to `/wp-content/plugins/` or install from Plugins > Add New.
 2. Activate through the Plugins screen.
 3. Go to CrawlWatch in the left menu and follow the 3-step setup.
-4. Open `yoursite.com/llms.txt` to verify.
+4. Open `yoursite.com/llms.txt` to verify (plain permalinks or subdirectory installs: use `yoursite.com/?crawlwatch_file=llms.txt`).
 
 == Frequently Asked Questions ==
 

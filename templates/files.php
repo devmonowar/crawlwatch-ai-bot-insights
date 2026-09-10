@@ -1,6 +1,6 @@
 <?php
 /**
- * Files template. Variables: $llms_content, $llms_url, $ai_url, $llms_full_url, $fallback_url, $managed_bots, $rules, $generated_note, $physical.
+ * Files template. Variables: $llms_content, $llms_url, $ai_url, $llms_full_url, $fallback_url, $robots_url, $managed_bots, $rules, $generated_note, $physical.
  *
  * @package CrawlWatch
  */
@@ -67,7 +67,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php endforeach; ?>
 				<p><button class="button button-primary" type="submit" name="op" value="robots"><?php esc_html_e( 'Save robots rules', 'crawlwatch-ai-bot-insights' ); ?></button></p>
 			</form>
-			<p><a href="<?php echo esc_url( home_url( '/robots.txt' ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Preview robots.txt', 'crawlwatch-ai-bot-insights' ); ?></a></p>
+			<p><a href="<?php echo esc_url( $robots_url ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Preview robots.txt', 'crawlwatch-ai-bot-insights' ); ?></a></p>
 		</div>
 	</div>
 </div>
