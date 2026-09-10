@@ -107,6 +107,10 @@ class CrawlWatch_Admin {
 			array( __CLASS__, 'render_setup' )
 		);
 		self::$hooks[] = $setup;
+
+		// Drop the auto-added parent duplicate: parent still opens the
+		// overview, submenu starts at Bots.
+		remove_submenu_page( 'crawlwatch', 'crawlwatch' );
 	}
 
 	/**
