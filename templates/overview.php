@@ -88,20 +88,20 @@ $crawlwatch_days30_url = add_query_arg(
 		<?php if ( 0 === $trend_n ) : ?>
 			<p><?php esc_html_e( 'No data in this period.', 'crawlwatch-ai-bot-insights' ); ?></p>
 		<?php else : ?>
-			<svg viewBox="0 0 600 160" width="100%" role="img" aria-label="<?php echo esc_attr__( 'AI hits per day chart', 'crawlwatch-ai-bot-insights' ); ?>">
-				<line x1="0" y1="130" x2="600" y2="130" stroke="#c3c4c7" stroke-width="1" />
+			<svg class="crawlwatch-chart" viewBox="0 0 600 110" width="100%" role="img" aria-label="<?php echo esc_attr__( 'AI hits per day chart', 'crawlwatch-ai-bot-insights' ); ?>">
+				<line x1="0" y1="80" x2="600" y2="80" stroke="#c3c4c7" stroke-width="1" />
 				<?php foreach ( $trend as $trend_date => $trend_hits ) : ?>
 					<?php
-					$trend_h   = (int) round( ( (int) $trend_hits / $trend_max ) * 120 );
+					$trend_h   = (int) round( ( (int) $trend_hits / $trend_max ) * 64 );
 					$trend_x   = (int) round( $trend_i * $trend_bw + 1 );
 					$trend_w   = max( 1, (int) round( $trend_bw - 2 ) );
 					$trend_tip = $trend_date . ': ' . number_format_i18n( (int) $trend_hits );
 					++$trend_i;
 					?>
-					<rect x="<?php echo esc_attr( $trend_x ); ?>" y="<?php echo esc_attr( 130 - $trend_h ); ?>" width="<?php echo esc_attr( $trend_w ); ?>" height="<?php echo esc_attr( max( $trend_h, (int) $trend_hits > 0 ? 2 : 0 ) ); ?>" fill="#2271b1"><title><?php echo esc_html( $trend_tip ); ?></title></rect>
+					<rect x="<?php echo esc_attr( $trend_x ); ?>" y="<?php echo esc_attr( 80 - $trend_h ); ?>" width="<?php echo esc_attr( $trend_w ); ?>" height="<?php echo esc_attr( max( $trend_h, (int) $trend_hits > 0 ? 2 : 0 ) ); ?>" fill="#2271b1"><title><?php echo esc_html( $trend_tip ); ?></title></rect>
 				<?php endforeach; ?>
-				<text x="0" y="148" font-size="11" fill="#646970"><?php echo esc_html( array_key_first( $trend ) ); ?></text>
-				<text x="600" y="148" font-size="11" fill="#646970" text-anchor="end"><?php echo esc_html( array_key_last( $trend ) ); ?></text>
+				<text x="0" y="96" font-size="13" fill="#646970"><?php echo esc_html( array_key_first( $trend ) ); ?></text>
+				<text x="600" y="96" font-size="13" fill="#646970" text-anchor="end"><?php echo esc_html( array_key_last( $trend ) ); ?></text>
 			</svg>
 		<?php endif; ?>
 	</div>

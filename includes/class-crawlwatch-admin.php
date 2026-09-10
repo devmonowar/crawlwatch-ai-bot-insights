@@ -58,16 +58,6 @@ class CrawlWatch_Admin {
 		);
 		self::$hooks[] = $hook;
 
-		$sub           = add_submenu_page(
-			'crawlwatch',
-			__( 'Overview', 'crawlwatch-ai-bot-insights' ),
-			__( 'Overview', 'crawlwatch-ai-bot-insights' ),
-			'manage_options',
-			'crawlwatch',
-			array( __CLASS__, 'render_overview' )
-		);
-		self::$hooks[] = $sub;
-
 		$bots          = add_submenu_page(
 			'crawlwatch',
 			__( 'Bots', 'crawlwatch-ai-bot-insights' ),

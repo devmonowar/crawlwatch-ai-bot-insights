@@ -13,6 +13,7 @@
 .crawlwatch-bar-track { flex: 1; background: #f0f0f1; border-radius: 4px; height: 10px; display: inline-block; overflow: hidden; }
 .crawlwatch-bar-fill { display: inline-block; height: 10px; background: #2271b1; }
 .crawlwatch-bar-hits { width: 60px; text-align: right; }
+.crawlwatch-chart { max-width: 900px; height: auto; display: block; }
 .crawlwatch-danger-zone { border: 1px solid #d63638; border-radius: 6px; padding: 4px 16px 12px; background: #fef7f7; }
 .crawlwatch-danger-zone h2 { color: #b32d2e; }
 .crawlwatch-danger-button { color: #b32d2e !important; border-color: #b32d2e !important; }
