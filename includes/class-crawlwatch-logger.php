@@ -346,14 +346,14 @@ class CrawlWatch_Logger {
 			$where[] = 'url LIKE %s';
 			$args[]  = '%' . $wpdb->esc_like( $q ) . '%';
 		}
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- custom table, fixed name, user input via placeholders.
-		$rows = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT bot_name, COUNT(*) AS hits, MAX(log_time) AS last_seen FROM `{$wpdb->prefix}crawlwatch_logs` WHERE " . implode( ' AND ', $where ) . ' GROUP BY bot_name ORDER BY hits DESC LIMIT 50',
-				$args
-			),
-			ARRAY_A
-		);
+		$sql = "SELECT bot_name, COUNT(*) AS hits, MAX(log_time) AS last_seen FROM `{$wpdb->prefix}crawlwatch_logs` WHERE " . implode( ' AND ', $where ) . ' GROUP BY bot_name ORDER BY hits DESC LIMIT 50';
+		if ( empty( $args ) ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- custom table, fixed name, no user input.
+			$rows = $wpdb->get_results( $sql, ARRAY_A );
+		} else {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- custom table, fixed name, user input via placeholders.
+			$rows = $wpdb->get_results( $wpdb->prepare( $sql, $args ), ARRAY_A );
+		}
 		return is_array( $rows ) ? $rows : array();
 	}
 

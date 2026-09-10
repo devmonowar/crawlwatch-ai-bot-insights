@@ -39,6 +39,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<a class="nav-tab <?php echo 'bots' === $tab ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( $bots_url ); ?>"><?php esc_html_e( 'Grouped by bot', 'crawlwatch-ai-bot-insights' ); ?></a>
 	</h2>
 
+	<form method="get" action="">
+		<input type="hidden" name="page" value="crawlwatch-bots" />
+		<input type="hidden" name="tab" value="<?php echo esc_attr( $tab ); ?>" />
+		<label>
+			<?php esc_html_e( 'Bot:', 'crawlwatch-ai-bot-insights' ); ?>
+			<select name="bot">
+				<option value=""><?php esc_html_e( 'All bots', 'crawlwatch-ai-bot-insights' ); ?></option>
+				<?php foreach ( $bots_list as $name ) : ?>
+					<option value="<?php echo esc_attr( $name ); ?>" <?php selected( $bot, $name ); ?>><?php echo esc_html( $name ); ?></option>
+				<?php endforeach; ?>
+			</select>
+		</label>
+		<label>
+			<?php esc_html_e( 'URL contains:', 'crawlwatch-ai-bot-insights' ); ?>
+			<input type="search" name="q" value="<?php echo esc_attr( $q ); ?>" maxlength="100" />
+		</label>
+		<button class="button button-primary" type="submit"><?php esc_html_e( 'Filter', 'crawlwatch-ai-bot-insights' ); ?></button>
+		<?php wp_nonce_field( 'crawlwatch_export', 'crawlwatch_export_nonce' ); ?>
+		<button class="button" type="submit" formaction="<?php echo esc_url( add_query_arg( array( 'action' => 'crawlwatch_export_csv' ), admin_url( 'admin-post.php' ) ) ); ?>"><?php esc_html_e( 'Export CSV (up to 5000 rows)', 'crawlwatch-ai-bot-insights' ); ?></button>
+		<?php if ( '' !== $bot || '' !== $q ) : ?>
+			<a class="button" href="<?php echo esc_url( add_query_arg( array( 'page' => 'crawlwatch-bots', 'tab' => $tab ), admin_url( 'admin.php' ) ) ); ?>"><?php esc_html_e( 'Reset', 'crawlwatch-ai-bot-insights' ); ?></a>
+		<?php endif; ?>
+	</form>
+
 	<?php if ( 'bots' === $tab ) : ?>
 		<?php if ( empty( $grouped ) ) : ?>
 			<p><?php esc_html_e( 'No bots in this view yet.', 'crawlwatch-ai-bot-insights' ); ?></p>
@@ -118,30 +142,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 			?>
 		</p></div>
 	<?php endif; ?>
-
-	<form method="get" action="">
-		<input type="hidden" name="page" value="crawlwatch-bots" />
-		<input type="hidden" name="tab" value="<?php echo esc_attr( $tab ); ?>" />
-		<label>
-			<?php esc_html_e( 'Bot:', 'crawlwatch-ai-bot-insights' ); ?>
-			<select name="bot">
-				<option value=""><?php esc_html_e( 'All bots', 'crawlwatch-ai-bot-insights' ); ?></option>
-				<?php foreach ( $bots_list as $name ) : ?>
-					<option value="<?php echo esc_attr( $name ); ?>" <?php selected( $bot, $name ); ?>><?php echo esc_html( $name ); ?></option>
-				<?php endforeach; ?>
-			</select>
-		</label>
-		<label>
-			<?php esc_html_e( 'URL contains:', 'crawlwatch-ai-bot-insights' ); ?>
-			<input type="search" name="q" value="<?php echo esc_attr( $q ); ?>" maxlength="100" />
-		</label>
-		<button class="button button-primary" type="submit"><?php esc_html_e( 'Filter', 'crawlwatch-ai-bot-insights' ); ?></button>
-		<?php wp_nonce_field( 'crawlwatch_export', 'crawlwatch_export_nonce' ); ?>
-		<button class="button" type="submit" formaction="<?php echo esc_url( add_query_arg( array( 'action' => 'crawlwatch_export_csv' ), admin_url( 'admin-post.php' ) ) ); ?>"><?php esc_html_e( 'Export CSV (up to 5000 rows)', 'crawlwatch-ai-bot-insights' ); ?></button>
-		<?php if ( '' !== $bot || '' !== $q ) : ?>
-			<a class="button" href="<?php echo esc_url( add_query_arg( array( 'page' => 'crawlwatch-bots' ), admin_url( 'admin.php' ) ) ); ?>"><?php esc_html_e( 'Reset', 'crawlwatch-ai-bot-insights' ); ?></a>
-		<?php endif; ?>
-	</form>
 
 	<p>
 		<?php
