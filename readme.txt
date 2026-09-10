@@ -47,6 +47,9 @@ Yes. It only detects whether an SEO plugin is active (for the schema part of the
 = Will blocking a bot hurt my SEO? =
 Blocking AI training bots (GPTBot, ClaudeBot) does not affect Google search. Never block regular Googlebot — CrawlWatch only manages AI bots, and Google-Extended asks for confirmation first.
 
+= Why do I see few or zero hits with a cache plugin? =
+Tracking runs in PHP. Full-page caches (WP Rocket, LiteSpeed, W3 Total Cache, Cloudflare APO) serve cached pages without running PHP, so those visits are never logged. CrawlWatch shows a notice on its own pages when a known cache is active.
+
 == Screenshots ==
 
 1. Overview dashboard with AI hits, bots, referrals and readiness score.
@@ -55,7 +58,7 @@ Blocking AI training bots (GPTBot, ClaudeBot) does not affect Google search. Nev
 4. Settings with retention, privacy notice and danger zone.
 5. AI-ready llms.txt served to crawlers.
 6. llms-full.txt with full post content for deep AI context.
-7. Content gaps page with missing excerpts and alt text plus edit links.
+7. AI Readiness page with missing excerpts and alt text plus edit links.
 
 == Changelog ==
 

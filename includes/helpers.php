@@ -83,6 +83,22 @@ function crawlwatch_tz_label() {
 }
 
 /**
+ * Make a value safe for CSV export (OWASP formula injection guard).
+ * Cells starting with = + - @ get a leading single quote so
+ * spreadsheet apps treat them as text, never as formulas.
+ *
+ * @param string $text Input.
+ * @return string
+ */
+function crawlwatch_csv_cell( $text ) {
+	$text = (string) $text;
+	if ( '' !== $text && in_array( $text[0], array( '=', '+', '-', '@' ), true ) ) {
+		return "'" . $text;
+	}
+	return $text;
+}
+
+/**
  * Hash an IP address (privacy: never store raw IP).
  * IPv4: last octet zeroed. IPv6: last 64 bits zeroed. Then SHA-256 with salt.
  *

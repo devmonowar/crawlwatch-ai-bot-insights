@@ -556,16 +556,17 @@ class CrawlWatch_Admin {
 		header( 'Content-Disposition: attachment; filename=crawlwatch-export-' . gmdate( 'Ymd-His' ) . '.csv' );
 
 		$out = fopen( 'php://output', 'w' );
-		fputcsv( $out, array( 'Time (UTC)', 'Bot', 'Type', 'URL', 'Referrer' ) );
+		/* translators: %s: site timezone label, e.g. +06:00. */
+		fputcsv( $out, array( sprintf( __( 'Time (%s)', 'crawlwatch-ai-bot-insights' ), crawlwatch_tz_label() ), __( 'Bot', 'crawlwatch-ai-bot-insights' ), __( 'Type', 'crawlwatch-ai-bot-insights' ), __( 'URL', 'crawlwatch-ai-bot-insights' ), __( 'Referrer', 'crawlwatch-ai-bot-insights' ) ) );
 		foreach ( $rows as $r ) {
 			fputcsv(
 				$out,
 				array(
-					isset( $r['log_time'] ) ? $r['log_time'] : '',
-					isset( $r['bot_name'] ) ? $r['bot_name'] : '',
-					isset( $r['bot_type'] ) ? $r['bot_type'] : '',
-					isset( $r['url'] ) ? $r['url'] : '',
-					isset( $r['referrer'] ) ? $r['referrer'] : '',
+					isset( $r['log_time'] ) ? crawlwatch_display_time( $r['log_time'] ) : '',
+					isset( $r['bot_name'] ) ? crawlwatch_csv_cell( $r['bot_name'] ) : '',
+					isset( $r['bot_type'] ) ? crawlwatch_csv_cell( $r['bot_type'] ) : '',
+					isset( $r['url'] ) ? crawlwatch_csv_cell( $r['url'] ) : '',
+					isset( $r['referrer'] ) ? crawlwatch_csv_cell( $r['referrer'] ) : '',
 				)
 			);
 		}
@@ -641,6 +642,34 @@ class CrawlWatch_Admin {
 		}
 
 		self::maybe_rating_notice();
+
+		if ( self::page_cache_active() ) {
+			echo '<div class="notice notice-info"><p>';
+			echo esc_html__( 'CrawlWatch: page caching is active — cached pages are served without running PHP, so some AI visits may not be logged.', 'crawlwatch-ai-bot-insights' );
+			echo '</p></div>';
+		}
+	}
+
+	/**
+	 * Detect known full-page caches. PHP-based tracking cannot see
+	 * visits served straight from cache (PHP never runs for them).
+	 *
+	 * @return bool
+	 */
+	private static function page_cache_active() {
+		if ( defined( 'WP_CACHE' ) && WP_CACHE ) {
+			return true;
+		}
+		if ( defined( 'W3TC' ) ) {
+			return true;
+		}
+		if ( defined( 'WP_ROCKET_VERSION' ) || function_exists( 'get_rocket_option' ) ) {
+			return true;
+		}
+		if ( defined( 'LSCWP_V' ) ) {
+			return true;
+		}
+		return false;
 	}
 
 	/**

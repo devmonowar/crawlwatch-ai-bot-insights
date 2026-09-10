@@ -59,7 +59,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</tr>
 		<tr>
 			<th><?php esc_html_e( 'On uninstall', 'crawlwatch-ai-bot-insights' ); ?></th>
-				<td><label><input type="checkbox" name="delete_on_uninstall" value="1" <?php checked( ! empty( $settings['delete_on_uninstall'] ) ); ?> /> <?php esc_html_e( 'Delete all logs and settings', 'crawlwatch-ai-bot-insights' ); ?></label></td>
+				<td><label><input type="checkbox" name="delete_on_uninstall" value="1" <?php checked( ! empty( $settings['delete_on_uninstall'] ) ); ?> /> <?php esc_html_e( 'Delete all logs and settings', 'crawlwatch-ai-bot-insights' ); ?></label>
+				<p class="description">
+					<?php
+					/* translators: %s: stored log row count, formatted. */
+					echo esc_html( sprintf( __( 'Ticked = uninstall wipes %s logged rows plus all settings, with no second confirm.', 'crawlwatch-ai-bot-insights' ), number_format_i18n( isset( $rows_count ) ? (int) $rows_count : 0 ) ) );
+					?>
+				</p>
+			</td>
 			</tr>
 		</table>
 
