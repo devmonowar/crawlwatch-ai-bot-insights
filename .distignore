@@ -1,13 +1,15 @@
 # Files and folders that should NOT be deployed to WordPress.org.
+# Baseline shared by all five plugins — change it in all five together.
 #
-# NOTE: this file governs the WordPress.org deploy (the 10up deploy action
-# reads it). The plugin has no Composer package, so no .gitattributes is
-# needed. Never exclude assets/, includes/, languages/ or templates/ —
-# the plugin reads them at runtime.
+# NOTE: this file governs the WordPress.org ZIP (and make-zip.php, which scans the
+# working tree). The Composer/GitHub archive is governed by .gitattributes
+# export-ignore instead. Both must exclude dev files; neither may exclude assets/,
+# includes/, languages/ or templates/, which ship and are read at runtime.
 /.git
 /.github
 /.wordpress-org
 /.gitignore
+/.gitattributes
 /.distignore
 /.editorconfig
 /node_modules

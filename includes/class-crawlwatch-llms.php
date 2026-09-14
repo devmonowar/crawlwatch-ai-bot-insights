@@ -188,7 +188,7 @@ class CrawlWatch_Llms {
 	 */
 	public static function store( $key, $content ) {
 		delete_option( $key );
-		add_option( $key, $content, '', 'no' );
+		add_option( $key, $content, '', false );
 	}
 
 	/**
@@ -248,7 +248,7 @@ class CrawlWatch_Llms {
 		if ( '' === trim( (string) $content ) ) {
 			$content = self::generate( $is_full );
 			// add_option wins the first-write race; on failure re-read winner.
-			if ( ! add_option( $option_key, $content, '', 'no' ) ) {
+			if ( ! add_option( $option_key, $content, '', false ) ) {
 				$stored = get_option( $option_key, '' );
 				if ( '' !== trim( (string) $stored ) ) {
 					$content = $stored;

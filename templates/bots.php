@@ -58,8 +58,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<button class="button button-primary" type="submit"><?php esc_html_e( 'Filter', 'crawlwatch-ai-bot-insights' ); ?></button>
 		<?php wp_nonce_field( 'crawlwatch_export', 'crawlwatch_export_nonce' ); ?>
 		<button class="button" type="submit" formaction="<?php echo esc_url( add_query_arg( array( 'action' => 'crawlwatch_export_csv' ), admin_url( 'admin-post.php' ) ) ); ?>"><?php esc_html_e( 'Export CSV (up to 5000 rows)', 'crawlwatch-ai-bot-insights' ); ?></button>
-		<?php if ( '' !== $bot || '' !== $q ) : ?>
-			<a class="button" href="<?php echo esc_url( add_query_arg( array( 'page' => 'crawlwatch-bots', 'tab' => $tab ), admin_url( 'admin.php' ) ) ); ?>"><?php esc_html_e( 'Reset', 'crawlwatch-ai-bot-insights' ); ?></a>
+		<?php
+		if ( '' !== $bot || '' !== $q ) :
+			$reset_url = add_query_arg(
+				array(
+					'page' => 'crawlwatch-bots',
+					'tab'  => $tab,
+				),
+				admin_url( 'admin.php' )
+			);
+			?>
+			<a class="button" href="<?php echo esc_url( $reset_url ); ?>"><?php esc_html_e( 'Reset', 'crawlwatch-ai-bot-insights' ); ?></a>
 		<?php endif; ?>
 	</form>
 
@@ -122,14 +131,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php endif; ?>
 	<?php else : ?>
 
-	<?php
+		<?php
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only notice flags.
-	$toggled_raw = isset( $_GET['toggled'] ) ? wp_unslash( $_GET['toggled'] ) : '';
-	$toggled     = is_string( $toggled_raw ) ? $toggled_raw : '';
+		$toggled_raw = isset( $_GET['toggled'] ) ? wp_unslash( $_GET['toggled'] ) : '';
+		$toggled     = is_string( $toggled_raw ) ? $toggled_raw : '';
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only notice flag.
-	$state_raw = isset( $_GET['state'] ) ? sanitize_key( wp_unslash( $_GET['state'] ) ) : '';
-	if ( '' !== $toggled && array_key_exists( $toggled, CrawlWatch_Robots::managed_bots() ) && in_array( $state_raw, array( 'blocked', 'unblocked' ), true ) ) :
-		?>
+		$state_raw = isset( $_GET['state'] ) ? sanitize_key( wp_unslash( $_GET['state'] ) ) : '';
+		if ( '' !== $toggled && array_key_exists( $toggled, CrawlWatch_Robots::managed_bots() ) && in_array( $state_raw, array( 'blocked', 'unblocked' ), true ) ) :
+			?>
 		<div class="notice notice-success inline"><p>
 			<?php
 			if ( 'blocked' === $state_raw ) {
@@ -141,7 +150,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			}
 			?>
 		</p></div>
-	<?php endif; ?>
+		<?php endif; ?>
 
 	<p>
 		<?php
@@ -150,8 +159,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 		?>
 	</p>
 
-	<?php if ( empty( $rows ) ) : ?>
-		<?php if ( '' === $bot && '' === $q ) : ?>
+		<?php if ( empty( $rows ) ) : ?>
+			<?php if ( '' === $bot && '' === $q ) : ?>
 			<p><?php echo wp_kses_post( sprintf( /* translators: %s: Files page URL. */ __( 'No AI visits logged yet. They appear here automatically — meanwhile check your <a href="%s">llms.txt</a>.', 'crawlwatch-ai-bot-insights' ), esc_url( add_query_arg( array( 'page' => 'crawlwatch-files' ), admin_url( 'admin.php' ) ) ) ) ); ?></p>
 		<?php else : ?>
 			<p><?php esc_html_e( 'Nothing found for these filters.', 'crawlwatch-ai-bot-insights' ); ?></p>
@@ -176,7 +185,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<tbody>
 			<?php foreach ( $rows as $r ) : ?>
 				<?php
-				$row_token = ( isset( $r['bot_type'] ) && 'crawl' === $r['bot_type'] && isset( $r['bot_name'] ) )
+				$row_token   = ( isset( $r['bot_type'] ) && 'crawl' === $r['bot_type'] && isset( $r['bot_name'] ) )
 					? CrawlWatch_Robots::token_for_bot( $r['bot_name'] )
 					: '';
 				$row_blocked = '' !== $row_token && isset( $robots_rules[ $row_token ] ) && 'block' === $robots_rules[ $row_token ];

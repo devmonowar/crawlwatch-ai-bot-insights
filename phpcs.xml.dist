@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<ruleset name="CrawlWatch AI Bot Insights">
+	<description>Coding standards for the CrawlWatch AI Bot Insights plugin.</description>
+
+	<file>.</file>
+	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/assets/vendor/*</exclude-pattern>
+	<exclude-pattern>/node_modules/*</exclude-pattern>
+	<exclude-pattern>/.wordpress-org/*</exclude-pattern>
+	<exclude-pattern>/tests/*</exclude-pattern>
+
+	<arg name="extensions" value="php"/>
+	<arg name="basepath" value="."/>
+	<arg name="parallel" value="8"/>
+	<arg value="ps"/>
+
+	<config name="minimum_wp_version" value="6.2"/>
+	<config name="testVersion" value="7.4-"/>
+
+	<rule ref="WordPress-Core">
+		<!-- We use class-crawlwatch-*.php files, not class-*.php. -->
+		<exclude name="WordPress.Files.FileName"/>
+		<!-- Allow flexible array alignment. -->
+		<exclude name="WordPress.Arrays.MultipleStatementAlignment"/>
+	</rule>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="crawlwatch-ai-bot-insights"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="crawlwatch"/>
+				<element value="CrawlWatch"/>
+				<element value="CRAWLWATCH"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="PHPCompatibilityWP"/>
+</ruleset>

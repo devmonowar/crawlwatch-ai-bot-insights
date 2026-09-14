@@ -1,0 +1,59 @@
+{
+	"name": "devmonowar/crawlwatch-ai-bot-insights",
+	"description": "See which AI bots read your site, track AI referrals, block unwanted bots and get AI-ready with llms.txt.",
+	"type": "wordpress-plugin",
+	"keywords": [
+		"wordpress",
+		"wordpress-plugin",
+		"ai",
+		"ai-bot",
+		"bot-traffic",
+		"analytics",
+		"llms-txt",
+		"seo",
+		"crawler"
+	],
+	"homepage": "https://wordpress.org/plugins/crawlwatch-ai-bot-insights/",
+	"license": "GPL-2.0-or-later",
+	"authors": [
+		{
+			"name": "Monowar Hossain",
+			"email": "devmonowar@gmail.com",
+			"homepage": "https://devmonowar.github.io/",
+			"role": "Developer"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/devmonowar/crawlwatch-ai-bot-insights/issues",
+		"source": "https://github.com/devmonowar/crawlwatch-ai-bot-insights",
+		"forum": "https://wordpress.org/support/plugin/crawlwatch-ai-bot-insights/",
+		"docs": "https://devmonowar.github.io/crawlwatch-ai-bot-insights/"
+	},
+	"require": {
+		"php": ">=7.4",
+		"composer/installers": "^1.0 || ^2.0"
+	},
+	"require-dev": {
+		"squizlabs/php_codesniffer": "^3.9",
+		"wp-coding-standards/wpcs": "^3.1",
+		"phpcompatibility/phpcompatibility-wp": "^2.1",
+		"phpstan/phpstan": "^1.12",
+		"php-stubs/wordpress-stubs": "^6.5",
+		"phpunit/phpunit": "^9.6.33"
+	},
+	"config": {
+		"platform": {
+			"php": "7.4.33"
+		},
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"composer/installers": true
+		}
+	},
+	"scripts": {
+		"lint": "phpcs",
+		"lint:fix": "phpcbf",
+		"stan": "phpstan analyse --memory-limit=2G",
+		"test": "phpunit"
+	}
+}

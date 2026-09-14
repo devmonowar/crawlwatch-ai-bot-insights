@@ -119,7 +119,10 @@ function crawlwatch_hash_ip( $ip ) {
 	} elseif ( strpos( $ip, ':' ) !== false ) {
 		// IPv6: keep first 4 hextets (/64), zero the rest (interface identifier).
 		$ip     = preg_replace( '/%[a-zA-Z0-9]+$/', '', $ip ); // Strip zone id (%eth0).
-		$packed = @inet_pton( $ip );
+		$packed = false;
+		if ( filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 ) ) {
+			$packed = inet_pton( $ip );
+		}
 		if ( false !== $packed && 16 === strlen( $packed ) ) {
 			$ip = inet_ntop( substr( $packed, 0, 8 ) . str_repeat( "\x00", 8 ) );
 		} else {

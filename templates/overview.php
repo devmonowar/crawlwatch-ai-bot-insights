@@ -44,11 +44,11 @@ $crawlwatch_days30_url = add_query_arg(
 		<span class="crawlwatch-since">
 			<?php
 			if ( $prev_total > 0 ) {
-				$pct = $total >= $prev_total
+				$pct    = $total >= $prev_total
 					? (int) round( ( ( $total - $prev_total ) / $prev_total ) * 100 )
-					: -(int) round( ( ( $prev_total - $total ) / $prev_total ) * 100 );
-				/* translators: 1: previous period hits, formatted. 2: change percent with sign, e.g. +20% or -10%. 3: days count. */
+					: - (int) round( ( ( $prev_total - $total ) / $prev_total ) * 100 );
 				$change = ( $pct >= 0 ? '+' : '' ) . $pct . '%';
+				/* translators: 1: previous period hits, formatted. 2: change percent with sign, e.g. +20% or -10%. 3: days count. */
 				echo esc_html( sprintf( __( 'vs %1$s (%2$s) in the previous %3$d days', 'crawlwatch-ai-bot-insights' ), number_format_i18n( $prev_total ), $change, $days ) );
 			} elseif ( $total > 0 ) {
 				/* translators: %d: days count. */

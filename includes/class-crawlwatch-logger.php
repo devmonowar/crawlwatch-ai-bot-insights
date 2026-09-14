@@ -292,12 +292,11 @@ class CrawlWatch_Logger {
 			$args[]  = '%' . $wpdb->esc_like( $q ) . '%';
 		}
 		$args[] = $limit;
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- custom table, fixed name, user input via placeholders, limit int-cast.
+		$query  = "SELECT log_time, bot_name, bot_type, url, referrer FROM `{$wpdb->prefix}crawlwatch_logs` WHERE " . implode( ' AND ', $where ) . ' ORDER BY id DESC LIMIT %d';
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- custom table, fixed name.
 		$rows = $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT log_time, bot_name, bot_type, url, referrer FROM `{$wpdb->prefix}crawlwatch_logs` WHERE " . implode( ' AND ', $where ) . ' ORDER BY id DESC LIMIT %d',
-				$args
-			),
+			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- WHERE from fixed fragments, user input via placeholders.
+			$wpdb->prepare( $query, $args ),
 			ARRAY_A
 		);
 		return is_array( $rows ) ? $rows : array();
@@ -348,10 +347,10 @@ class CrawlWatch_Logger {
 		}
 		$sql = "SELECT bot_name, COUNT(*) AS hits, MAX(log_time) AS last_seen FROM `{$wpdb->prefix}crawlwatch_logs` WHERE " . implode( ' AND ', $where ) . ' GROUP BY bot_name ORDER BY hits DESC LIMIT 50';
 		if ( empty( $args ) ) {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- custom table, fixed name, no user input.
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared -- custom table, fixed name, no user input.
 			$rows = $wpdb->get_results( $sql, ARRAY_A );
 		} else {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- custom table, fixed name, user input via placeholders.
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared -- custom table, fixed name, user input via placeholders.
 			$rows = $wpdb->get_results( $wpdb->prepare( $sql, $args ), ARRAY_A );
 		}
 		return is_array( $rows ) ? $rows : array();
@@ -402,7 +401,7 @@ class CrawlWatch_Logger {
 		}
 		$out = array();
 		for ( $i = $days - 1; $i >= 0; $i-- ) {
-			$date        = gmdate( 'Y-m-d', time() - ( $i * DAY_IN_SECONDS ) );
+			$date         = gmdate( 'Y-m-d', time() - ( $i * DAY_IN_SECONDS ) );
 			$out[ $date ] = isset( $by_day[ $date ] ) ? $by_day[ $date ] : 0;
 		}
 		return $out;

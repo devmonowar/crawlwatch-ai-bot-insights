@@ -4,7 +4,7 @@ Tags: ai, analytics, bot, llms-txt, seo
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,6 +61,9 @@ Tracking runs in PHP. Full-page caches (WP Rocket, LiteSpeed, W3 Total Cache, Cl
 7. AI Readiness page with missing excerpts and alt text plus edit links.
 
 == Changelog ==
+
+= 1.1.1 =
+* Packagist distribution (composer.json) + full QA tooling: PHPCS, PHPStan level 5, PHPUnit.
 
 = 1.1.0 =
 * Grouped-by-bot tab, daily hits trend chart, score breakdown, Content Gaps renamed to AI Readiness.

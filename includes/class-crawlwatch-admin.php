@@ -274,7 +274,7 @@ class CrawlWatch_Admin {
 			wp_die( esc_html__( 'You do not have permission to view this page.', 'crawlwatch-ai-bot-insights' ) );
 		}
 
-		$post_ids = get_posts(
+		$post_ids   = get_posts(
 			array(
 				'post_type'     => 'post',
 				'post_status'   => 'publish',
@@ -304,7 +304,7 @@ class CrawlWatch_Admin {
 				'order'          => 'DESC',
 			)
 		);
-		$no_alt = array();
+		$no_alt  = array();
 		foreach ( $att_ids as $aid ) {
 			if ( '' === trim( (string) get_post_meta( $aid, '_wp_attachment_image_alt', true ) ) ) {
 				$no_alt[] = $aid;
@@ -339,10 +339,10 @@ class CrawlWatch_Admin {
 		if ( '' === get_option( 'permalink_structure', '' ) || ( '/' !== $home_path && '' !== $home_path ) ) {
 			$robots_url = add_query_arg( 'robots', '1', home_url( '/' ) );
 		}
-		$managed_bots  = CrawlWatch_Robots::managed_bots();
-		$settings      = get_option( 'crawlwatch_settings', array() );
-		$rules         = isset( $settings['robots_rules'] ) && is_array( $settings['robots_rules'] ) ? $settings['robots_rules'] : array();
-		$physical      = file_exists( ABSPATH . 'robots.txt' );
+		$managed_bots = CrawlWatch_Robots::managed_bots();
+		$settings     = get_option( 'crawlwatch_settings', array() );
+		$rules        = isset( $settings['robots_rules'] ) && is_array( $settings['robots_rules'] ) ? $settings['robots_rules'] : array();
+		$physical     = file_exists( ABSPATH . 'robots.txt' );
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only notice flag.
 		$msg_raw        = isset( $_GET['cw_msg'] ) ? sanitize_key( wp_unslash( $_GET['cw_msg'] ) ) : '';
@@ -474,8 +474,8 @@ class CrawlWatch_Admin {
 
 		$settings['digest_enabled'] = isset( $_POST['digest_enabled'] ) ? 1 : 0;
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitized with email sanitizer below.
-		$digest_raw              = isset( $_POST['digest_email'] ) ? wp_unslash( $_POST['digest_email'] ) : '';
-		$digest_email            = sanitize_email( $digest_raw );
+		$digest_raw               = isset( $_POST['digest_email'] ) ? wp_unslash( $_POST['digest_email'] ) : '';
+		$digest_email             = sanitize_email( $digest_raw );
 		$settings['digest_email'] = ( '' !== $digest_email && is_email( $digest_email ) ) ? $digest_email : '';
 
 		update_option( 'crawlwatch_settings', $settings );
@@ -609,9 +609,9 @@ class CrawlWatch_Admin {
 			return;
 		}
 
-		$now      = time();
-		$last24   = CrawlWatch_Logger::count_since( gmdate( 'Y-m-d H:i:s', $now - DAY_IN_SECONDS ) );
-		$prev24   = CrawlWatch_Logger::count_since( gmdate( 'Y-m-d H:i:s', $now - 2 * DAY_IN_SECONDS ) ) - $last24;
+		$now    = time();
+		$last24 = CrawlWatch_Logger::count_since( gmdate( 'Y-m-d H:i:s', $now - DAY_IN_SECONDS ) );
+		$prev24 = CrawlWatch_Logger::count_since( gmdate( 'Y-m-d H:i:s', $now - 2 * DAY_IN_SECONDS ) ) - $last24;
 		if ( $prev24 < 0 ) {
 			$prev24 = 0;
 		}

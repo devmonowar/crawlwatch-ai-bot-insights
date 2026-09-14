@@ -68,12 +68,12 @@ class CrawlWatch_Robots {
 	/**
 	 * Append rules.
 	 *
-	 * @param string $output Current robots output.
-	 * @param bool   $public Blog public flag.
+	 * @param string $output    Current robots output.
+	 * @param bool   $is_public Blog public flag.
 	 * @return string
 	 */
-	public static function append( $output, $public ) {
-		if ( ! $public ) {
+	public static function append( $output, $is_public ) {
+		if ( ! $is_public ) {
 			return $output; // Site discourages crawling: do not invite AI bots.
 		}
 		$settings = get_option( 'crawlwatch_settings', array() );

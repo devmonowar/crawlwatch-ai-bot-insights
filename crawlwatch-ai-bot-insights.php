@@ -3,7 +3,7 @@
  * Plugin Name: CrawlWatch – AI Bot Insights
  * Plugin URI: https://wordpress.org/plugins/crawlwatch-ai-bot-insights/
  * Description: See which AI bots read your site, track AI referrals, block unwanted bots & get AI-ready with llms.txt – fast, private, no API key. 100% free.
- * Version: 1.1.0
+ * Version: 1.1.1
  * Requires at least: 6.2
  * Tested up to: 7.1
  * Requires PHP: 7.4
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'CRAWLWATCH_VERSION', '1.1.0' );
+define( 'CRAWLWATCH_VERSION', '1.1.1' );
 define( 'CRAWLWATCH_DB_VERSION', '2' );
 define( 'CRAWLWATCH_SLUG', 'crawlwatch-ai-bot-insights' );
 define( 'CRAWLWATCH_FILE', __FILE__ );
@@ -147,7 +147,7 @@ function crawlwatch_new_site( $site ) {
 	if ( ! is_plugin_active_for_network( plugin_basename( CRAWLWATCH_FILE ) ) ) {
 		return;
 	}
-	switch_to_blog( $site->blog_id );
+			switch_to_blog( (int) $site->blog_id );
 	CrawlWatch_Activator::activate();
 	restore_current_blog();
 }
