@@ -1,6 +1,6 @@
 === CrawlWatch – AI Bot Insights ===
 Contributors: kstmonowar
-Tags: ai, analytics, bot, llms-txt, seo
+Tags: ai-bot-traffic, block-gptbot, llms-txt-generator, ai-crawler-detector, seo
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
@@ -8,7 +8,7 @@ Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-See which AI bots read your site, track AI referrals, block unwanted bots & get AI-ready with llms.txt – fast, private, no API key. 100% free.
+Track AI bot traffic on WordPress – see GPTBot, ClaudeBot & 40+ bots, block unwanted crawlers, generate llms.txt. Free.
 
 == Description ==
 
