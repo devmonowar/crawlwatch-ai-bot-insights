@@ -1,17 +1,15 @@
 {
 	"name": "devmonowar/crawlwatch-ai-bot-insights",
-	"description": "See which AI bots read your site, track AI referrals, block unwanted bots and get AI-ready with llms.txt.",
+	"description": "Track AI bot traffic on WordPress – see GPTBot, ClaudeBot and 40+ bots, block unwanted crawlers, generate llms.txt.",
 	"type": "wordpress-plugin",
 	"keywords": [
 		"wordpress",
 		"wordpress-plugin",
-		"ai",
-		"ai-bot",
-		"bot-traffic",
-		"analytics",
-		"llms-txt",
-		"seo",
-		"crawler"
+		"ai-bot-traffic",
+		"block-gptbot",
+		"llms-txt-generator",
+		"ai-crawler-detector",
+		"seo"
 	],
 	"homepage": "https://wordpress.org/plugins/crawlwatch-ai-bot-insights/",
 	"license": "GPL-2.0-or-later",
