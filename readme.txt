@@ -14,6 +14,8 @@ Track AI bot traffic on WordPress – see GPTBot, ClaudeBot & 40+ bots, block un
 
 CrawlWatch shows you the invisible traffic: GPTBot, ClaudeBot, PerplexityBot, Google-Extended and 40+ AI crawlers visiting your WordPress site.
 
+**[Read the llms.txt guide](https://devmonowar.github.io/blog/llms-txt-wordpress/)** — what llms.txt is, the exact format that works, and the mistakes that make one useless · **[AI bot traffic in WordPress](https://devmonowar.github.io/blog/ai-bot-traffic-wordpress/)** — how to see it, measure it, and decide what to do about it · **[Plugin page](https://devmonowar.github.io/crawlwatch-ai-bot-insights/)** · **[Development on GitHub](https://github.com/devmonowar/crawlwatch-ai-bot-insights)** — report issues or contribute.
+
 * AI bot hits + which URLs they read
 * AI referrals (visitors coming from ChatGPT, Perplexity, Gemini, Claude)
 * One-click llms.txt + ai.txt generator
