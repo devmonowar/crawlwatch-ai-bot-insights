@@ -1,6 +1,6 @@
 === CrawlWatch – AI Bot Insights ===
 Contributors: kstmonowar
-Tags: ai-bot-traffic, block-gptbot, llms-txt-generator, ai-crawler-detector, seo
+Tags: ai bots, llms txt, gptbot, ai crawler, bot traffic
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
