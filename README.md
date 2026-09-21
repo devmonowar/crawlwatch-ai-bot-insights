@@ -18,6 +18,8 @@
 
 A complete, working WordPress plugin — an AI crawler detector (40+ bots), referral and UTM attribution, dashboard with score and trend chart, AI Readiness page, llms.txt generator, robots.txt AI allow/block manager, and Settings with retention, privacy notice and danger zone. See `readme.txt` for the full feature description and changelog, or the [landing page](https://devmonowar.github.io/crawlwatch-ai-bot-insights/) for how to use it.
 
+Guides: [write llms.txt by hand](https://devmonowar.github.io/blog/llms-txt-wordpress/) · [AI bot traffic in WordPress](https://devmonowar.github.io/blog/ai-bot-traffic-wordpress/).
+
 The plugin is on the [WordPress.org plugin directory](https://wordpress.org/plugins/crawlwatch-ai-bot-insights/), so it installs and updates from inside WordPress like any other plugin.
 
 ---
