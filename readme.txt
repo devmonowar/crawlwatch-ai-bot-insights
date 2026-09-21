@@ -52,6 +52,22 @@ Blocking AI training bots (GPTBot, ClaudeBot) does not affect Google search. Nev
 = Why do I see few or zero hits with a cache plugin? =
 Tracking runs in PHP. Full-page caches (WP Rocket, LiteSpeed, W3 Total Cache, Cloudflare APO) serve cached pages without running PHP, so those visits are never logged. CrawlWatch shows a notice on its own pages when a known cache is active.
 
+= How do I block GPTBot in WordPress? =
+Add a `Disallow` rule for GPTBot in robots.txt — CrawlWatch writes it for you with preview. That keeps your content out of OpenAI training data. It does not remove anything already trained on.
+
+= Does blocking GPTBot stop ChatGPT from citing my site? =
+No — that is a different bot. GPTBot governs training; OAI-SearchBot governs ChatGPT Search citability. Blocking GPTBot hides you from training while leaving you citable. The same split exists at Anthropic (ClaudeBot vs Claude-SearchBot). Google-Extended only affects Gemini training, never AI Overviews.
+
+= Where does llms.txt go on a WordPress site? =
+At the domain root (`yoursite.com/llms.txt`). CrawlWatch generates and serves it with no file writes. Anything deeper and most consumers never look.
+
+= Is llms.txt actually read by AI assistants? =
+Some read it, some do not — adoption is limited and Google does not use it for search. It costs nothing to have, and it makes the assistants that do read it describe you accurately.
+
+== External services ==
+
+None. CrawlWatch makes zero external requests — everything is stored and computed on your own server.
+
 == Screenshots ==
 
 1. Overview dashboard with AI hits, bots, referrals and readiness score.
@@ -78,3 +94,8 @@ Tracking runs in PHP. Full-page caches (WP Rocket, LiteSpeed, W3 Total Cache, Cl
 == Privacy ==
 
 CrawlWatch logs AI crawler visits locally: time, bot name, visited URL, referrer domain, truncated user-agent, and SHA-256 hashed IP (IPv4 last octet and IPv6 /64 anonymized before hashing). Raw IPs are never stored. Retention is configurable (default 30 days) and all data is deleted on uninstall if enabled in Settings. No visitor data leaves your site.
+
+== Upgrade Notice ==
+
+= 1.1.1 =
+Composer distribution via Packagist plus internal QA tooling. No functional changes for existing installs.

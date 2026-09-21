@@ -9,9 +9,14 @@
 		"block-gptbot",
 		"llms-txt-generator",
 		"ai-crawler-detector",
+		"ai bots",
+		"llms txt",
+		"gptbot",
+		"ai crawler",
+		"bot traffic",
 		"seo"
 	],
-	"homepage": "https://wordpress.org/plugins/crawlwatch-ai-bot-insights/",
+	"homepage": "https://devmonowar.github.io/crawlwatch-ai-bot-insights/",
 	"license": "GPL-2.0-or-later",
 	"authors": [
 		{
