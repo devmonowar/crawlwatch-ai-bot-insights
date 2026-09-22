@@ -741,3 +741,19 @@ msgstr ""
 msgid "vs %1$s (%2$s) in the previous %3$d days"
 msgstr ""
 
+#: templates/bots.php:164
+msgid "No AI visits logged yet. They appear here automatically — meanwhile check your <a href=\"%s\">llms.txt</a>."
+msgstr ""
+
+#: templates/overview.php:113
+msgid "Check your <a href=\"%s\">llms.txt</a> — this is what AI reads first."
+msgstr ""
+
+#: templates/overview.php:192
+msgid "Half scanned — press Continue scan for the rest."
+msgstr ""
+
+#: templates/overview.php:257
+msgid "Continue scan"
+msgstr ""
+

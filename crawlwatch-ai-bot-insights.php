@@ -3,7 +3,7 @@
  * Plugin Name: CrawlWatch – AI Bot Insights
  * Plugin URI: https://devmonowar.github.io/crawlwatch-ai-bot-insights/
  * Description: See which AI bots read your site, track AI referrals, block unwanted bots & get AI-ready with llms.txt – fast, private, no API key. 100% free.
- * Version: 1.1.1
+ * Version: 1.1.2
  * Requires at least: 6.2
  * Tested up to: 7.1
  * Requires PHP: 7.4
@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'CRAWLWATCH_VERSION', '1.1.1' );
+define( 'CRAWLWATCH_VERSION', '1.1.2' );
 define( 'CRAWLWATCH_DB_VERSION', '2' );
 define( 'CRAWLWATCH_SLUG', 'crawlwatch-ai-bot-insights' );
 define( 'CRAWLWATCH_FILE', __FILE__ );
@@ -182,15 +182,18 @@ function crawlwatch_daily_cleanup() {
 }
 add_action( 'crawlwatch_daily_cleanup', 'crawlwatch_daily_cleanup' );
 add_action( CrawlWatch_Digest::HOOK, array( 'CrawlWatch_Digest', 'send' ) );
+add_action( 'crawlwatch_llms_refresh', array( 'CrawlWatch_Llms', 'refresh_now' ) );
 
 /**
  * Score cache invalidation: content or plugin set changed.
  * clear() takes no required args, so direct callbacks are safe.
  */
 add_action( 'save_post', array( 'CrawlWatch_Score', 'clear' ), 10, 0 );
+add_action( 'save_post', array( 'CrawlWatch_Woo', 'clear' ), 10, 0 );
 add_action( 'save_post', array( 'CrawlWatch_Llms', 'maybe_auto_refresh' ), 10, 1 );
 add_action( 'save_post', array( 'CrawlWatch_Schema', 'clear' ), 10, 0 );
 add_action( 'deleted_post', array( 'CrawlWatch_Score', 'clear' ), 10, 0 );
+add_action( 'deleted_post', array( 'CrawlWatch_Woo', 'clear' ), 10, 0 );
 add_action( 'deleted_post', array( 'CrawlWatch_Llms', 'maybe_auto_refresh' ), 10, 1 );
 add_action( 'deleted_post', array( 'CrawlWatch_Schema', 'clear' ), 10, 0 );
 add_action( 'activated_plugin', array( 'CrawlWatch_Score', 'clear' ), 10, 0 );
@@ -215,7 +218,7 @@ function crawlwatch_maybe_update_db() {
 add_action( 'admin_init', 'crawlwatch_maybe_update_db', 20 );
 
 /**
- * Frontend tracker: 0 queries for normal humans, 1 insert for AI hits.
+ * Frontend tracker: 0 queries for normal humans, 1 dedupe check + 1 insert for AI hits.
  * Hooked on template_redirect (frontend only).
  *
  * @return void
@@ -244,15 +247,17 @@ function crawlwatch_track() {
 		$url = '/';
 	}
 
-	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- host extracted via wp_parse_url, stored truncated.
-	$ref_raw  = isset( $_SERVER['HTTP_REFERER'] ) ? wp_unslash( $_SERVER['HTTP_REFERER'] ) : '';
-	$referrer = crawlwatch_safe_truncate( esc_url_raw( $ref_raw ), 255 );
+	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitized below.
+	$ref_raw = isset( $_SERVER['HTTP_REFERER'] ) ? wp_unslash( $_SERVER['HTTP_REFERER'] ) : '';
+	// Privacy: store host only (readme promises "referrer domain"), path/query never touch the DB.
+	$ref_host = strtolower( (string) wp_parse_url( $ref_raw, PHP_URL_HOST ) );
+	$referrer = crawlwatch_safe_truncate( sanitize_text_field( $ref_host ), 255 );
 
 	$bot_name = CrawlWatch_Detector::match_crawler( $ua );
 	$bot_type = 'crawl';
 
 	if ( '' === $bot_name ) {
-		$bot_name = CrawlWatch_Detector::match_referrer( $referrer );
+		$bot_name = CrawlWatch_Detector::match_referrer( $ref_raw );
 		$bot_type = '' !== $bot_name ? 'referral' : '';
 	}
 

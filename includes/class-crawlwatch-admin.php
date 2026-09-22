@@ -274,40 +274,38 @@ class CrawlWatch_Admin {
 			wp_die( esc_html__( 'You do not have permission to view this page.', 'crawlwatch-ai-bot-insights' ) );
 		}
 
-		$post_ids   = get_posts(
+		$gap_posts  = get_posts(
 			array(
 				'post_type'     => 'post',
 				'post_status'   => 'publish',
 				'numberposts'   => 50,
 				'no_found_rows' => true,
-				'fields'        => 'ids',
 				'orderby'       => 'date',
 				'order'         => 'DESC',
 			)
 		);
 		$no_excerpt = array();
-		foreach ( $post_ids as $pid ) {
-			if ( '' === trim( (string) get_post_field( 'post_excerpt', $pid ) ) ) {
-				$no_excerpt[] = $pid;
+		foreach ( $gap_posts as $gap_post ) {
+			if ( '' === trim( (string) $gap_post->post_excerpt ) ) {
+				$no_excerpt[] = $gap_post->ID;
 			}
 		}
 
-		$att_ids = get_posts(
+		$gap_atts = get_posts(
 			array(
 				'post_type'      => 'attachment',
 				'post_mime_type' => 'image',
 				'post_status'    => 'inherit',
 				'numberposts'    => 50,
 				'no_found_rows'  => true,
-				'fields'         => 'ids',
 				'orderby'        => 'date',
 				'order'          => 'DESC',
 			)
 		);
-		$no_alt  = array();
-		foreach ( $att_ids as $aid ) {
-			if ( '' === trim( (string) get_post_meta( $aid, '_wp_attachment_image_alt', true ) ) ) {
-				$no_alt[] = $aid;
+		$no_alt   = array();
+		foreach ( $gap_atts as $gap_att ) {
+			if ( '' === trim( (string) get_post_meta( $gap_att->ID, '_wp_attachment_image_alt', true ) ) ) {
+				$no_alt[] = $gap_att->ID;
 			}
 		}
 
@@ -564,7 +562,7 @@ class CrawlWatch_Admin {
 				)
 			);
 		}
-		fclose( $out );
+		fclose( $out ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- intentional direct stream to php://output for CSV download, WP_Filesystem cannot write to output stream.
 		exit;
 	}
 
@@ -579,13 +577,13 @@ class CrawlWatch_Admin {
 		}
 		check_admin_referer( 'crawlwatch_schema', 'crawlwatch_schema_nonce' );
 
-		CrawlWatch_Schema::scan();
+		$report = CrawlWatch_Schema::scan();
 
 		self::safe_redirect(
 			add_query_arg(
 				array(
 					'page'   => 'crawlwatch',
-					'cw_msg' => 'schema',
+					'cw_msg' => ! empty( $report['done'] ) ? 'schema' : 'schema_partial',
 				),
 				admin_url( 'admin.php' )
 			)

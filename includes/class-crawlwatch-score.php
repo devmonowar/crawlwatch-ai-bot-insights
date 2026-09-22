@@ -86,7 +86,6 @@ class CrawlWatch_Score {
 				'post_status'   => 'publish',
 				'numberposts'   => 20,
 				'no_found_rows' => true,
-				'fields'        => 'ids',
 			)
 		);
 		if ( empty( $posts ) ) {
@@ -103,8 +102,8 @@ class CrawlWatch_Score {
 			);
 		} else {
 			$with_excerpt = 0;
-			foreach ( $posts as $pid ) {
-				if ( '' !== trim( (string) get_post_field( 'post_excerpt', $pid ) ) ) {
+			foreach ( $posts as $score_post ) {
+				if ( '' !== trim( (string) $score_post->post_excerpt ) ) {
 					++$with_excerpt;
 				}
 			}
@@ -160,7 +159,6 @@ class CrawlWatch_Score {
 				'post_status'    => 'inherit',
 				'numberposts'    => 20,
 				'no_found_rows'  => true,
-				'fields'         => 'ids',
 			)
 		);
 		if ( empty( $atts ) ) {
@@ -177,8 +175,8 @@ class CrawlWatch_Score {
 			);
 		} else {
 			$with_alt = 0;
-			foreach ( $atts as $aid ) {
-				if ( '' !== trim( (string) get_post_meta( $aid, '_wp_attachment_image_alt', true ) ) ) {
+			foreach ( $atts as $score_att ) {
+				if ( '' !== trim( (string) get_post_meta( $score_att->ID, '_wp_attachment_image_alt', true ) ) ) {
 					++$with_alt;
 				}
 			}

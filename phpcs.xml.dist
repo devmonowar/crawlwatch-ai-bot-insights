@@ -17,7 +17,7 @@
 	<config name="minimum_wp_version" value="6.2"/>
 	<config name="testVersion" value="7.4-"/>
 
-	<rule ref="WordPress-Core">
+	<rule ref="WordPress-Extra">
 		<!-- We use class-crawlwatch-*.php files, not class-*.php. -->
 		<exclude name="WordPress.Files.FileName"/>
 		<!-- Allow flexible array alignment. -->

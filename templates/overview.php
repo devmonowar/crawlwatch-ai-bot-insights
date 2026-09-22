@@ -188,6 +188,8 @@ $crawlwatch_days30_url = add_query_arg(
 			if ( 'schema' === $schema_msg ) :
 				?>
 				<div class="notice notice-success inline"><p><?php esc_html_e( 'Schema report updated.', 'crawlwatch-ai-bot-insights' ); ?></p></div>
+			<?php elseif ( 'schema_partial' === $schema_msg ) : ?>
+				<div class="notice notice-info inline"><p><?php esc_html_e( 'Half scanned — press Continue scan for the rest.', 'crawlwatch-ai-bot-insights' ); ?></p></div>
 			<?php endif; ?>
 			<?php if ( $has_seo ) : ?>
 				<p class="description"><?php esc_html_e( 'An SEO plugin is active, so schema is likely covered. The scan below verifies each post.', 'crawlwatch-ai-bot-insights' ); ?></p>
@@ -252,7 +254,7 @@ $crawlwatch_days30_url = add_query_arg(
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="crawlwatch_scan_schema" />
 				<?php wp_nonce_field( 'crawlwatch_schema', 'crawlwatch_schema_nonce' ); ?>
-				<button class="button" type="submit"><?php echo empty( $schema_rows ) ? esc_html__( 'Scan now', 'crawlwatch-ai-bot-insights' ) : esc_html__( 'Rescan', 'crawlwatch-ai-bot-insights' ); ?></button>
+				<button class="button" type="submit"><?php echo empty( $schema_rows ) ? esc_html__( 'Scan now', 'crawlwatch-ai-bot-insights' ) : ( empty( $schema['done'] ) ? esc_html__( 'Continue scan', 'crawlwatch-ai-bot-insights' ) : esc_html__( 'Rescan', 'crawlwatch-ai-bot-insights' ) ); ?></button>
 			</form>
 		</div>
 
@@ -271,13 +273,13 @@ $crawlwatch_days30_url = add_query_arg(
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach ( $woo_top as $wp ) : ?>
+						<?php foreach ( $woo_top as $woo_product ) : ?>
 							<tr>
-								<td><?php echo esc_html( isset( $wp['title'] ) ? $wp['title'] : '' ); ?></td>
-								<td><?php echo esc_html( number_format_i18n( isset( $wp['hits'] ) ? (int) $wp['hits'] : 0 ) ); ?></td>
+								<td><?php echo esc_html( isset( $woo_product['title'] ) ? $woo_product['title'] : '' ); ?></td>
+								<td><?php echo esc_html( number_format_i18n( isset( $woo_product['hits'] ) ? (int) $woo_product['hits'] : 0 ) ); ?></td>
 								<td>
-									<?php if ( ! empty( $wp['edit_url'] ) ) : ?>
-										<a href="<?php echo esc_url( $wp['edit_url'] ); ?>"><?php esc_html_e( 'Edit →', 'crawlwatch-ai-bot-insights' ); ?></a>
+									<?php if ( ! empty( $woo_product['edit_url'] ) ) : ?>
+										<a href="<?php echo esc_url( $woo_product['edit_url'] ); ?>"><?php esc_html_e( 'Edit →', 'crawlwatch-ai-bot-insights' ); ?></a>
 									<?php endif; ?>
 								</td>
 							</tr>

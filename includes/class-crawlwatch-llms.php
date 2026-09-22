@@ -39,6 +39,8 @@ class CrawlWatch_Llms {
 
 	/**
 	 * Regenerate llms contents when site content changes (save/trash/delete).
+	 * Debounced: bulk/quick edits and imports schedule one refresh instead of
+	 * rebuilding (full post content + 4 option writes) on every single save.
 	 *
 	 * @param int $post_id Changed post id.
 	 * @return void
@@ -59,6 +61,22 @@ class CrawlWatch_Llms {
 			return;
 		}
 		if ( ! self::is_auto() ) {
+			return;
+		}
+		if ( wp_next_scheduled( 'crawlwatch_llms_refresh' ) ) {
+			return;
+		}
+		wp_schedule_single_event( time() + MINUTE_IN_SECONDS, 'crawlwatch_llms_refresh' );
+	}
+
+	/**
+	 * Run the debounced llms rebuild (single-event cron callback).
+	 *
+	 * @return void
+	 */
+	public static function refresh_now() {
+		$settings = get_option( 'crawlwatch_settings', array() );
+		if ( empty( $settings['llms_enabled'] ) || ! self::is_auto() ) {
 			return;
 		}
 		self::store( 'crawlwatch_llms_content', self::generate() );

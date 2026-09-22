@@ -28,6 +28,8 @@ class CrawlWatch_Woo {
 
 	/**
 	 * Top AI-read products in the last 30 days.
+	 * Cached 12h like the Score: url_to_postid() does a full rewrite
+	 * match + DB query per URL, and Overview loads on every page view.
 	 *
 	 * @param int $limit Max products.
 	 * @return array Rows: id, title, hits, edit_url.
@@ -36,6 +38,12 @@ class CrawlWatch_Woo {
 		$limit = max( 1, min( 10, (int) $limit ) );
 		if ( ! self::is_active() ) {
 			return array();
+		}
+
+		$key    = 'crawlwatch_woo_top_' . $limit;
+		$cached = get_transient( $key );
+		if ( is_array( $cached ) ) {
+			return $cached;
 		}
 
 		$since = gmdate( 'Y-m-d H:i:s', time() - ( 30 * DAY_IN_SECONDS ) );
@@ -72,6 +80,18 @@ class CrawlWatch_Woo {
 				break;
 			}
 		}
+		set_transient( $key, $out, 12 * HOUR_IN_SECONDS );
 		return $out;
+	}
+
+	/**
+	 * Clear cached top products (call when content changes).
+	 *
+	 * @return void
+	 */
+	public static function clear() {
+		for ( $limit = 1; $limit <= 10; $limit++ ) {
+			delete_transient( 'crawlwatch_woo_top_' . $limit );
+		}
 	}
 }

@@ -23,6 +23,9 @@ class CrawlWatch_Activator {
 		self::create_table();
 		self::add_defaults();
 		self::schedule_cron();
+		// Reactivate restores daily cleanup only; digest must come back too
+		// (deactivation unschedules both, and maybe_schedule otherwise runs on Settings save only).
+		CrawlWatch_Digest::maybe_schedule();
 
 		// One-time flag for the setup wizard redirect (consumed on next admin page).
 		set_transient( 'crawlwatch_activation_redirect', 1, 60 );

@@ -30,6 +30,15 @@ class CrawlWatch_Schema {
 	const SAMPLE = 10;
 
 	/**
+	 * How many URLs to fetch per request. A full 10-URL scan (3s timeout
+	 * each) can hit a 30s max_execution_time mid-request and save nothing,
+	 * so each click scans one batch and the button keeps its place.
+	 *
+	 * @var int
+	 */
+	const BATCH = 5;
+
+	/**
 	 * Get the cached report.
 	 *
 	 * @return array Empty when never scanned.
@@ -50,8 +59,9 @@ class CrawlWatch_Schema {
 
 	/**
 	 * Scan latest posts/pages for schema markup in their frontend HTML.
+	 * One batch per call; rows accumulate in the option until SAMPLE done.
 	 *
-	 * @return array Report with scanned_at + rows.
+	 * @return array Report with scanned_at + rows + done flag.
 	 */
 	public static function scan() {
 		$ids = get_posts(
@@ -66,8 +76,27 @@ class CrawlWatch_Schema {
 			)
 		);
 
-		$rows = array();
+		$report = self::get_report();
+		$rows   = isset( $report['rows'] ) && is_array( $report['rows'] ) ? $report['rows'] : array();
+		if ( ! empty( $report['done'] ) ) {
+			// Fresh rescan: a done report scans nothing otherwise (regression).
+			$rows = array();
+		}
+		if ( empty( $rows ) ) {
+			$report['scanned_at'] = time();
+		} elseif ( ! isset( $report['scanned_at'] ) ) {
+			$report['scanned_at'] = time();
+		}
+
+		$todo = array();
 		foreach ( $ids as $pid ) {
+			if ( ! isset( $rows[ (int) $pid ] ) ) {
+				$todo[] = (int) $pid;
+			}
+		}
+		$todo = array_slice( $todo, 0, self::BATCH );
+
+		foreach ( $todo as $pid ) {
 			$url       = get_permalink( $pid );
 			$reachable = false;
 			$has       = false;
@@ -85,8 +114,8 @@ class CrawlWatch_Schema {
 					$has       = false !== stripos( $body, 'application/ld+json' ) || false !== stripos( $body, 'schema.org' );
 				}
 			}
-			$rows[] = array(
-				'id'        => (int) $pid,
+			$rows[ $pid ] = array(
+				'id'        => $pid,
 				'title'     => get_the_title( $pid ),
 				'type'      => get_post_type( $pid ),
 				'edit_url'  => get_edit_post_link( $pid, 'raw' ),
@@ -95,10 +124,15 @@ class CrawlWatch_Schema {
 			);
 		}
 
-		$report = array(
-			'scanned_at' => time(),
-			'rows'       => $rows,
-		);
+		$remaining = 0;
+		foreach ( $ids as $pid ) {
+			if ( ! isset( $rows[ (int) $pid ] ) ) {
+				++$remaining;
+			}
+		}
+
+		$report['rows'] = $rows;
+		$report['done'] = 0 === $remaining;
 		update_option( self::OPTION, $report, false );
 		return $report;
 	}

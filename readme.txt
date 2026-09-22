@@ -4,7 +4,7 @@ Tags: ai bots, llms txt, gptbot, ai crawler, bot traffic
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,10 +35,10 @@ No API key. No external service in V1. Lightweight: normal visitors cause zero e
 == Frequently Asked Questions ==
 
 = Does this send data outside my site? =
-No. Everything is stored locally in one table (`wp_crawlwatch_logs`). IPs are SHA-256 hashed (IPv4 last octet and IPv6 /64 anonymized first). Zero external calls.
+No. Everything is stored locally in one table (`wp_crawlwatch_logs`). IPs are SHA-256 hashed (IPv4 last octet and IPv6 /64 anonymized first). No third-party calls — the only HTTP requests CrawlWatch ever makes are loopback fetches of your own posts for the on-demand schema scan.
 
 = Will it slow my site? =
-No. Normal human visits do zero extra queries. Only detected AI hits do one insert. No CSS/JS on the frontend.
+No. Normal human visits do zero extra queries. Only detected AI hits do one dedupe check plus one insert. No CSS/JS on the frontend.
 
 = How long are logs kept? =
 Default 30 days (7/14/30/90/180 selectable). Daily WP-Cron auto-deletes older rows.
@@ -66,7 +66,7 @@ Some read it, some do not — adoption is limited and Google does not use it for
 
 == External services ==
 
-None. CrawlWatch makes zero external requests — everything is stored and computed on your own server.
+None. CrawlWatch talks to no third-party service — the only HTTP requests it makes are loopback fetches of your own posts for the on-demand schema scan. Everything is stored and computed on your own server.
 
 == Screenshots ==
 
@@ -79,6 +79,12 @@ None. CrawlWatch makes zero external requests — everything is stored and compu
 7. AI Readiness page with missing excerpts and alt text plus edit links.
 
 == Changelog ==
+
+= 1.1.2 =
+* Privacy: only the referrer host is stored now (path and query never reach the database), matching the Privacy statement.
+* Reliability: weekly digest is re-scheduled on reactivation; llms.txt rebuild is debounced into one cron run; schema scan runs in batches of 5 with continue button.
+* Performance: Woo top products cached 12h; AI Readiness and Score queries no longer N+1.
+* Tooling: PHPCS WordPress-Extra clean, PHPStan 2, CI (lint + stan + phpcs + phpunit) on push/PR.
 
 = 1.1.1 =
 * Packagist distribution (composer.json) + full QA tooling: PHPCS, PHPStan level 5, PHPUnit.
@@ -96,6 +102,9 @@ None. CrawlWatch makes zero external requests — everything is stored and compu
 CrawlWatch logs AI crawler visits locally: time, bot name, visited URL, referrer domain, truncated user-agent, and SHA-256 hashed IP (IPv4 last octet and IPv6 /64 anonymized before hashing). Raw IPs are never stored. Retention is configurable (default 30 days) and all data is deleted on uninstall if enabled in Settings. No visitor data leaves your site.
 
 == Upgrade Notice ==
+
+= 1.1.2 =
+Privacy + reliability + performance fixes. No settings change needed; rescan schema once to fill the batched report.
 
 = 1.1.1 =
 Composer distribution via Packagist plus internal QA tooling. No functional changes for existing installs.
