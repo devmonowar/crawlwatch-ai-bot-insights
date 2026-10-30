@@ -31,6 +31,33 @@ class DetectorTest extends TestCase {
 		);
 	}
 
+	public function test_match_crawler_finds_search_and_agent_bots() {
+		$expected = array(
+			'Mozilla/5.0; compatible; Claude-SearchBot/1.0'                       => 'Claude-SearchBot',
+			'Mozilla/5.0 AppleWebKit/537.36; compatible; OAI-AdsBot/1.0'          => 'OAI-AdsBot',
+			'meta-webindexer/1.1 (+https://developers.facebook.com/docs/sharing)' => 'Meta',
+			'meta-externalfetcher/1.1'                                            => 'Meta',
+			'meta-externalads/1.1'                                                => 'Meta',
+			'Mozilla/5.0; compatible; Amzn-SearchBot/0.1'                         => 'Amazonbot',
+			'Mozilla/5.0; compatible; Amzn-User/0.1'                              => 'Amazonbot',
+			'Mozilla/5.0; compatible; MistralAI-Index/1.0'                        => 'Mistral',
+			'Mozilla/5.0; compatible; MistralAI-Training/1.0'                     => 'Mistral',
+			'Mozilla/5.0; compatible; Google-CloudVertexBot'                      => 'Google-CloudVertexBot',
+			'Mozilla/5.0; compatible; Google-Agent'                               => 'Google-Agent',
+		);
+		foreach ( $expected as $ua => $name ) {
+			$this->assertSame( $name, CrawlWatch_Detector::match_crawler( $ua ), $ua );
+		}
+	}
+
+	public function test_match_crawler_keeps_existing_bots_after_additions() {
+		$this->assertSame( 'Claude', CrawlWatch_Detector::match_crawler( 'compatible; Claude-User/1.0' ) );
+		$this->assertSame( 'Claude', CrawlWatch_Detector::match_crawler( 'compatible; ClaudeBot/1.0' ) );
+		$this->assertSame( 'OAI-SearchBot', CrawlWatch_Detector::match_crawler( 'compatible; OAI-SearchBot/1.4' ) );
+		$this->assertSame( 'Mistral', CrawlWatch_Detector::match_crawler( 'compatible; MistralAI-User/1.0' ) );
+		$this->assertSame( 'GoogleOther', CrawlWatch_Detector::match_crawler( 'GoogleOther-Video/1.0' ) );
+	}
+
 	public function test_match_crawler_returns_empty_for_humans() {
 		$this->assertSame(
 			'',

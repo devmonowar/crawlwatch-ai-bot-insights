@@ -133,8 +133,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<?php
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only notice flags.
-		$toggled_raw = isset( $_GET['toggled'] ) ? wp_unslash( $_GET['toggled'] ) : '';
-		$toggled     = is_string( $toggled_raw ) ? $toggled_raw : '';
+		$toggled = isset( $_GET['toggled'] ) ? sanitize_text_field( wp_unslash( $_GET['toggled'] ) ) : '';
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only notice flag.
 		$state_raw = isset( $_GET['state'] ) ? sanitize_key( wp_unslash( $_GET['state'] ) ) : '';
 		if ( '' !== $toggled && array_key_exists( $toggled, CrawlWatch_Robots::managed_bots() ) && in_array( $state_raw, array( 'blocked', 'unblocked' ), true ) ) :

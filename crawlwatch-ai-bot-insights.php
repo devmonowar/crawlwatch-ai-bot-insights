@@ -3,7 +3,7 @@
  * Plugin Name: CrawlWatch – AI Bot Insights
  * Plugin URI: https://devmonowar.github.io/crawlwatch-ai-bot-insights/
  * Description: See which AI bots read your site, track AI referrals, block unwanted bots & get AI-ready with llms.txt – fast, private, no API key. 100% free.
- * Version: 1.1.2
+ * Version: 1.1.3
  * Requires at least: 6.2
  * Tested up to: 7.1
  * Requires PHP: 7.4
@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'CRAWLWATCH_VERSION', '1.1.2' );
+define( 'CRAWLWATCH_VERSION', '1.1.3' );
 define( 'CRAWLWATCH_DB_VERSION', '2' );
 define( 'CRAWLWATCH_SLUG', 'crawlwatch-ai-bot-insights' );
 define( 'CRAWLWATCH_FILE', __FILE__ );

@@ -4,7 +4,7 @@ Tags: ai bots, llms txt, gptbot, ai crawler, bot traffic
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -79,6 +79,10 @@ None. CrawlWatch talks to no third-party service — the only HTTP requests it m
 7. AI Readiness page with missing excerpts and alt text plus edit links.
 
 == Changelog ==
+
+= 1.1.3 =
+* Added: detects Claude-SearchBot, OAI-AdsBot, Meta-WebIndexer, Meta-ExternalFetcher, Meta-ExternalAds, Amzn-SearchBot, Amzn-User, MistralAI-Index, MistralAI-Training, Google-CloudVertexBot and Google-Agent.
+* Tested with WordPress 7.1.4. Hardened an admin notice parameter.
 
 = 1.1.2 =
 * Privacy: only the referrer host is stored now (path and query never reach the database), matching the Privacy statement.
