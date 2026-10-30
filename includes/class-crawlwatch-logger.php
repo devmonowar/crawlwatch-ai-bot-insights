@@ -281,22 +281,17 @@ class CrawlWatch_Logger {
 	public static function get_export_rows( $bot, $q, $limit = 5000 ) {
 		global $wpdb;
 		$limit = max( 1, min( 5000, (int) $limit ) );
-		$where = array( '1=1' );
-		$args  = array();
-		if ( '' !== $bot ) {
-			$where[] = 'bot_name = %s';
-			$args[]  = $bot;
-		}
-		if ( '' !== $q ) {
-			$where[] = 'url LIKE %s';
-			$args[]  = '%' . $wpdb->esc_like( $q ) . '%';
-		}
-		$args[] = $limit;
-		$query  = "SELECT log_time, bot_name, bot_type, url, referrer FROM `{$wpdb->prefix}crawlwatch_logs` WHERE " . implode( ' AND ', $where ) . ' ORDER BY id DESC LIMIT %d';
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- custom table, fixed name.
+		$like  = '%' . $wpdb->esc_like( $q ) . '%';
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- custom table, fixed name, filters via placeholders.
 		$rows = $wpdb->get_results(
-			// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- WHERE from fixed fragments, user input via placeholders.
-			$wpdb->prepare( $query, $args ),
+			$wpdb->prepare(
+				"SELECT log_time, bot_name, bot_type, url, referrer FROM `{$wpdb->prefix}crawlwatch_logs` WHERE ( %s = '' OR bot_name = %s ) AND ( %s = '' OR url LIKE %s ) ORDER BY id DESC LIMIT %d",
+				$bot,
+				$bot,
+				$q,
+				$like,
+				$limit
+			),
 			ARRAY_A
 		);
 		return is_array( $rows ) ? $rows : array();
@@ -335,24 +330,18 @@ class CrawlWatch_Logger {
 	 */
 	public static function grouped_stats( $bot, $q ) {
 		global $wpdb;
-		$where = array( '1=1' );
-		$args  = array();
-		if ( '' !== $bot ) {
-			$where[] = 'bot_name = %s';
-			$args[]  = $bot;
-		}
-		if ( '' !== $q ) {
-			$where[] = 'url LIKE %s';
-			$args[]  = '%' . $wpdb->esc_like( $q ) . '%';
-		}
-		$sql = "SELECT bot_name, COUNT(*) AS hits, MAX(log_time) AS last_seen FROM `{$wpdb->prefix}crawlwatch_logs` WHERE " . implode( ' AND ', $where ) . ' GROUP BY bot_name ORDER BY hits DESC LIMIT 50';
-		if ( empty( $args ) ) {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared -- custom table, fixed name, no user input.
-			$rows = $wpdb->get_results( $sql, ARRAY_A );
-		} else {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared -- custom table, fixed name, user input via placeholders.
-			$rows = $wpdb->get_results( $wpdb->prepare( $sql, $args ), ARRAY_A );
-		}
+		$like = '%' . $wpdb->esc_like( $q ) . '%';
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- custom table, fixed name, filters via placeholders.
+		$rows = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT bot_name, COUNT(*) AS hits, MAX(log_time) AS last_seen FROM `{$wpdb->prefix}crawlwatch_logs` WHERE ( %s = '' OR bot_name = %s ) AND ( %s = '' OR url LIKE %s ) GROUP BY bot_name ORDER BY hits DESC LIMIT 50",
+				$bot,
+				$bot,
+				$q,
+				$like
+			),
+			ARRAY_A
+		);
 		return is_array( $rows ) ? $rows : array();
 	}
 
